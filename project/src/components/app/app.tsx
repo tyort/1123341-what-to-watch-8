@@ -9,6 +9,21 @@ import MovieScreen from '../movie/movie';
 import NotFoundScreen from '../not-found/not-found';
 import AddReviewScreen from '../add-review/add-review';
 
+// onClick={() => {
+//   Можно вызвать одну и ту же функцию обновления значения два раза подряд в одном колбэке при одном клике
+//   setCounter((prevCounter) => ({
+//       Предыдущее состояние
+//       ...prevCounter,
+//       count: prevCounter.count + 1,
+//       incCount: prevCounter.incCount + 1,
+//   }));
+//   setCounter((prevCounter) => ({
+//       ...prevCounter,
+//       count: prevCounter.count + 1,
+//       incCount: prevCounter.incCount + 1,
+//   }));
+// }}
+
 type AppScreenProps = {
 
 }
