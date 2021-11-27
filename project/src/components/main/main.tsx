@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import {MouseEvent, useState} from 'react';
+import { Link } from 'react-router-dom';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 
@@ -8,6 +10,12 @@ type MainScreenProps = {
 
 function MainScreen(props: MainScreenProps): JSX.Element {
   const {movies} = props;
+  const [activeCard, setActiveCard] = useState<null | HTMLElement>(null);
+
+  const handleArticleHover = (evt: MouseEvent<HTMLElement>): void => {
+    evt.preventDefault();
+    setActiveCard(evt.currentTarget);
+  };
 
   return (
     <>
@@ -106,12 +114,17 @@ function MainScreen(props: MainScreenProps): JSX.Element {
             {movies.map((movie) => {
               const {id, name, preview_image} = movie;
               return (
-                <article key={id} className="small-film-card catalog__films-card">
+                <article
+                  key={id}
+                  className="small-film-card catalog__films-card"
+                  onMouseEnter={handleArticleHover}
+                  onMouseLeave={handleArticleHover}
+                >
                   <div className="small-film-card__image">
                     <img src={preview_image} alt={name} width="280" height="175" />
                   </div>
                   <h3 className="small-film-card__title">
-                    <a className="small-film-card__link" href="film-page.html">{name}</a>
+                    <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
                   </h3>
                 </article>
               );

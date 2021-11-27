@@ -1,4 +1,4 @@
-import { Redirect, Route, RouteProps } from 'react-router';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 // RouteProps - это пропсы, как у Route. Теперь PrivateRoute аналог Route;
