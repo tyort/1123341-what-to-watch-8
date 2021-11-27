@@ -40,15 +40,17 @@ function AppScreen(props: AppScreenProps): JSX.Element {
           />
         </Route>
         {movies.map((movie) => (
-          <Route key={movie.id} exact path={`/films/${movie.id}`}>
+          <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}`}>
             <MovieScreen
               movie={movie}
             />
           </Route>
         ))}
-        <Route exact path={AppRoute.AddReview}>
-          <AddReviewScreen/>
-        </Route>
+        {movies.map((movie) => (
+          <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}>
+            <AddReviewScreen/>
+          </Route>
+        ))}
         <Route exact path={AppRoute.Player}>
           <PlayerScreen/>
         </Route>
