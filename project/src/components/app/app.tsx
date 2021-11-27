@@ -8,6 +8,8 @@ import PlayerScreen from '../player/player';
 import MovieScreen from '../movie/movie';
 import NotFoundScreen from '../not-found/not-found';
 import AddReviewScreen from '../add-review/add-review';
+import {movies} from '../../mocks/films';
+import {reviews} from '../../mocks/reviews';
 
 // onClick={() => {
 //   Можно вызвать одну и ту же функцию обновления значения два раза подряд в одном колбэке при одном клике
@@ -33,7 +35,9 @@ function AppScreen(props: AppScreenProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen/>
+          <MainScreen
+            movies={movies}
+          />
         </Route>
         <Route exact path={AppRoute.Film}>
           <MovieScreen/>
