@@ -52,7 +52,10 @@ function AppScreen(props: AppScreenProps): JSX.Element {
           </Route>
         ))}
         <Route exact path={AppRoute.Player}>
-          <PlayerScreen/>
+          <PlayerScreen
+            src={'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4'}
+            autoPlay={false}
+          />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen/>
