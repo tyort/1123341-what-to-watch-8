@@ -3,6 +3,7 @@ import {MouseEvent, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
+import PreviewPlayerScreen from '../preview-player/preview-player';
 
 type MainScreenProps = {
   movies: Movie[];
@@ -10,11 +11,21 @@ type MainScreenProps = {
 
 function MainScreen(props: MainScreenProps): JSX.Element {
   const {movies} = props;
-  const [activeCard, setActiveCard] = useState<null | HTMLElement>(null);
+  const [activeCardId, setActiveCardId] = useState<null | number>(null);
+  const [isPlaying, setPlayingStatus] = useState<boolean>(false);
+  let timer: NodeJS.Timeout | null = null ;
 
   const handleArticleHover = (evt: MouseEvent<HTMLElement>): void => {
     evt.preventDefault();
-    setActiveCard(evt.currentTarget);
+
+    if (evt.type === 'mouseenter') {
+      setActiveCardId(Number(evt.currentTarget.dataset.id));
+      timer = setTimeout(() => setPlayingStatus(true), 1000);
+    } else if (evt.type === 'mouseleave') {
+      setActiveCardId(null);
+      setPlayingStatus(false);
+      clearTimeout(timer as NodeJS.Timeout);
+    }
   };
 
   return (
@@ -116,12 +127,17 @@ function MainScreen(props: MainScreenProps): JSX.Element {
               return (
                 <article
                   key={id}
+                  data-id={id}
                   className="small-film-card catalog__films-card"
                   onMouseEnter={handleArticleHover}
                   onMouseLeave={handleArticleHover}
                 >
                   <div className="small-film-card__image">
-                    <img src={preview_image} alt={name} width="280" height="175" />
+                    <PreviewPlayerScreen
+                      src={'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm'}
+                      poster={preview_image}
+                      isPlaying={id === activeCardId && isPlaying}
+                    />
                   </div>
                   <h3 className="small-film-card__title">
                     <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
