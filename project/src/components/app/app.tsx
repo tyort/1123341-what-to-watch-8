@@ -43,6 +43,7 @@ function AppScreen(props: AppScreenProps): JSX.Element {
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}`}>
             <MovieScreen
               movie={movie}
+              reviews={reviews}
             />
           </Route>
         ))}

@@ -1,18 +1,21 @@
+/* eslint-disable no-console */
 /* eslint-disable camelcase */
-import { RouteProps } from 'react-router-dom';
-import { getRatingLevel } from '../../const';
+import { useState } from 'react';
+import { Link, RouteProps } from 'react-router-dom';
+import { NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
+import { Review } from '../../types/review';
 import LogoScreen from '../logo/logo';
+import MovieNavScreen from '../movie-nav/movie-nav';
 
 type MovieScreenprops = RouteProps & {
-  movie: Movie
+  movie: Movie;
+  reviews: Review[];
 }
 
-function MovieScreen(props: MovieScreenprops): JSX.Element {
-  const {name, genre, released, rating, scores_count,
-    description, director, starring, poster_image} = props.movie;
-  const ratingToStr = rating.toString().replace('.', ',');
-  const ratingToWord = getRatingLevel(rating);
+function MovieScreen({reviews, movie}: MovieScreenprops): JSX.Element {
+  const {name, genre, released, poster_image} = movie;
+  const [navItemName, setNavItemName] = useState<string>('Overview');
 
   return (
     <>
@@ -74,34 +77,32 @@ function MovieScreen(props: MovieScreenprops): JSX.Element {
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="/" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="/" className="film-nav__link">Reviews</a>
-                  </li>
+                <ul
+                  className="film-nav__list"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    if ((evt.target as HTMLLinkElement).tagName === 'A' && (evt.target as HTMLLinkElement).textContent !== navItemName) {
+                      console.log((evt.target as HTMLLinkElement).textContent);
+                      setNavItemName((evt.target as HTMLLinkElement).textContent as string);
+                    }
+                  }}
+                >
+                  {
+                    Object.values(NavigationItemTitle)
+                      .map((item) => (
+                        <li key={item} className={`film-nav__item ${navItemName === item && 'film-nav__item--active'}`}>
+                          <Link onClick={(evt) => evt.preventDefault()} to="/" className="film-nav__link">{item}</Link>
+                        </li>
+                      ))
+                  }
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">{ratingToStr}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{ratingToWord}</span>
-                  <span className="film-rating__count">{scores_count} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: {starring.join(', ')} and other</strong></p>
-              </div>
+              <MovieNavScreen
+                screenName={navItemName}
+                movie={movie}
+                reviews={reviews}
+              />
             </div>
           </div>
         </div>
