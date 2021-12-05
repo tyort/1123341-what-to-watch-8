@@ -33,6 +33,19 @@ export const months = new Map([
   [11, 'December'],
 ]);
 
+export const genres = [
+  'All genres',
+  'Comedies',
+  'Crime',
+  'Documentary',
+  'Dramas',
+  'Horror',
+  'Kids & Family',
+  'Romance',
+  'Sci-Fi',
+  'Thrillers',
+];
+
 export const getRatingLevel = (rating: number): string => {
   if (rating >=0 && rating < 3) {
     return 'Bad';
