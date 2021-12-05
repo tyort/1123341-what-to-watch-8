@@ -1,17 +1,42 @@
 /* eslint-disable camelcase */
 import {MouseEvent, useState} from 'react';
+import {connect, ConnectedProps} from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 import PreviewPlayerScreen from '../preview-player/preview-player';
 import AllGenresScreen from '../all-genres/all-genres';
+import { Dispatch } from 'redux';
+import { Actions } from '../../types/action';
+import { changeGenre } from '../../store/action-function';
+import { State } from '../../types/state';
 
 type MainScreenProps = {
-  movies: Movie[];
+
 }
 
-function MainScreen(props: MainScreenProps): JSX.Element {
-  const {movies} = props;
+// Сопоставление значений свойств стейта хранилища и пропсов React-компонента
+const mapStateToProps = ({genre, filteredMovies}: State) => ({
+  genre,
+  filteredMovies,
+});
+
+// redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
+// Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  // вызов в компоненте onGenreChange --> диспатчит changeGenre.
+  onGenreChange(genre: string) {
+    dispatch(changeGenre(genre));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+// ConnectedProps - типизируем пропсы, которые получились при присоединении redux.
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
+
+function MainScreen(props: ConnectedComponentProps): JSX.Element {
+  const {onGenreChange, genre, filteredMovies} = props;
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
   const [isPlaying, setPlayingStatus] = useState<boolean>(false);
   let timer: NodeJS.Timeout | null = null ;
@@ -89,10 +114,13 @@ function MainScreen(props: MainScreenProps): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <AllGenresScreen/>
+          <AllGenresScreen
+            currentGenre={genre}
+            onGenreChange={onGenreChange}
+          />
 
           <div className="catalog__films-list">
-            {movies.map((movie) => {
+            {filteredMovies.map((movie) => {
               const {id, name, preview_image} = movie;
               return (
                 <article
@@ -140,5 +168,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
   );
 }
 
-export default MainScreen;
+export {MainScreen}; // поможет при тестировании
+export default connector(MainScreen); // Связываем наш React-компонент с Redux
+
 

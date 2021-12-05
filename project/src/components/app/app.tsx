@@ -35,9 +35,7 @@ function AppScreen(props: AppScreenProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <MainScreen
-            movies={movies}
-          />
+          <MainScreen/>
         </Route>
         {movies.map((movie) => (
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}`}>
