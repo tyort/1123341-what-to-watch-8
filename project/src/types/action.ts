@@ -1,5 +1,6 @@
 export enum ActionName {
   ChangeGenre = 'movies/changeGenre',
+  IncreaseCount = 'movies/increaseCount'
 }
 
 export type ChangeGenreAction = {
@@ -7,4 +8,10 @@ export type ChangeGenreAction = {
   payload: string;
 };
 
-export type Actions = ChangeGenreAction;
+export type IncreaseCountAction = {
+  type: ActionName.IncreaseCount;
+};
+
+export type Actions =
+  | ChangeGenreAction
+  | IncreaseCountAction;

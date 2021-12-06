@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import LogoScreen from '../logo/logo';
 import PreviewPlayerScreen from '../preview-player/preview-player';
 import AllGenresScreen from '../all-genres/all-genres';
+import ShowMoreScreen from '../show-more/show-more';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
 import { changeGenre } from '../../store/action-function';
@@ -145,9 +146,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             })}
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <ShowMoreScreen/>
         </section>
 
         <footer className="page-footer">
@@ -170,5 +169,3 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
 
 export {MainScreen}; // поможет при тестировании
 export default connector(MainScreen); // Связываем наш React-компонент с Redux
-
-
