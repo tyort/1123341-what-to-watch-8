@@ -3,7 +3,6 @@ import { Actions } from '../../types/action';
 import { increaseMoviesCount } from '../../store/action-function';
 import { connect, ConnectedProps } from 'react-redux';
 
-
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => bindActionCreators({
   onMoviesCountIncrease: increaseMoviesCount,
 }, dispatch);

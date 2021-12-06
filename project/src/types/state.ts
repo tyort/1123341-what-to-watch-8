@@ -4,5 +4,6 @@ export type State = {
   filteredMovies: Movie[],
   AllMovies: Movie[],
   genre: string,
-  moviesCount: number
+  moviesCount: number,
+  isBtnShow: boolean
 };

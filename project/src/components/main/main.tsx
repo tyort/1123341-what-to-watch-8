@@ -16,9 +16,10 @@ type MainScreenProps = {
 }
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
-const mapStateToProps = ({genre, filteredMovies}: State) => ({
+const mapStateToProps = ({genre, filteredMovies, isBtnShow}: State) => ({
   genre,
   filteredMovies,
+  isBtnShow,
 });
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
@@ -37,7 +38,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const {onGenreChange, genre, filteredMovies} = props;
+  const {onGenreChange, genre, filteredMovies, isBtnShow} = props;
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
   const [isPlaying, setPlayingStatus] = useState<boolean>(false);
   let timer: NodeJS.Timeout | null = null ;
@@ -146,7 +147,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
             })}
           </div>
 
-          <ShowMoreScreen/>
+          {isBtnShow && <ShowMoreScreen/>}
         </section>
 
         <footer className="page-footer">

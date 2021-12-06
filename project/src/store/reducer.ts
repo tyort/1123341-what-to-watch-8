@@ -11,26 +11,41 @@ const initialState = {
   AllMovies: movies,
   genre: INITIAL_GENRE,
   moviesCount: INITIAL_MOVIES_COUNT,
+  isBtnShow: true,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionName.ChangeGenre: {
-      const filteredMovies = state.AllMovies
-        .filter((film) => (
-          action.payload !== INITIAL_GENRE ? genres.get(film.genre) === action.payload : true
-        ))
-        .slice(0, INITIAL_MOVIES_COUNT);
-      return {...state, moviesCount: INITIAL_MOVIES_COUNT, genre: action.payload, filteredMovies};
+      const AllfilteredMovies = state.AllMovies.filter((film) => (
+        action.payload !== INITIAL_GENRE ? genres.get(film.genre) === action.payload : true
+      ));
+      const isBtnShow = AllfilteredMovies.length > state.moviesCount;
+      const moviesCount = INITIAL_MOVIES_COUNT;
+      const filteredMovies = AllfilteredMovies.slice(0, moviesCount);
+
+      return {
+        ...state,
+        moviesCount,
+        genre: action.payload,
+        filteredMovies,
+        isBtnShow,
+      };
     }
     case ActionName.IncreaseCount: {
       const moviesCount = state.moviesCount + INITIAL_MOVIES_COUNT;
-      const filteredMovies = state.AllMovies
-        .filter((film) => (
-          state.genre !== INITIAL_GENRE ? genres.get(film.genre) === state.genre : true
-        ))
-        .slice(0, moviesCount);
-      return {...state, moviesCount, filteredMovies};
+      const AllfilteredMovies = state.AllMovies.filter((film) => (
+        state.genre !== INITIAL_GENRE ? genres.get(film.genre) === state.genre : true
+      ));
+      const isBtnShow = AllfilteredMovies.length > moviesCount;
+      const filteredMovies = AllfilteredMovies.slice(0, moviesCount);
+
+      return {
+        ...state,
+        moviesCount,
+        filteredMovies,
+        isBtnShow,
+      };
     }
     default:
       return state;
