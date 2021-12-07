@@ -9,7 +9,15 @@ export enum AppRoute {
 
 export enum AuthorizationStatus {
   Auth = 'Authorised',
-  NoAuth = 'Non-authorised'
+  NoAuth = 'Non-authorised',
+  Unknown = 'UNKNOWN', // когда приложение только стартует
+}
+
+// Запросы на бэкэнд
+export enum APIRoute {
+  Movies = '/films',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum NavigationItemTitle {

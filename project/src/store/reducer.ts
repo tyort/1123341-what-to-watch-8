@@ -1,21 +1,29 @@
 import {ActionName, Actions} from '../types/action';
 import {State} from '../types/state';
-import {genres} from '../const';
-import {movies} from '../mocks/films';
+import {AuthorizationStatus, genres} from '../const';
 
 const INITIAL_GENRE = 'All genres';
 const INITIAL_MOVIES_COUNT = 8;
 
 const initialState = {
-  filteredMovies: movies.slice(0, INITIAL_MOVIES_COUNT),
-  AllMovies: movies,
+  filteredMovies: [],
+  AllMovies: [],
   genre: INITIAL_GENRE,
   moviesCount: INITIAL_MOVIES_COUNT,
   isBtnShow: true,
+  authorizationStatus: AuthorizationStatus.Unknown,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
+    case ActionName.SetAuthStatus:
+      return {...state, authorizationStatus: action.payload};
+
+    case ActionName.LoadMovies: {
+      const filteredMovies = action.payload.slice(0, state.moviesCount);
+      return {...state, AllMovies: action.payload, filteredMovies};
+    }
+
     case ActionName.ChangeGenre: {
       const AllfilteredMovies = state.AllMovies.filter((film) => (
         action.payload !== INITIAL_GENRE ? genres.get(film.genre) === action.payload : true
@@ -32,6 +40,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
         isBtnShow,
       };
     }
+
     case ActionName.IncreaseCount: {
       const moviesCount = state.moviesCount + INITIAL_MOVIES_COUNT;
       const AllfilteredMovies = state.AllMovies.filter((film) => (
@@ -47,6 +56,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
         isBtnShow,
       };
     }
+
     default:
       return state;
   }

@@ -1,4 +1,6 @@
+import { AuthorizationStatus } from '../const';
 import {ActionName} from '../types/action';
+import { Movie } from '../types/movie';
 
 // Функция возращает объект(действие)
 export const changeGenre = (genre: string) => ({
@@ -11,3 +13,14 @@ export const changeGenre = (genre: string) => ({
 export const increaseMoviesCount = () => ({
   type: ActionName.IncreaseCount,
 } as const);
+
+export const loadMovies = (movies: Movie[]) => ({
+  type: ActionName.LoadMovies,
+  payload: movies,
+} as const);
+
+export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
+  type: ActionName.SetAuthStatus,
+  payload: authStatus,
+} as const);
+
