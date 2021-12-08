@@ -1,3 +1,4 @@
+import { AuthorizationStatus } from '../const';
 import { Movie } from './movie';
 
 export type State = {
@@ -5,5 +6,7 @@ export type State = {
   AllMovies: Movie[],
   genre: string,
   moviesCount: number,
-  isBtnShow: boolean
+  isBtnShow: boolean,
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
 };

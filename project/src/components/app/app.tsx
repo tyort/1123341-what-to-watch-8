@@ -10,6 +10,23 @@ import NotFoundScreen from '../not-found/not-found';
 import AddReviewScreen from '../add-review/add-review';
 import {movies} from '../../mocks/films';
 import {reviews} from '../../mocks/reviews';
+import LoadingScreen from '../loading/loading';
+import { connect, ConnectedProps } from 'react-redux';
+import { State } from '../../types/state';
+
+type AppScreenProps = {
+
+}
+
+const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
+  authorizationStatus,
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 
 // onClick={() => {
 //   Можно вызвать одну и ту же функцию обновления значения два раза подряд в одном колбэке при одном клике
@@ -26,11 +43,15 @@ import {reviews} from '../../mocks/reviews';
 //   }));
 // }}
 
-type AppScreenProps = {
+function AppScreen(props: ConnectedComponentProps): JSX.Element {
+  const {authorizationStatus, isDataLoaded} = props;
 
-}
+  if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
-function AppScreen(props: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
@@ -92,4 +113,5 @@ function AppScreen(props: AppScreenProps): JSX.Element {
   );
 }
 
-export default AppScreen;
+export {AppScreen}; // поможет при тестировании
+export default connector(AppScreen); // Связываем наш React-компонент с Redux

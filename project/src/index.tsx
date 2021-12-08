@@ -7,16 +7,11 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {reducer} from './store/reducer'; // на основании action меняет state в store.
 import ReactDOM from 'react-dom'; // для работы с web. Вместо него для разработки мобильных приложений можно использовать react-native.
 import App from './components/app/app';
-import { AuthorizationStatus } from './const';
-import { setAuthStatus } from './store/actions-functions';
 import { ThunkAppDispatch } from './types/action';
-import { fetchMoviesAction } from './store/api-actions-functions';
+import { checkAuthAction, fetchMoviesAction } from './store/api-actions-functions';
 
 // Создаем экземпляр axios. Мы заранее уже его сконфигурировали;
-const api = createAPI(
-  // Мы прописали, чтобы этот колбэк вызывался в случае ответа от сервера 401;
-  () => store.dispatch(setAuthStatus(AuthorizationStatus.NoAuth)),
-);
+const api = createAPI();
 
 const store = createStore(
   reducer,
@@ -30,6 +25,7 @@ const store = createStore(
   ),
 );
 
+(store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchMoviesAction());
 
 ReactDOM.render(

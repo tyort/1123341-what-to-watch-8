@@ -4,16 +4,8 @@ import { getToken } from './token';
 const BACKEND_URL = 'https://8.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000; // Время после которого мы считаем что запрос failed;
 
-// Коды ответов от сервера
-enum HttpCode {
-  Unauthorized = 401, // Пользователь не авторизован
-}
-
-// Можно проследить: колбэк данного типа выполняется в случае ответа от сервера HttpCode.Unauthorized
-type UnauthorizedCallback = () => void;
-
 // Результат вызова createAPI - скофигурированный экземпляр axios(тип AxiosInstance);
-export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
+export const createAPI = (): AxiosInstance => {
 
   // При создании экземпляра axios передаем объект с настройками;
   const api = axios.create({
@@ -52,12 +44,8 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
     (error: AxiosError) => {
       const {response} = error;
 
-      if (response?.status === HttpCode.Unauthorized) {
-        return onUnauthorized();
-      }
-
       // Возвращаем объект Promise, который отклонен по причине "error"
-      return Promise.reject(error);
+      return Promise.reject(response?.status);
     },
   );
 

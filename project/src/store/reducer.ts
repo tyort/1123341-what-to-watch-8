@@ -12,6 +12,7 @@ const initialState = {
   moviesCount: INITIAL_MOVIES_COUNT,
   isBtnShow: true,
   authorizationStatus: AuthorizationStatus.Unknown,
+  isDataLoaded: false,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -21,7 +22,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
 
     case ActionName.LoadMovies: {
       const filteredMovies = action.payload.slice(0, state.moviesCount);
-      return {...state, AllMovies: action.payload, filteredMovies};
+      return {...state, AllMovies: action.payload, filteredMovies, isDataLoaded: true};
     }
 
     case ActionName.ChangeGenre: {
