@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 import { saveToken } from '../backend/token';
-import { APIRoute, AuthorizationStatus } from '../const';
+import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
 import { AuthInfo, User } from '../types/user';
-import { loadMovies, setAuthStatus } from './actions-functions';
+import { loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -27,3 +27,24 @@ export const checkAuthAction = (): ThunkActionResult =>
       }
     }
   };
+
+export const loginAction = ({email, password}: User): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    // data аналогично AuthInfo;
+    const {data: {token}} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
+    saveToken(token);
+    dispatch(setAuthStatus(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
+  };
+
+
+// export const logoutAction = (): ThunkActionResult =>
+//   async (dispatch, _getState, api) => {
+//     try {
+//       const sadasd = await api.delete(APIRoute.Logout);
+//       console.log(sadasd);
+
+//     } catch(errStatus) {
+//       console.log(errStatus);
+//     }
+//   };

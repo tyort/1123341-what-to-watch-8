@@ -1,4 +1,4 @@
-import { AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus } from '../const';
 import {ActionName} from '../types/action';
 import { Movie } from '../types/movie';
 
@@ -22,5 +22,10 @@ export const loadMovies = (movies: Movie[]) => ({
 export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
   type: ActionName.SetAuthStatus,
   payload: authStatus,
+} as const);
+
+export const redirectToRoute = (url: AppRoute) => ({
+  type: ActionName.RedirectToRoute,
+  payload: url,
 } as const);
 
