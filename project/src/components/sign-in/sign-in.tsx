@@ -1,10 +1,41 @@
+import { FormEvent, useRef } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { loginAction } from '../../store/api-actions-functions';
+import { ThunkAppDispatch } from '../../types/action';
+import { User } from '../../types/user';
 import LogoScreen from '../logo/logo';
 
 type SignInScreenProps = {
 
 }
 
-function SignInScreen(props: SignInScreenProps): JSX.Element {
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onUserSubmit(userData: User) {
+    dispatch(loginAction(userData));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & SignInScreenProps;
+
+function SignInScreen(props: ConnectedComponentProps): JSX.Element {
+  const {onUserSubmit} = props;
+  const emailInput = useRef<HTMLInputElement | null>(null);
+  const passInput = useRef<HTMLInputElement | null>(null);
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+
+    if (emailInput.current !== null && passInput.current !== null) {
+      onUserSubmit({
+        email: emailInput.current.value,
+        password: passInput.current.value,
+      });
+    }
+  };
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -14,14 +45,32 @@ function SignInScreen(props: SignInScreenProps): JSX.Element {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form
+          action="#"
+          className="sign-in__form"
+          onSubmit={handleFormSubmit}
+        >
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+              <input
+                ref={emailInput}
+                className="sign-in__input"
+                type="email"
+                placeholder="Email address"
+                name="user-email"
+                id="user-email"
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+              <input
+                ref={passInput}
+                className="sign-in__input"
+                type="password"
+                placeholder="Password"
+                name="user-password"
+                id="user-password"
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
@@ -48,4 +97,5 @@ function SignInScreen(props: SignInScreenProps): JSX.Element {
   );
 }
 
-export default SignInScreen;
+export {SignInScreen};
+export default connector(SignInScreen);
