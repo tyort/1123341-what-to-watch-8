@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom'; // для работы с web. Вместо н
 import App from './components/app/app';
 import { ThunkAppDispatch } from './types/action';
 import { checkAuthAction, fetchMoviesAction } from './store/api-actions-functions';
+import { redirect } from './store/middlewares/redirect';
 
 // Создаем экземпляр axios. Мы заранее уже его сконфигурировали;
 const api = createAPI();
@@ -22,6 +23,7 @@ const store = createStore(
     // Регистрируем middlewares. Вместо параметра "api" мы можем передать все, что угодно.
     // так мы можем использовать api в асинхронной функции типа ThunkActionResult
     applyMiddleware(thunk.withExtraArgument(api)),
+    applyMiddleware(redirect),
   ),
 );
 

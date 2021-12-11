@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Route, Switch, Router } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../main/main';
@@ -13,6 +13,7 @@ import {reviews} from '../../mocks/reviews';
 import LoadingScreen from '../loading/loading';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
+import {browserHistory} from '../../store/middlewares/redirect';
 
 type AppScreenProps = {
 
@@ -53,7 +54,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <Router history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <MainScreen/>
@@ -85,7 +86,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
           exact
           path={AppRoute.MyList}
           render={() => <MyListScreen/>}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          authorizationStatus={authorizationStatus}
         />
         <Route>
           <NotFoundScreen/>
@@ -109,7 +110,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
         Здесь также компоненту в пропсы мы можем передать доп. параметры интерфейса Route*/}
 
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 

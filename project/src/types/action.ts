@@ -8,6 +8,7 @@ export enum ActionName {
   IncreaseCount = 'movies/increaseCount',
   LoadMovies = 'movies/loadMovies',
   SetAuthStatus = 'user/setAuthStatus',
+  RedirectToRoute = 'app/redirectToRoute'
 }
 
 // ReturnType - получить тип, который возвращает функция. Лучше чем просто "typeof функция".
