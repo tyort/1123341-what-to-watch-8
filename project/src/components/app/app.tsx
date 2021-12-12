@@ -7,6 +7,7 @@ import SignInScreen from '../sign-in/sign-in';
 import PlayerScreen from '../player/player';
 import MovieScreen from '../movie/movie';
 import NotFoundScreen from '../not-found/not-found';
+import NoMovieScreen from '../no-film/no-film';
 import AddReviewScreen from '../add-review/add-review';
 import {reviews} from '../../mocks/reviews';
 import LoadingScreen from '../loading/loading';
@@ -88,6 +89,9 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
           render={() => <MyListScreen/>}
           authorizationStatus={authorizationStatus}
         />
+        <Route path={AppRoute.Films}>
+          <NoMovieScreen/>
+        </Route>
         <Route>
           <NotFoundScreen/>
         </Route>
