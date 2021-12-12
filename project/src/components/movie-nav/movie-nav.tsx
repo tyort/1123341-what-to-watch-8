@@ -3,21 +3,19 @@ import MovieOverviewScreen from '../movie-overview/movie-overview';
 import MovieReviewsScreen from '../movie-reviews/movie-reviews';
 import {NavigationItemTitle} from '../../const';
 import { Movie } from '../../types/movie';
-import { Review } from '../../types/review';
 
 type MovieNavScreenprops = {
   screenName: string;
   movie: Movie;
-  reviews: Review[];
 }
 
 function MovieNavScreen(props: MovieNavScreenprops): JSX.Element {
-  const {screenName, movie, reviews} = props;
+  const {screenName, movie} = props;
   switch (screenName) {
     case NavigationItemTitle.Reviews:
       return (
         <MovieReviewsScreen
-          reviews={reviews}
+          movieId={movie.id}
         />
       );
     case NavigationItemTitle.Details:

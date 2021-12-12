@@ -9,7 +9,6 @@ import MovieScreen from '../movie/movie';
 import NotFoundScreen from '../not-found/not-found';
 import NoMovieScreen from '../no-film/no-film';
 import AddReviewScreen from '../add-review/add-review';
-import {reviews} from '../../mocks/reviews';
 import LoadingScreen from '../loading/loading';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
@@ -64,7 +63,6 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}`}>
             <MovieScreen
               movie={movie}
-              reviews={reviews}
             />
           </Route>
         ))}

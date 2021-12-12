@@ -1,15 +1,43 @@
-import { Review } from '../../types/review';
 import {months} from '../../const';
+import { State } from '../../types/state';
+import { ThunkAppDispatch } from '../../types/action';
+import { fetchCommentsAction } from '../../store/api-actions-functions';
+import { connect, ConnectedProps } from 'react-redux';
+import { useEffect } from 'react';
 
 type  MovieReviewsScreenProps = {
-  reviews: Review[]
+  movieId: number
 }
 
-function MovieReviewsScreen({reviews}: MovieReviewsScreenProps): JSX.Element {
+const mapStateToProps = ({comments}: State) => ({
+  comments,
+});
+
+// redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
+// Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onCommentsLoad(movieId: number) {
+    dispatch(fetchCommentsAction(movieId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MovieReviewsScreenProps;
+
+
+function MovieReviewsScreen({movieId, comments, onCommentsLoad}: ConnectedComponentProps): JSX.Element {
+
+  useEffect(() => {
+    onCommentsLoad(movieId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieId]);
+
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
-        {reviews.map((review) => {
+        {comments.map((review) => {
           const {id, comment, user, rating, date} = review;
           const ratingToStr = rating.toString().replace('.', ',');
           const strAsDate = new Date(date);
@@ -36,4 +64,5 @@ function MovieReviewsScreen({reviews}: MovieReviewsScreenProps): JSX.Element {
   );
 }
 
-export default MovieReviewsScreen;
+export {MovieReviewsScreen}; // поможет при тестировании
+export default connector(MovieReviewsScreen); // Связываем наш React-компонент с Redux

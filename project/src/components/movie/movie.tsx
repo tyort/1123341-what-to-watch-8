@@ -4,16 +4,14 @@ import { useState } from 'react';
 import { Link, RouteProps } from 'react-router-dom';
 import { NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
-import { Review } from '../../types/review';
 import LogoScreen from '../logo/logo';
 import MovieNavScreen from '../movie-nav/movie-nav';
 
 type MovieScreenprops = RouteProps & {
   movie: Movie;
-  reviews: Review[];
 }
 
-function MovieScreen({reviews, movie}: MovieScreenprops): JSX.Element {
+function MovieScreen({movie}: MovieScreenprops): JSX.Element {
   const {name, genre, released, poster_image} = movie;
   const [navItemName, setNavItemName] = useState<string>('Overview');
 
@@ -82,7 +80,6 @@ function MovieScreen({reviews, movie}: MovieScreenprops): JSX.Element {
                   onClick={(evt) => {
                     evt.preventDefault();
                     if ((evt.target as HTMLLinkElement).tagName === 'A' && (evt.target as HTMLLinkElement).textContent !== navItemName) {
-                      console.log((evt.target as HTMLLinkElement).textContent);
                       setNavItemName((evt.target as HTMLLinkElement).textContent as string);
                     }
                   }}
@@ -101,7 +98,6 @@ function MovieScreen({reviews, movie}: MovieScreenprops): JSX.Element {
               <MovieNavScreen
                 screenName={navItemName}
                 movie={movie}
-                reviews={reviews}
               />
             </div>
           </div>
