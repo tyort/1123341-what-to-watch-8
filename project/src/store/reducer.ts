@@ -8,6 +8,7 @@ const INITIAL_MOVIES_COUNT = 8;
 const initialState = {
   filteredMovies: [],
   AllMovies: [],
+  comments: [],
   genre: INITIAL_GENRE,
   moviesCount: INITIAL_MOVIES_COUNT,
   isBtnShow: true,
@@ -24,6 +25,9 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const filteredMovies = action.payload.slice(0, state.moviesCount);
       return {...state, AllMovies: action.payload, filteredMovies, isDataLoaded: true};
     }
+
+    case ActionName.LoadComments:
+      return {...state, comments: action.payload};
 
     case ActionName.ChangeGenre: {
       const AllfilteredMovies = state.AllMovies.filter((film) => (

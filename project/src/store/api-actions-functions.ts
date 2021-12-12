@@ -3,8 +3,9 @@ import { saveToken } from '../backend/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
+import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
-import { loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
+import { loadComments, loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -12,6 +13,12 @@ export const fetchMoviesAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Movie[]>(APIRoute.Movies);
     dispatch(loadMovies(data));
+  };
+
+export const fetchCommentsAction = (movieId: number): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Comment[]>(`${APIRoute.Comments}/${movieId}`);
+    dispatch(loadComments(data));
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

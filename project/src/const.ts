@@ -18,6 +18,7 @@ export enum APIRoute {
   Movies = '/films',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments'
 }
 
 export enum NavigationItemTitle {

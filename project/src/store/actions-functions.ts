@@ -1,6 +1,7 @@
 import { AppRoute, AuthorizationStatus } from '../const';
 import {ActionName} from '../types/action';
 import { Movie } from '../types/movie';
+import { Comment } from '../types/comment';
 
 // Функция возращает объект(действие)
 export const changeGenre = (genre: string) => ({
@@ -17,6 +18,11 @@ export const increaseMoviesCount = () => ({
 export const loadMovies = (movies: Movie[]) => ({
   type: ActionName.LoadMovies,
   payload: movies,
+} as const);
+
+export const loadComments = (comments: Comment[]) => ({
+  type: ActionName.LoadComments,
+  payload: comments,
 } as const);
 
 export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
