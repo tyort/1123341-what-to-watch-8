@@ -72,7 +72,7 @@ function MovieScreen({reviews, movie}: MovieScreenprops): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt={name} width="218" height="327" />
+              <img src={poster_image} alt={name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

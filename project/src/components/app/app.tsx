@@ -8,7 +8,6 @@ import PlayerScreen from '../player/player';
 import MovieScreen from '../movie/movie';
 import NotFoundScreen from '../not-found/not-found';
 import AddReviewScreen from '../add-review/add-review';
-import {movies} from '../../mocks/films';
 import {reviews} from '../../mocks/reviews';
 import LoadingScreen from '../loading/loading';
 import { connect, ConnectedProps } from 'react-redux';
@@ -19,9 +18,10 @@ type AppScreenProps = {
 
 }
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded}: State) => ({
+const mapStateToProps = ({authorizationStatus, isDataLoaded, AllMovies}: State) => ({
   authorizationStatus,
   isDataLoaded,
+  AllMovies,
 });
 
 const connector = connect(mapStateToProps);
@@ -45,7 +45,7 @@ type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 // }}
 
 function AppScreen(props: ConnectedComponentProps): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = props;
+  const {authorizationStatus, isDataLoaded, AllMovies} = props;
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
     return (
@@ -59,7 +59,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
         <Route exact path={AppRoute.Main}>
           <MainScreen/>
         </Route>
-        {movies.map((movie) => (
+        {AllMovies.map((movie) => (
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}`}>
             <MovieScreen
               movie={movie}
@@ -67,7 +67,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
             />
           </Route>
         ))}
-        {movies.map((movie) => (
+        {AllMovies.map((movie) => (
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}>
             <AddReviewScreen/>
           </Route>
