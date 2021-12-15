@@ -8,8 +8,10 @@ import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
 import { Dispatch } from 'redux';
 import { Actions } from '../../types/action';
-import { changeGenre } from '../../store/action-function';
+import { changeGenre } from '../../store/actions-functions';
 import { State } from '../../types/state';
+
+const FOOTER_AS_WORD = 'footer';
 
 type MainScreenProps = {
 
@@ -151,13 +153,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light" href="/">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <LogoScreen place={FOOTER_AS_WORD}/>
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
