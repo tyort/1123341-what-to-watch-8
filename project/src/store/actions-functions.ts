@@ -1,4 +1,4 @@
-import { AppRoute, AuthorizationStatus } from '../const';
+import { AuthorizationStatus } from '../const';
 import {ActionName} from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
@@ -30,7 +30,8 @@ export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
   payload: authStatus,
 } as const);
 
-export const redirectToRoute = (url: AppRoute) => ({
+// Это действие для middleware, там мы его связываем с объектом "history";
+export const redirectToRoute = (url: string) => ({
   type: ActionName.RedirectToRoute,
   payload: url,
 } as const);

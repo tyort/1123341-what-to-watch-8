@@ -21,6 +21,13 @@ export const fetchCommentsAction = (movieId: number): ThunkActionResult =>
     dispatch(loadComments(data));
   };
 
+export const postCommentAction = (movieId: number, rating: number, comment: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${movieId}`, {rating, comment});
+    dispatch(loadComments(data));
+    dispatch(redirectToRoute(`${AppRoute.Films}/${movieId}`));
+  };
+
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {

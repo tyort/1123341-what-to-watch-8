@@ -1,7 +1,13 @@
 import LogoScreen from '../logo/logo';
-import AddReviewFormScreen from '../add-review-form/add-review-form';
 
-function AddReviewScreen(): JSX.Element {
+type AddReviewScreenProps = {
+  renderRating: (movieId: number) => JSX.Element;
+  movieId: number;
+}
+
+function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
+  const {renderRating, movieId} = props;
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -43,7 +49,7 @@ function AddReviewScreen(): JSX.Element {
       </div>
 
       <div className="add-review">
-        <AddReviewFormScreen/>
+        {renderRating(movieId)}
       </div>
 
     </section>

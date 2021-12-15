@@ -10,6 +10,7 @@ import NotFoundScreen from '../not-found/not-found';
 import NoMovieScreen from '../no-film/no-film';
 import AddReviewScreen from '../add-review/add-review';
 import LoadingScreen from '../loading/loading';
+import WithRating from '../../hocs/with-rating/with-rating';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import {browserHistory} from '../../store/middlewares/redirect';
@@ -44,6 +45,8 @@ type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 //   }));
 // }}
 
+const AddReviewScreenWrapped = WithRating(AddReviewScreen);
+
 function AppScreen(props: ConnectedComponentProps): JSX.Element {
   const {authorizationStatus, isDataLoaded, AllMovies} = props;
 
@@ -68,7 +71,9 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
         ))}
         {AllMovies.map((movie) => (
           <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}>
-            <AddReviewScreen/>
+            <AddReviewScreenWrapped
+              movieId={movie.id}
+            />
           </Route>
         ))}
         <Route exact path={AppRoute.Player}>

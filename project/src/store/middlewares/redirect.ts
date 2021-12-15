@@ -8,7 +8,6 @@ type Reducer = ReturnType<typeof reducer>;
 // Это необходимо для управления историей из слоев Redux;
 export const browserHistory = createBrowserHistory();
 
-
 export const redirect: Middleware<unknown, Reducer> =
   (_store) =>
     (next) =>
