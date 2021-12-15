@@ -15,7 +15,7 @@ function PrivateRouteScreen(props: PrivateRouteScreenProps): JSX.Element {
       path={path}
       // переопределяем render
       render={() => (
-        authorizationStatus === AuthorizationStatus.NoAuth
+        authorizationStatus === AuthorizationStatus.Auth
           ? render() // отрисовка компонента, который мы указали в App
           : <Redirect to={AppRoute.SignIn} />
       )}

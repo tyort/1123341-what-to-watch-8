@@ -70,11 +70,13 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
           </Route>
         ))}
         {AllMovies.map((movie) => (
-          <Route key={movie.id} exact path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}>
-            <AddReviewScreenWrapped
-              movieId={movie.id}
-            />
-          </Route>
+          <PrivateRoute
+            key={movie.id}
+            exact
+            path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}
+            render={() => <AddReviewScreenWrapped movieId={movie.id}/>}
+            authorizationStatus={authorizationStatus}
+          />
         ))}
         <Route exact path={AppRoute.Player}>
           <PlayerScreen
