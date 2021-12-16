@@ -8,7 +8,7 @@ import {reducer} from './store/reducer'; // на основании action ме�
 import ReactDOM from 'react-dom'; // для работы с web. Вместо него для разработки мобильных приложений можно использовать react-native.
 import App from './components/app/app';
 import { ThunkAppDispatch } from './types/action';
-import { checkAuthAction, fetchMoviesAction } from './store/api-actions-functions';
+import { checkAuthAction, fetchMoviesAction, fetchPromoAction } from './store/api-actions-functions';
 import { redirect } from './store/middlewares/redirect';
 
 // Создаем экземпляр axios. Мы заранее уже его сконфигурировали;
@@ -29,6 +29,7 @@ const store = createStore(
 
 (store.dispatch as ThunkAppDispatch)(checkAuthAction());
 (store.dispatch as ThunkAppDispatch)(fetchMoviesAction());
+(store.dispatch as ThunkAppDispatch)(fetchPromoAction());
 
 ReactDOM.render(
   <React.StrictMode>

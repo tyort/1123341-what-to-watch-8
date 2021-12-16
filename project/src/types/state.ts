@@ -6,6 +6,7 @@ import { AuthInfo } from './user';
 export type State = {
   filteredMovies: Movie[],
   AllMovies: Movie[],
+  promo: Movie | null,
   comments: Comment[],
   genre: string,
   moviesCount: number,

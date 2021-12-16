@@ -5,14 +5,21 @@ import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
-import { loadComments, loadDataUser, loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
+import { loadComments, loadDataUser, loadMovies, loadPromo, redirectToRoute, setAuthStatus } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
   // thunk - это middleware(функция). Применяем, чтобы получить доступ к параметрам (dispatch, _getState, api)
   async (dispatch, _getState, api): Promise<void> => {
+    // Почему то дженерик подходит по типу не для константы, а для свйоства "data"
     const {data} = await api.get<Movie[]>(APIRoute.Movies);
     dispatch(loadMovies(data));
+  };
+
+export const fetchPromoAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Movie>(APIRoute.Promo);
+    dispatch(loadPromo(data));
   };
 
 export const fetchCommentsAction = (movieId: number): ThunkActionResult =>

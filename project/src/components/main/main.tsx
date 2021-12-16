@@ -19,11 +19,15 @@ type MainScreenProps = {
 }
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
-const mapStateToProps = ({genre, filteredMovies, isBtnShow}: State) => ({
-  genre,
-  filteredMovies,
-  isBtnShow,
-});
+const mapStateToProps = (props: State) => {
+  const {genre, filteredMovies, isBtnShow, promo} = props;
+  return {
+    genre,
+    filteredMovies,
+    isBtnShow,
+    promo,
+  };
+};
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
 // Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
@@ -41,9 +45,12 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const {onGenreChange, genre, filteredMovies, isBtnShow} = props;
+  const {onGenreChange, genre, filteredMovies, isBtnShow, promo} = props;
+  const bgColor = promo?.background_color;
+
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
   const [isPlaying, setPlayingStatus] = useState<boolean>(false);
+
   let timer: NodeJS.Timeout | null = null ;
 
   const handleArticleHover = (evt: MouseEvent<HTMLElement>): void => {
@@ -61,9 +68,9 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
 
   return (
     <>
-      <section className="film-card">
+      <section className="film-card" style={{background: bgColor}}>
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promo?.background_image} alt={promo?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -77,14 +84,14 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={promo?.poster_image} alt={`${promo?.name} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{promo?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{promo?.genre}</span>
+                <span className="film-card__year">{promo?.released}</span>
               </p>
 
               <div className="film-card__buttons">

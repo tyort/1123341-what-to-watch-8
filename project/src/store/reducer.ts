@@ -8,6 +8,7 @@ const INITIAL_MOVIES_COUNT = 8;
 const initialState = {
   filteredMovies: [],
   AllMovies: [],
+  promo: null,
   comments: [],
   genre: INITIAL_GENRE,
   moviesCount: INITIAL_MOVIES_COUNT,
@@ -19,6 +20,9 @@ const initialState = {
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
+    case ActionName.LoadPromo:
+      return {...state, promo: action.payload};
+
     case ActionName.SetAuthStatus:
       return {...state, authorizationStatus: action.payload};
 

@@ -21,6 +21,11 @@ export const loadMovies = (movies: Movie[]) => ({
   payload: movies,
 } as const);
 
+export const loadPromo = (movie: Movie) => ({
+  type: ActionName.LoadPromo,
+  payload: movie,
+} as const);
+
 export const loadComments = (comments: Comment[]) => ({
   type: ActionName.LoadComments,
   payload: comments,
