@@ -1,6 +1,6 @@
 import {MouseEvent} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions-functions';
 import { ThunkAppDispatch } from '../../types/action';
@@ -23,6 +23,8 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
   const {authorizationStatus, currentUser, onUserLogout} = props;
 
+  const history = useHistory();
+
   const handleLinkClick = (evt: MouseEvent<HTMLAnchorElement>): void => {
     evt.preventDefault();
     onUserLogout();
@@ -34,7 +36,13 @@ function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
         <ul className="user-block">
           <li className="user-block__item">
             <div className="user-block__avatar">
-              <img src={currentUser?.avatar_url} alt="User avatar" width="63" height="63" />
+              <img
+                src={currentUser?.avatar_url}
+                alt="User avatar"
+                width="63"
+                height="63"
+                onClick={() => history.push(AppRoute.MyList)}
+              />
             </div>
           </li>
           <li className="user-block__item">
