@@ -3,6 +3,7 @@ import {MouseEvent, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
 import { Link } from 'react-router-dom';
 import LogoScreen from '../logo/logo';
+import HeaderUserScreen from '../header-user/header-user';
 import PreviewPlayerScreen from '../preview-player/preview-player';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
@@ -70,16 +71,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
         <header className="page-header film-card__head">
           <LogoScreen/>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link" href="/">Sign out</a>
-            </li>
-          </ul>
+          <HeaderUserScreen/>
         </header>
 
         <div className="film-card__wrap">

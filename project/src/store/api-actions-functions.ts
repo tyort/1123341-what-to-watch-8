@@ -5,7 +5,7 @@ import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
-import { loadComments, loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
+import { loadComments, loadDataUser, loadMovies, redirectToRoute, setAuthStatus } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -31,7 +31,8 @@ export const postCommentAction = (movieId: number, rating: number, comment: stri
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
-      await api.get(APIRoute.Login);
+      const serverResponse = await api.get(APIRoute.Login);
+      dispatch(loadDataUser(serverResponse.data));
       dispatch(setAuthStatus(AuthorizationStatus.Auth));
 
     } catch(errStatus) {
@@ -45,8 +46,9 @@ export const checkAuthAction = (): ThunkActionResult =>
 export const loginAction = ({email, password}: User): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     // data аналогично AuthInfo;
-    const {data: {token}} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    dispatch(loadDataUser(data));
     dispatch(setAuthStatus(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.Main));
   };

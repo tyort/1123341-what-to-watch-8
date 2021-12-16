@@ -14,6 +14,7 @@ const initialState = {
   isBtnShow: true,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  currentUser: null,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -61,6 +62,9 @@ const reducer = (state: State = initialState, action: Actions): State => {
         isBtnShow,
       };
     }
+
+    case ActionName.LoadDataUser:
+      return {...state, currentUser: action.payload};
 
     default:
       return state;

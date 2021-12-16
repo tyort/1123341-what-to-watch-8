@@ -1,4 +1,5 @@
 import LogoScreen from '../logo/logo';
+import HeaderUserScreen from '../header-user/header-user';
 
 type AddReviewScreenProps = {
   renderRating: (movieId: number) => JSX.Element;
@@ -31,16 +32,7 @@ function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
             </ul>
           </nav>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a href="/" className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <HeaderUserScreen/>
         </header>
 
         <div className="film-card__poster film-card__poster--small">

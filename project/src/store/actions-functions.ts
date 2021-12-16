@@ -2,6 +2,7 @@ import { AuthorizationStatus } from '../const';
 import {ActionName} from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
+import { AuthInfo } from '../types/user';
 
 // Функция возращает объект(действие)
 export const changeGenre = (genre: string) => ({
@@ -28,6 +29,11 @@ export const loadComments = (comments: Comment[]) => ({
 export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
   type: ActionName.SetAuthStatus,
   payload: authStatus,
+} as const);
+
+export const loadDataUser = (userData: AuthInfo) => ({
+  type: ActionName.LoadDataUser,
+  payload: userData,
 } as const);
 
 // Это действие для middleware, там мы его связываем с объектом "history";

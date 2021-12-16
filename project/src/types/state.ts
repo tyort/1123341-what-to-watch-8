@@ -1,6 +1,7 @@
 import { AuthorizationStatus } from '../const';
 import { Movie } from './movie';
 import { Comment } from './comment';
+import { AuthInfo } from './user';
 
 export type State = {
   filteredMovies: Movie[],
@@ -11,4 +12,5 @@ export type State = {
   isBtnShow: boolean,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  currentUser: AuthInfo | null,
 };

@@ -6,6 +6,9 @@ import { NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 import MovieNavScreen from '../movie-nav/movie-nav';
+import HeaderUserScreen from '../header-user/header-user';
+
+const FOOTER_AS_WORD = 'footer';
 
 type MovieScreenprops = RouteProps & {
   movie: Movie;
@@ -28,16 +31,7 @@ function MovieScreen({movie}: MovieScreenprops): JSX.Element {
           <header className="page-header film-card__head">
             <LogoScreen/>
 
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link" href="/">Sign out</a>
-              </li>
-            </ul>
+            <HeaderUserScreen/>
           </header>
 
           <div className="film-card__wrap">
@@ -148,13 +142,7 @@ function MovieScreen({movie}: MovieScreenprops): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <LogoScreen place={FOOTER_AS_WORD}/>
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
