@@ -31,7 +31,7 @@ export const setAuthStatus = (authStatus: AuthorizationStatus) => ({
   payload: authStatus,
 } as const);
 
-export const loadDataUser = (userData: AuthInfo) => ({
+export const loadDataUser = (userData: AuthInfo | null) => ({
   type: ActionName.LoadDataUser,
   payload: userData,
 } as const);

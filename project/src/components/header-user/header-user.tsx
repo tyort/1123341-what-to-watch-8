@@ -1,6 +1,9 @@
+import {MouseEvent} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import { logoutAction } from '../../store/api-actions-functions';
+import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
 const mapStateToProps = ({authorizationStatus, currentUser}: State) => ({
@@ -8,11 +11,22 @@ const mapStateToProps = ({authorizationStatus, currentUser}: State) => ({
   currentUser,
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onUserLogout() {
+    dispatch(logoutAction());
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
 function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, currentUser} = props;
+  const {authorizationStatus, currentUser, onUserLogout} = props;
+
+  const handleLinkClick = (evt: MouseEvent<HTMLAnchorElement>): void => {
+    evt.preventDefault();
+    onUserLogout();
+  };
 
   switch (authorizationStatus) {
     case AuthorizationStatus.Auth:
@@ -24,14 +38,20 @@ function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
             </div>
           </li>
           <li className="user-block__item">
-            <Link className="user-block__link" to="/">Sign out</Link>
+            <Link
+              className="user-block__link"
+              to={AppRoute.Main}
+              onClick={handleLinkClick}
+            >
+              Sign out
+            </Link>
           </li>
         </ul>
       );
     default:
       return (
         <div className="user-block">
-          <Link to="/" className="user-block__link">Sign in</Link>
+          <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
         </div>
       );
   }

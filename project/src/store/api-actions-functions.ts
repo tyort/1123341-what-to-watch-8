@@ -54,13 +54,15 @@ export const loginAction = ({email, password}: User): ThunkActionResult =>
   };
 
 
-// export const logoutAction = (): ThunkActionResult =>
-//   async (dispatch, _getState, api) => {
-//     try {
-//       const sadasd = await api.delete(APIRoute.Logout);
-//       console.log(sadasd);
+export const logoutAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      await api.delete(APIRoute.Logout);
+      api.delete(APIRoute.Logout);
+      dispatch(loadDataUser(null));
+      dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
 
-//     } catch(errStatus) {
-//       console.log(errStatus);
-//     }
-//   };
+    } catch(errStatus) {
+      console.log(errStatus);
+    }
+  };
