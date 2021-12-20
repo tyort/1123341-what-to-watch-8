@@ -60,6 +60,17 @@ export const loginAction = ({email, password}: User): ThunkActionResult =>
     dispatch(redirectToRoute(AppRoute.Main));
   };
 
+export const changeFavoriteAction = (movieId: number, isFavorite: number): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    try {
+      const {data} = await api.post(`${APIRoute.Favorite}/${movieId}/${isFavorite}`);
+      dispatch(loadPromo(data));
+
+    } catch(errStatus) {
+      console.log(errStatus);
+    }
+  };
+
 
 export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {

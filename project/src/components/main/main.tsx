@@ -8,9 +8,11 @@ import PreviewPlayerScreen from '../preview-player/preview-player';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
 import { Dispatch } from 'redux';
-import { Actions } from '../../types/action';
+import { Actions, ThunkAppDispatch } from '../../types/action';
 import { changeGenre } from '../../store/actions-functions';
 import { State } from '../../types/state';
+import { APIRoute } from '../../const';
+import { changeFavoriteAction } from '../../store/api-actions-functions';
 
 const FOOTER_AS_WORD = 'footer';
 
@@ -31,10 +33,14 @@ const mapStateToProps = (props: State) => {
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
 // Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => ({
   // вызов в компоненте onGenreChange --> диспатчит changeGenre.
   onGenreChange(genre: string) {
-    dispatch(changeGenre(genre));
+    (dispatch as Dispatch<Actions>)(changeGenre(genre));
+  },
+
+  onFavoriteChange(movieId: number, isFavorite: number) {
+    (dispatch as ThunkAppDispatch)(changeFavoriteAction(movieId, isFavorite));
   },
 });
 
@@ -45,7 +51,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const {onGenreChange, genre, filteredMovies, isBtnShow, promo} = props;
+  const {onGenreChange, onFavoriteChange, genre, filteredMovies, isBtnShow, promo} = props;
   const bgColor = promo?.background_color;
 
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
@@ -101,7 +107,11 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={() => !promo?.is_favorite && onFavoriteChange(promo?.id as number, 1)}
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -141,7 +151,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
                     />
                   </div>
                   <h3 className="small-film-card__title">
-                    <Link className="small-film-card__link" to={`/films/${id}`}>{name}</Link>
+                    <Link className="small-film-card__link" to={`${APIRoute.Movies}/${id}`}>{name}</Link>
                   </h3>
                 </article>
               );
