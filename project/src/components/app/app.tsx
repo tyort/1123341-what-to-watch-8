@@ -19,10 +19,11 @@ type AppScreenProps = {
 
 }
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded, AllMovies}: State) => ({
+const mapStateToProps = ({authorizationStatus, isDataLoaded, AllMovies, promo}: State) => ({
   authorizationStatus,
   isDataLoaded,
   AllMovies,
+  promo,
 });
 
 const connector = connect(mapStateToProps);
@@ -48,7 +49,7 @@ type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 const AddReviewScreenWrapped = WithRating(AddReviewScreen);
 
 function AppScreen(props: ConnectedComponentProps): JSX.Element {
-  const {authorizationStatus, isDataLoaded, AllMovies} = props;
+  const {authorizationStatus, isDataLoaded, AllMovies, promo} = props;
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
     return (
@@ -78,9 +79,9 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
             authorizationStatus={authorizationStatus}
           />
         ))}
-        <Route exact path={AppRoute.Player}>
+        <Route exact path={`${AppRoute.Player}/${promo?.id as number}`}>
           <PlayerScreen
-            src={'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4'}
+            src={promo?.preview_video_link as string}
             autoPlay={false}
           />
         </Route>

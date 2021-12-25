@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import {MouseEvent, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
 import PreviewPlayerScreen from '../preview-player/preview-player';
@@ -11,7 +11,7 @@ import { Dispatch } from 'redux';
 import { Actions, ThunkAppDispatch } from '../../types/action';
 import { changeGenre } from '../../store/actions-functions';
 import { State } from '../../types/state';
-import { APIRoute } from '../../const';
+import { APIRoute, AppRoute } from '../../const';
 import { changeFavoriteAction } from '../../store/api-actions-functions';
 
 const FOOTER_AS_WORD = 'footer';
@@ -54,6 +54,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
   const {onGenreChange, onFavoriteChange, genre, filteredMovies, isBtnShow, promo} = props;
   const bgColor = promo?.background_color;
 
+  const history = useHistory();
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
   const [isPlaying, setPlayingStatus] = useState<boolean>(false);
 
@@ -101,7 +102,11 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={() => history.push(`${AppRoute.Player}/${promo?.id as number}`)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -134,7 +139,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
 
           <div className="catalog__films-list">
             {filteredMovies.map((movie) => {
-              const {id, name, preview_image} = movie;
+              const {id, name} = movie;
               return (
                 <article
                   key={id}
@@ -145,8 +150,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
                 >
                   <div className="small-film-card__image">
                     <PreviewPlayerScreen
-                      src={'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm'}
-                      poster={preview_image}
+                      movie={movie}
                       isPlaying={id === activeCardId && isPlaying}
                     />
                   </div>

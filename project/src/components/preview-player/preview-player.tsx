@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
 import { useEffect, useRef, useState } from 'react';
+import { Movie } from '../../types/movie';
 
 type PreviewPlayerScreenProps = {
-  src: string; // передаем путь к фильму
-  poster: string;
+  movie: Movie;
   isPlaying: boolean;
 }
 
 function PreviewPlayerScreen(props: PreviewPlayerScreenProps): JSX.Element {
-  const {src, poster, isPlaying} = props;
+  const {isPlaying, movie} = props;
   const [isLoading, setIsLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -23,7 +23,7 @@ function PreviewPlayerScreen(props: PreviewPlayerScreenProps): JSX.Element {
         videoRef.current = null;
       }
     };
-  }, [src]);
+  }, [movie]);
 
   useEffect(() => {
     if (videoRef.current !== null && !isLoading) {
@@ -35,14 +35,14 @@ function PreviewPlayerScreen(props: PreviewPlayerScreenProps): JSX.Element {
 
   return (
     <video
-      poster={poster}
+      poster={movie.preview_image}
       ref={videoRef}
       width="280"
       height="175"
       loop
       muted
     >
-      <source src={src} type="video/webm"/>
+      <source src={movie.preview_video_link} type="video/webm"/>
     </video>
   );
 }

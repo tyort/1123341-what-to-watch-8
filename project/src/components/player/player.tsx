@@ -45,9 +45,9 @@ function PlayerScreen(props: PlayerScreenProps): JSX.Element {
       <video
         src={src}
         className="player__video"
-        poster="img/player-poster.jpg"
         ref={videoRef}
       >
+        <source src={src} type="video/webm"/>
       </video>
 
       <button type="button" className="player__exit">Exit</button>
