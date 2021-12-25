@@ -44,19 +44,6 @@ export const months = new Map([
   [11, 'December'],
 ]);
 
-export const genres = new Map([
-  ['All', 'All genres'],
-  ['Comedy', 'Comedies'],
-  ['Crime', 'Crime'],
-  ['Documentary', 'Documentary'],
-  ['Drama', 'Dramas'],
-  ['Horror', 'Horror'],
-  ['Family', 'Kids & Family'],
-  ['Romance', 'Romance'],
-  ['Sci-Fi', 'Sci-Fi'],
-  ['Thriller', 'Thrillers'],
-]);
-
 export const getRatingLevel = (rating: number): string => {
   if (rating >=0 && rating < 3) {
     return 'Bad';

@@ -1,14 +1,14 @@
 import {MouseEvent} from 'react';
 import { Link } from 'react-router-dom';
-import {genres} from '../../const';
 
 type AllGenresScreenProps = {
+  allGenres: string[];
   currentGenre: string;
   onGenreChange: (genre: string) => void
 }
 
 function AllGenresScreen(props: AllGenresScreenProps): JSX.Element {
-  const {currentGenre, onGenreChange} = props;
+  const {currentGenre, onGenreChange, allGenres} = props;
 
   const handleGenreClick = (evt: MouseEvent<HTMLLIElement>) => {
     evt.preventDefault();
@@ -19,13 +19,13 @@ function AllGenresScreen(props: AllGenresScreenProps): JSX.Element {
 
   return (
     <ul className="catalog__genres-list">
-      {[...genres].map((genre) => (
+      {allGenres.map((genre) => (
         <li
-          key={genre[1]}
-          className={`catalog__genres-item ${currentGenre === genre[1] && 'catalog__genres-item--active'}`}
+          key={genre}
+          className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}
           onClick={handleGenreClick}
         >
-          <Link to="/" className="catalog__genres-link">{genre[1]}</Link>
+          <Link to="/" className="catalog__genres-link">{genre}</Link>
         </li>
       ))}
     </ul>

@@ -22,9 +22,10 @@ type MainScreenProps = {
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
 const mapStateToProps = (props: State) => {
-  const {genre, filteredMovies, isBtnShow, promo} = props;
+  const {genre, filteredMovies, isBtnShow, promo, allGenres} = props;
   return {
     genre,
+    allGenres,
     filteredMovies,
     isBtnShow,
     promo,
@@ -51,7 +52,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
 function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const {onGenreChange, onFavoriteChange, genre, filteredMovies, isBtnShow, promo} = props;
+  const {onGenreChange, onFavoriteChange, genre, filteredMovies, isBtnShow, promo, allGenres} = props;
   const bgColor = promo?.background_color;
 
   const history = useHistory();
@@ -133,6 +134,7 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <AllGenresScreen
+            allGenres={allGenres}
             currentGenre={genre}
             onGenreChange={onGenreChange}
           />
