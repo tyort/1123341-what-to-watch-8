@@ -7,7 +7,7 @@ const INITIAL_MOVIES_COUNT = 8;
 
 const initialState = {
   filteredMovies: [],
-  AllMovies: [],
+  allMovies: [],
   promo: null,
   comments: [],
   genre: INITIAL_GENRE,
@@ -28,14 +28,14 @@ const reducer = (state: State = initialState, action: Actions): State => {
 
     case ActionName.LoadMovies: {
       const filteredMovies = action.payload.slice(0, state.moviesCount);
-      return {...state, AllMovies: action.payload, filteredMovies, isDataLoaded: true};
+      return {...state, allMovies: action.payload, filteredMovies, isDataLoaded: true};
     }
 
     case ActionName.LoadComments:
       return {...state, comments: action.payload};
 
     case ActionName.ChangeGenre: {
-      const AllfilteredMovies = state.AllMovies.filter((film) => (
+      const AllfilteredMovies = state.allMovies.filter((film) => (
         action.payload !== INITIAL_GENRE ? genres.get(film.genre) === action.payload : true
       ));
       const isBtnShow = AllfilteredMovies.length > state.moviesCount;
@@ -53,7 +53,7 @@ const reducer = (state: State = initialState, action: Actions): State => {
 
     case ActionName.IncreaseCount: {
       const moviesCount = state.moviesCount + INITIAL_MOVIES_COUNT;
-      const AllfilteredMovies = state.AllMovies.filter((film) => (
+      const AllfilteredMovies = state.allMovies.filter((film) => (
         state.genre !== INITIAL_GENRE ? genres.get(film.genre) === state.genre : true
       ));
       const isBtnShow = AllfilteredMovies.length > moviesCount;
