@@ -8,6 +8,7 @@ const INITIAL_MOVIES_COUNT = 8;
 const initialState = {
   filteredMovies: [],
   allMovies: [],
+  similarMovies: [],
   allGenres: [],
   promo: null,
   comments: [],
@@ -65,6 +66,9 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const filteredMovies = state.allMovies.slice(0, INITIAL_MOVIES_COUNT);
       return {...state, moviesCount: INITIAL_MOVIES_COUNT, filteredMovies, isBtnShow, genre: INITIAL_GENRE};
     }
+
+    case ActionName.LoadSimilar:
+      return {...state, similarMovies: action.payload.slice(0, 4)};
 
     default:
       return state;

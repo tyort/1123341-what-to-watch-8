@@ -21,6 +21,7 @@ export enum APIRoute {
   Comments = '/comments',
   Promo = '/promo',
   Favorite = '/favorite',
+  PostfixSimilar = 'similar',
 }
 
 export enum NavigationItemTitle {

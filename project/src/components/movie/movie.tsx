@@ -1,29 +1,54 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, RouteProps } from 'react-router-dom';
 import { NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 import MovieNavScreen from '../movie-nav/movie-nav';
 import HeaderUserScreen from '../header-user/header-user';
+import { State } from '../../types/state';
+import { ThunkAppDispatch } from '../../types/action';
+import { fetchSimilarAction } from '../../store/api-actions-functions';
+import { connect, ConnectedProps } from 'react-redux';
+import FilmCardScreen from '../film-card/film-card';
 
 const FOOTER_AS_WORD = 'footer';
 
-type MovieScreenprops = RouteProps & {
+type MovieScreenProps = RouteProps & {
   movie: Movie;
 }
 
-function MovieScreen({movie}: MovieScreenprops): JSX.Element {
-  const {name, genre, released, poster_image} = movie;
+const mapStateToProps = ({similarMovies}: State) => ({
+  similarMovies,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSimilarUpload(movieId: number) {
+    dispatch(fetchSimilarAction(movieId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MovieScreenProps;
+
+function MovieScreen({movie, onSimilarUpload, similarMovies}: ConnectedComponentProps): JSX.Element {
+  const { name, genre, released, poster_image, background_image, background_color} = movie;
   const [navItemName, setNavItemName] = useState<string>('Overview');
+
+  useEffect(() => {
+    onSimilarUpload(movie.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movie]);
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{background: background_color}}>
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={poster_image} alt={name} />
+            <img src={background_image} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -103,41 +128,9 @@ function MovieScreen({movie}: MovieScreenprops): JSX.Element {
           <h2 className="catalog__title">More like this</h2>
 
           <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
-              </h3>
-            </article>
+            <FilmCardScreen
+              movies={similarMovies}
+            />
           </div>
         </section>
 
@@ -153,6 +146,5 @@ function MovieScreen({movie}: MovieScreenprops): JSX.Element {
   );
 }
 
-export default MovieScreen;
-
-
+export {MovieScreen}; // поможет при тестировании
+export default connector(MovieScreen); // Связываем наш React-компонент с Redux
