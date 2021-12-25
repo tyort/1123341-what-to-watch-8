@@ -16,6 +16,10 @@ export const increaseMoviesCount = () => ({
   type: ActionName.IncreaseCount,
 } as const);
 
+export const defaultMoviesCount = () => ({
+  type: ActionName.DefaultMoviesCount,
+} as const);
+
 export const loadMovies = (movies: Movie[]) => ({
   type: ActionName.LoadMovies,
   payload: movies,
