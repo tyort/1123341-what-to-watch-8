@@ -1,24 +1,19 @@
 /* eslint-disable camelcase */
-import {MouseEvent, useState} from 'react';
 import {connect, ConnectedProps} from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
-import PreviewPlayerScreen from '../preview-player/preview-player';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
 import { Dispatch } from 'redux';
 import { Actions, ThunkAppDispatch } from '../../types/action';
-import { changeGenre } from '../../store/actions-functions';
 import { State } from '../../types/state';
-import { APIRoute, AppRoute } from '../../const';
+import { AppRoute } from '../../const';
+import { changeGenre, defaultMoviesCount } from '../../store/actions-functions';
 import { changeFavoriteAction } from '../../store/api-actions-functions';
+import FilmCardScreen from '../film-card/film-card';
 
 const FOOTER_AS_WORD = 'footer';
-
-type MainScreenProps = {
-
-}
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
 const mapStateToProps = (props: State) => {
@@ -40,6 +35,10 @@ const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => (
     (dispatch as Dispatch<Actions>)(changeGenre(genre));
   },
 
+  onMoviesCountDefault() {
+    (dispatch as Dispatch<Actions>)(defaultMoviesCount());
+  },
+
   onFavoriteChange(movieId: number, isFavorite: number) {
     (dispatch as ThunkAppDispatch)(changeFavoriteAction(movieId, isFavorite));
   },
@@ -49,30 +48,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 // ConnectedProps - типизируем пропсы, которые получились при присоединении redux.
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainScreenProps;
 
-function MainScreen(props: ConnectedComponentProps): JSX.Element {
-  const {onGenreChange, onFavoriteChange, genre, filteredMovies, isBtnShow, promo, allGenres} = props;
+function MainScreen(props: PropsFromRedux): JSX.Element {
+  const {onGenreChange, onFavoriteChange, onMoviesCountDefault, genre, filteredMovies, isBtnShow, promo, allGenres} = props;
   const bgColor = promo?.background_color;
-
   const history = useHistory();
-  const [activeCardId, setActiveCardId] = useState<null | number>(null);
-  const [isPlaying, setPlayingStatus] = useState<boolean>(false);
-
-  let timer: NodeJS.Timeout | null = null ;
-
-  const handleArticleHover = (evt: MouseEvent<HTMLElement>): void => {
-    evt.preventDefault();
-
-    if (evt.type === 'mouseenter') {
-      setActiveCardId(Number(evt.currentTarget.dataset.id));
-      timer = setTimeout(() => setPlayingStatus(true), 1000);
-    } else if (evt.type === 'mouseleave') {
-      setActiveCardId(null);
-      setPlayingStatus(false);
-      clearTimeout(timer as NodeJS.Timeout);
-    }
-  };
 
   return (
     <>
@@ -106,7 +86,10 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
                 <button
                   className="btn btn--play film-card__button"
                   type="button"
-                  onClick={() => history.push(`${AppRoute.Player}/${promo?.id as number}`)}
+                  onClick={() => {
+                    onMoviesCountDefault();
+                    history.push(`${AppRoute.Player}/${promo?.id as number}`);
+                  }}
                 >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
@@ -140,28 +123,9 @@ function MainScreen(props: ConnectedComponentProps): JSX.Element {
           />
 
           <div className="catalog__films-list">
-            {filteredMovies.map((movie) => {
-              const {id, name} = movie;
-              return (
-                <article
-                  key={id}
-                  data-id={id}
-                  className="small-film-card catalog__films-card"
-                  onMouseEnter={handleArticleHover}
-                  onMouseLeave={handleArticleHover}
-                >
-                  <div className="small-film-card__image">
-                    <PreviewPlayerScreen
-                      movie={movie}
-                      isPlaying={id === activeCardId && isPlaying}
-                    />
-                  </div>
-                  <h3 className="small-film-card__title">
-                    <Link className="small-film-card__link" to={`${APIRoute.Movies}/${id}`}>{name}</Link>
-                  </h3>
-                </article>
-              );
-            })}
+            <FilmCardScreen
+              movies={filteredMovies}
+            />
           </div>
 
           {isBtnShow && <ShowMoreScreen/>}
