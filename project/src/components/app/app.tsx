@@ -81,7 +81,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
         ))}
         <Route exact path={`${AppRoute.Player}/${promo?.id as number}`}>
           <PlayerScreen
-            src={promo?.preview_video_link as string}
+            src={promo?.video_link as string}
             autoPlay={false}
           />
         </Route>
