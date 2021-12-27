@@ -7,6 +7,7 @@ const INITIAL_MOVIES_COUNT = 8;
 
 const initialState = {
   filteredMovies: [],
+  favoriteMovies: [],
   allMovies: [],
   similarMovies: [],
   allGenres: [],
@@ -38,6 +39,9 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const allGenres = [INITIAL_GENRE, ...new Set(allMovies.map((film) => film.genre))];
       return {...state, allMovies, filteredMovies, allGenres, isDataLoaded: true};
     }
+
+    case ActionName.LoadFavorites:
+      return {...state, favoriteMovies: action.payload};
 
     case ActionName.LoadComments:
       return {...state, comments: action.payload};

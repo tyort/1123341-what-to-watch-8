@@ -6,7 +6,7 @@ import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
 import { loadComments, loadDataUser, loadMovies, loadPromo,
-  failPostComment, redirectToRoute, setAuthStatus, loadSimilar } from './actions-functions';
+  failPostComment, redirectToRoute, setAuthStatus, loadSimilar, loadFavorites } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -15,6 +15,12 @@ export const fetchMoviesAction = (): ThunkActionResult =>
     // Почему то дженерик подходит по типу не для константы, а для свйоства "data"
     const {data} = await api.get<Movie[]>(APIRoute.Movies);
     dispatch(loadMovies(data));
+  };
+
+export const fetchFavoritesAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Movie[]>(APIRoute.Favorite);
+    dispatch(loadFavorites(data));
   };
 
 export const fetchSimilarAction = (movieId: number): ThunkActionResult =>

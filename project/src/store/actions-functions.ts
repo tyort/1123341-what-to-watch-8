@@ -25,6 +25,11 @@ export const loadMovies = (movies: Movie[]) => ({
   payload: movies,
 } as const);
 
+export const loadFavorites = (movies: Movie[]) => ({
+  type: ActionName.LoadFavorites,
+  payload: movies,
+} as const);
+
 export const loadSimilar = (movies: Movie[]) => ({
   type: ActionName.LoadSimilar,
   payload: movies,
