@@ -75,7 +75,7 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
             key={movie.id}
             exact
             path={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}
-            render={() => <AddReviewScreenWrapped movieId={movie.id}/>}
+            render={() => <AddReviewScreenWrapped movie={movie}/>}
             authorizationStatus={authorizationStatus}
           />
         ))}

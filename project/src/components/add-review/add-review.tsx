@@ -1,19 +1,20 @@
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
+import { Movie } from '../../types/movie';
 
 type AddReviewScreenProps = {
   renderRating: (movieId: number) => JSX.Element;
-  movieId: number;
+  movie: Movie;
 }
 
 function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
-  const {renderRating, movieId} = props;
+  const {renderRating, movie} = props;
 
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={movie.background_image} alt={movie.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -24,7 +25,7 @@ function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <a href="film-page.html" className="breadcrumbs__link">{movie.name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a href="/" className="breadcrumbs__link">Add review</a>
@@ -36,12 +37,12 @@ function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <img src={movie.poster_image} alt={movie.name} width="218" height="327" />
         </div>
       </div>
 
       <div className="add-review">
-        {renderRating(movieId)}
+        {renderRating(movie.id)}
       </div>
 
     </section>
