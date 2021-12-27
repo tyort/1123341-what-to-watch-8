@@ -50,6 +50,11 @@ export const loadDataUser = (userData: AuthInfo | null) => ({
   payload: userData,
 } as const);
 
+export const failPostComment = (isFailed: boolean) => ({
+  type: ActionName.FailPostComment,
+  payload: isFailed,
+} as const);
+
 // Это действие для middleware, там мы его связываем с объектом "history";
 export const redirectToRoute = (url: string) => ({
   type: ActionName.RedirectToRoute,

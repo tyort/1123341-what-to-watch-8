@@ -16,4 +16,5 @@ export type State = {
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
   currentUser: AuthInfo | null,
+  isPostCommentFailed: boolean,
 };

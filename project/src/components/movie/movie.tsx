@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 import { useEffect, useState } from 'react';
 import { Link, RouteProps } from 'react-router-dom';
-import { NavigationItemTitle } from '../../const';
+import { AppRoute, AuthorizationStatus, NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 import MovieNavScreen from '../movie-nav/movie-nav';
@@ -19,8 +19,9 @@ type MovieScreenProps = RouteProps & {
   movie: Movie;
 }
 
-const mapStateToProps = ({similarMovies}: State) => ({
+const mapStateToProps = ({similarMovies, authorizationStatus}: State) => ({
   similarMovies,
+  authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -34,7 +35,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MovieScreenProps;
 
-function MovieScreen({movie, onSimilarUpload, similarMovies}: ConnectedComponentProps): JSX.Element {
+function MovieScreen({movie, onSimilarUpload, similarMovies, authorizationStatus}: ConnectedComponentProps): JSX.Element {
   const { name, genre, released, poster_image, background_image, background_color} = movie;
   const [navItemName, setNavItemName] = useState<string>('Overview');
 
@@ -80,7 +81,14 @@ function MovieScreen({movie, onSimilarUpload, similarMovies}: ConnectedComponent
                   </svg>
                   <span>My list</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                {authorizationStatus === AuthorizationStatus.Auth
+                  &&
+                <Link
+                  to={`${AppRoute.Films}/${movie.id}/${AppRoute.PostfixReview}`}
+                  className="btn film-card__button"
+                >
+                  Add review
+                </Link>}
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AxiosInstance } from 'axios';
-import {changeGenre, increaseMoviesCount, loadMovies, loadDataUser, setAuthStatus,
+import {changeGenre, increaseMoviesCount, loadMovies, loadDataUser, setAuthStatus, failPostComment,
   redirectToRoute, loadComments, loadPromo, defaultMoviesCount, loadSimilar} from '../store/actions-functions';
 import { State } from './state';
 
@@ -15,6 +15,7 @@ export enum ActionName {
   LoadPromo = 'movies/loadPromo',
   DefaultMoviesCount = 'movies/defaultMoviesCount',
   LoadSimilar = 'currentMovie/loadSimilar',
+  FailPostComment = 'currentMovie/failPostComment',
 }
 
 // ReturnType - получить тип, который возвращает функция. Лучше чем просто "typeof функция".
@@ -30,6 +31,7 @@ export type Actions =
   | ReturnType<typeof loadPromo>
   | ReturnType<typeof defaultMoviesCount>
   | ReturnType<typeof loadSimilar>
+  | ReturnType<typeof failPostComment>
 
 // R - это тип для возвращаемого значения в типе ThunkActionResult (по умолчанию Promise<void>),
 // Единственный тип(дженерик), который мы будем передавать для конкретной функции в api-actions-functions при использовании ThunkActionResult;

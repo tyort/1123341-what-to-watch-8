@@ -5,7 +5,8 @@ import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
-import { loadComments, loadDataUser, loadMovies, loadPromo, redirectToRoute, setAuthStatus, loadSimilar } from './actions-functions';
+import { loadComments, loadDataUser, loadMovies, loadPromo,
+  failPostComment, redirectToRoute, setAuthStatus, loadSimilar } from './actions-functions';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -36,9 +37,16 @@ export const fetchCommentsAction = (movieId: number): ThunkActionResult =>
 
 export const postCommentAction = (movieId: number, rating: number, comment: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${movieId}`, {rating, comment});
-    dispatch(loadComments(data));
-    dispatch(redirectToRoute(`${AppRoute.Films}/${movieId}`));
+    try {
+      const {data} = await api.post<Comment[]>(`${APIRoute.Comments}/${movieId}`, {rating, comment});
+      dispatch(loadComments(data));
+      dispatch(redirectToRoute(`${AppRoute.Films}/${movieId}`));
+
+    } catch(errStatus) {
+      // errStatus === undefined -> при отсутствиии интернета;
+      //               404       -> если неправильный путь;
+      dispatch(failPostComment(true));
+    }
   };
 
 export const checkAuthAction = (): ThunkActionResult =>

@@ -17,11 +17,15 @@ const initialState = {
   isBtnShow: true,
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
+  isPostCommentFailed: false,
   currentUser: null,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
+    case ActionName.FailPostComment:
+      return {...state, isPostCommentFailed: action.payload};
+
     case ActionName.LoadPromo:
       return {...state, promo: action.payload};
 
