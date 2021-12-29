@@ -9,7 +9,7 @@ import MovieNavScreen from '../movie-nav/movie-nav';
 import HeaderUserScreen from '../header-user/header-user';
 import { State } from '../../types/state';
 import { ThunkAppDispatch } from '../../types/action';
-import { fetchSimilarAction } from '../../store/api-actions-functions';
+import { changeFavoriteAction, fetchSimilarAction } from '../../store/api-actions-functions';
 import { connect, ConnectedProps } from 'react-redux';
 import FilmCardScreen from '../film-card/film-card';
 
@@ -28,6 +28,10 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onSimilarUpload(movieId: number) {
     dispatch(fetchSimilarAction(movieId));
   },
+
+  onFavoriteChange(movieId: number, isFavorite: number) {
+    dispatch(changeFavoriteAction(movieId, isFavorite));
+  },
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -35,7 +39,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MovieScreenProps;
 
-function MovieScreen({movie, onSimilarUpload, similarMovies, authorizationStatus}: ConnectedComponentProps): JSX.Element {
+function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, authorizationStatus}: ConnectedComponentProps): JSX.Element {
   const { name, genre, released, poster_image, background_image, background_color} = movie;
   const [navItemName, setNavItemName] = useState<string>('Overview');
 
@@ -75,9 +79,13 @@ function MovieScreen({movie, onSimilarUpload, similarMovies, authorizationStatus
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button
+                  className="btn btn--list film-card__button"
+                  type="button"
+                  onClick={() => onFavoriteChange(movie.id as number, Number(!movie.is_favorite))}
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    <use xlinkHref={movie.is_favorite ? '#in-list' : '#add'}></use>
                   </svg>
                   <span>My list</span>
                 </button>

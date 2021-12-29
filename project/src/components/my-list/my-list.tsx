@@ -9,8 +9,8 @@ import FilmCardScreen from '../film-card/film-card';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = ({favoriteMovies}: State) => ({
-  favoriteMovies,
+const mapStateToProps = ({allMovies}: State) => ({
+  favoriteMovies: allMovies.filter((film) => film.is_favorite),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

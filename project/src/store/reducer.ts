@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {ActionName, Actions} from '../types/action';
 import {State} from '../types/state';
 import {AuthorizationStatus} from '../const';
@@ -7,7 +8,6 @@ const INITIAL_MOVIES_COUNT = 8;
 
 const initialState = {
   filteredMovies: [],
-  favoriteMovies: [],
   allMovies: [],
   similarMovies: [],
   allGenres: [],
@@ -40,8 +40,13 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, allMovies, filteredMovies, allGenres, isDataLoaded: true};
     }
 
-    case ActionName.LoadFavorites:
-      return {...state, favoriteMovies: action.payload};
+    case ActionName.LoadFavorites: {
+      const allMovies = state.allMovies.map((film) => (
+        action.payload.find((favoriteMovie) => favoriteMovie.id === film.id) ?? film
+      ));
+      const promo = allMovies.find((movie) => movie.id === state.promo?.id) || state.promo;
+      return {...state, allMovies, promo};
+    }
 
     case ActionName.LoadComments:
       return {...state, comments: action.payload};

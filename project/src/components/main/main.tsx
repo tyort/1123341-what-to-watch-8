@@ -99,10 +99,10 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
-                  onClick={() => !promo?.is_favorite && onFavoriteChange(promo?.id as number, 1)}
+                  onClick={() => onFavoriteChange(promo?.id as number, Number(!promo?.is_favorite))}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    <use xlinkHref={promo?.is_favorite ? '#in-list' : '#add'}></use>
                   </svg>
                   <span>My list</span>
                 </button>
