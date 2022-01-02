@@ -69,3 +69,4 @@ export const getFilmDuration = (duration: number): string => {
   }
 };
 
+export const passPattern = /^(?=.*[A-Za-z])(?=.*\d)/i;

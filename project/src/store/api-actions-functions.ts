@@ -72,12 +72,17 @@ export const checkAuthAction = (): ThunkActionResult =>
 
 export const loginAction = ({email, password}: User): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    // data аналогично AuthInfo;
-    const {data} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
-    saveToken(data.token);
-    dispatch(loadDataUser(data));
-    dispatch(setAuthStatus(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Main));
+    try {
+      // data аналогично AuthInfo;
+      const {data} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(loadDataUser(data));
+      dispatch(setAuthStatus(AuthorizationStatus.Auth));
+      dispatch(redirectToRoute(AppRoute.Main));
+
+    } catch(errStatus) {
+      console.log(errStatus);
+    }
   };
 
 export const changeFavoriteAction = (movieId: number, isFavorite: number): ThunkActionResult =>
