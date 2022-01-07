@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { useEffect, useState } from 'react';
-import { Link, RouteProps } from 'react-router-dom';
+import { Link, RouteProps, useHistory } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, NavigationItemTitle } from '../../const';
 import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
@@ -42,6 +42,7 @@ type ConnectedComponentProps = PropsFromRedux & MovieScreenProps;
 function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, authorizationStatus}: ConnectedComponentProps): JSX.Element {
   const { name, genre, released, poster_image, background_image, background_color} = movie;
   const [navItemName, setNavItemName] = useState<string>('Overview');
+  const history = useHistory();
 
   useEffect(() => {
     onSimilarUpload(movie.id);
@@ -73,7 +74,11 @@ function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, a
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button
+                  className="btn btn--play film-card__button"
+                  type="button"
+                  onClick={() => history.push(`${AppRoute.Player}/${movie.id}`)}
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
