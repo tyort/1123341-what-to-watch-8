@@ -49,7 +49,7 @@ type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 const AddReviewScreenWrapped = WithRating(AddReviewScreen);
 
 function AppScreen(props: ConnectedComponentProps): JSX.Element {
-  const {authorizationStatus, isDataLoaded, allMovies, promo} = props;
+  const {authorizationStatus, isDataLoaded, allMovies} = props;
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
     return (
@@ -79,16 +79,17 @@ function AppScreen(props: ConnectedComponentProps): JSX.Element {
             authorizationStatus={authorizationStatus}
           />
         ))}
-        <Route exact path={`${AppRoute.Player}/${promo?.id as number}`}>
-          <PlayerScreen
-            src={promo?.video_link as string}
-            autoPlay={false}
-          />
-        </Route>
+        {allMovies.map((movie) => (
+          <Route key={movie.id} exact path={`${AppRoute.Player}/${movie.id}`}>
+            <PlayerScreen
+              movie={movie}
+            />
+          </Route>
+        ))}
         <Route exact path={AppRoute.SignIn}>
           <SignInScreen/>
         </Route>
-        {/* PrivateRoute наша обертка над Route */}
+        {/* PrivateRoute наша обертка над Route (вместо Route) */}
         <PrivateRoute
           exact
           path={AppRoute.MyList}
