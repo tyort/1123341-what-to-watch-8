@@ -1,3 +1,7 @@
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+dayjs.extend(duration);
+
 export enum AppRoute {
   SignIn = '/login',
   MyList = '/mylist',
@@ -59,14 +63,19 @@ export const getRatingLevel = (rating: number): string => {
   }
 };
 
-export const getFilmDuration = (duration: number): string => {
-  if (duration < 60) {
-    return `${duration}m`;
-  } else if (duration > 60) {
-    return `${Math.trunc(duration / 60)}h ${duration % 60}m`;
+export const getFilmDuration = (filmDuration: number): string => {
+  if (filmDuration < 60) {
+    return `${filmDuration}m`;
+  } else if (filmDuration > 60) {
+    return `${Math.trunc(filmDuration / 60)}h ${filmDuration % 60}m`;
   } else {
     return '1h';
   }
 };
 
 export const passPattern = /^(?=.*[A-Za-z])(?=.*\d)/i;
+
+export const formatRemainingTime = (remainingTime: number): string => {
+  const format = remainingTime >= 3600 ? '-HH:mm:ss' : '-mm:ss';
+  return dayjs.duration(remainingTime, 'seconds').format(format);
+};
