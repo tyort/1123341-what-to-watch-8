@@ -5,7 +5,6 @@ import {configureStore} from '@reduxjs/toolkit'; // Можно убрать им
 import {rootReducer} from './store/root-reducer'; // на основании action меняет state в store.
 import ReactDOM from 'react-dom'; // для работы с web. Вместо него для разработки мобильных приложений можно использовать react-native.
 import App from './components/app/app';
-import { ThunkAppDispatch } from './types/action';
 import { checkAuthAction, fetchMoviesAction, fetchPromoAction } from './store/api-actions-functions';
 import { redirect } from './store/middlewares/redirect';
 
@@ -32,10 +31,8 @@ const store = configureStore({
 //
 // const store = createStore(
 //   reducer,
-
 //   // Добавит поддержку инструмента Redux DevTools (расширение для браузера).
 //   composeWithDevTools(
-
 //     // Регистрируем middlewares. Вместо параметра "api" мы можем передать все, что угодно.
 //     // так мы можем использовать api в асинхронной функции типа ThunkActionResult
 //     applyMiddleware(thunk.withExtraArgument(api)),
@@ -43,9 +40,9 @@ const store = configureStore({
 //   ),
 // );
 
-(store.dispatch as ThunkAppDispatch)(checkAuthAction());
-(store.dispatch as ThunkAppDispatch)(fetchMoviesAction());
-(store.dispatch as ThunkAppDispatch)(fetchPromoAction());
+store.dispatch(checkAuthAction());
+store.dispatch(fetchMoviesAction());
+store.dispatch(fetchPromoAction());
 
 ReactDOM.render(
   <React.StrictMode>
