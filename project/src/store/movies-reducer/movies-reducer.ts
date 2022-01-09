@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
-import {ActionName, Actions} from '../types/action';
-import {State} from '../types/state';
-import {AuthorizationStatus} from '../const';
+import {ActionName, Actions} from '../../types/action';
+import {MoviesState} from '../../types/state';
 
 const INITIAL_GENRE = 'All genres';
 const INITIAL_MOVIES_COUNT = 8;
@@ -12,26 +11,16 @@ const initialState = {
   similarMovies: [],
   allGenres: [],
   promo: null,
-  comments: [],
   genre: INITIAL_GENRE,
   moviesCount: INITIAL_MOVIES_COUNT,
   isBtnShow: true,
-  authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
-  isPostCommentFailed: false,
-  currentUser: null,
 };
 
-const reducer = (state: State = initialState, action: Actions): State => {
+export const moviesReducer = (state: MoviesState = initialState, action: Actions): MoviesState => {
   switch (action.type) {
-    case ActionName.FailPostComment:
-      return {...state, isPostCommentFailed: action.payload};
-
     case ActionName.LoadPromo:
       return {...state, promo: action.payload};
-
-    case ActionName.SetAuthStatus:
-      return {...state, authorizationStatus: action.payload};
 
     case ActionName.LoadMovies: {
       const allMovies = action.payload;
@@ -47,9 +36,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
       const promo = allMovies.find((movie) => movie.id === state.promo?.id) || state.promo;
       return {...state, allMovies, promo};
     }
-
-    case ActionName.LoadComments:
-      return {...state, comments: action.payload};
 
     case ActionName.ChangeGenre: {
       const AllfilteredMovies = state.allMovies.filter((film) => (
@@ -71,9 +57,6 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, moviesCount, filteredMovies, isBtnShow};
     }
 
-    case ActionName.LoadDataUser:
-      return {...state, currentUser: action.payload};
-
     case ActionName.DefaultMoviesCount: {
       const isBtnShow = state.allMovies.length > INITIAL_MOVIES_COUNT;
       const filteredMovies = state.allMovies.slice(0, INITIAL_MOVIES_COUNT);
@@ -87,5 +70,3 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return state;
   }
 };
-
-export {reducer};
