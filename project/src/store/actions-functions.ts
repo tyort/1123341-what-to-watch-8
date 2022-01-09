@@ -3,6 +3,7 @@ import {ActionName} from '../types/action';
 import { Movie } from '../types/movie';
 import { Comment } from '../types/comment';
 import { AuthInfo } from '../types/user';
+import { createAction } from '@reduxjs/toolkit';
 
 // Функция возращает объект(действие)
 export const changeGenre = (genre: string) => ({
@@ -12,18 +13,18 @@ export const changeGenre = (genre: string) => ({
 // Таким образом мы можем не типизировать возвращаемый результат(объект).
 } as const);
 
-export const increaseMoviesCount = () => ({
-  type: ActionName.IncreaseCount,
-} as const);
+// increaseMoviesCount - функция(создатель действия)
+// Особенность: increaseMoviesCount.toString() === 'movies/increaseCount'
+export const increaseMoviesCount = createAction(ActionName.IncreaseCount);
 
 export const defaultMoviesCount = () => ({
   type: ActionName.DefaultMoviesCount,
 } as const);
 
-export const loadMovies = (movies: Movie[]) => ({
-  type: ActionName.LoadMovies,
+export const loadMovies = createAction(ActionName.LoadMovies, (movies: Movie[]) => ({
   payload: movies,
-} as const);
+  // currentTime: new Date().getTime(), --> новое поле, просто как пример.
+}));
 
 export const loadFavorites = (movies: Movie[]) => ({
   type: ActionName.LoadFavorites,

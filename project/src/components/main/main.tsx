@@ -6,7 +6,7 @@ import HeaderUserScreen from '../header-user/header-user';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
 import { Dispatch } from 'redux';
-import { Actions, ThunkAppDispatch } from '../../types/action';
+import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import { AppRoute } from '../../const';
 import { changeGenre, defaultMoviesCount } from '../../store/actions-functions';
@@ -26,15 +26,14 @@ const mapStateToProps = (state: State) => ({
 });
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
-// Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
-const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch | ThunkAppDispatch) => ({
   // вызов в компоненте onGenreChange --> диспатчит changeGenre.
   onGenreChange(genre: string) {
-    (dispatch as Dispatch<Actions>)(changeGenre(genre));
+    (dispatch as Dispatch)(changeGenre(genre));
   },
 
   onMoviesCountDefault() {
-    (dispatch as Dispatch<Actions>)(defaultMoviesCount());
+    (dispatch as Dispatch)(defaultMoviesCount());
   },
 
   onFavoriteChange(movieId: number, isFavorite: number) {

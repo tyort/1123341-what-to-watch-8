@@ -15,7 +15,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
-// Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   onCommentsLoad(movieId: number) {
     dispatch(fetchCommentsAction(movieId));

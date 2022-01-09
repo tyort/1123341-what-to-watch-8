@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { failPostComment } from '../../store/actions-functions';
 import { postCommentAction } from '../../store/api-actions-functions';
 import { getComments, getPostCommentFailedStatus } from '../../store/comments-reducer/selectors';
-import { Actions, ThunkAppDispatch } from '../../types/action';
+import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
 const STARS_COUNT = 10;
@@ -23,13 +23,13 @@ const mapStateToProps = (state: State) => ({
   comments: getComments(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch | ThunkAppDispatch) => ({
   onCommentPost(movieId: number, rating: number, comment: string) {
     (dispatch as ThunkAppDispatch)(postCommentAction(movieId, rating, comment));
   },
 
   onPostCommentFail(isFailed: boolean) {
-    (dispatch as Dispatch<Actions>)(failPostComment(isFailed));
+    (dispatch as Dispatch)(failPostComment(isFailed));
   },
 });
 

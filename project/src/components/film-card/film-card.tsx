@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { AppRoute } from '../../const';
 import { defaultMoviesCount } from '../../store/actions-functions';
-import { Actions } from '../../types/action';
 import { Movie } from '../../types/movie';
 import PreviewPlayerScreen from '../preview-player/preview-player';
 
@@ -12,7 +11,7 @@ type FilmCardScreenProps = {
   movies: Movie[];
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onMoviesCountDefault() {
     dispatch(defaultMoviesCount());
   },

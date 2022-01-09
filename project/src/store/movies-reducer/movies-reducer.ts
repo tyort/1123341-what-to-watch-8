@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import {ActionName, Actions} from '../../types/action';
+import {ActionName} from '../../types/action';
 import {MoviesState} from '../../types/state';
 
 const INITIAL_GENRE = 'All genres';
@@ -17,7 +17,7 @@ const initialState = {
   isDataLoaded: false,
 };
 
-export const moviesReducer = (state: MoviesState = initialState, action: Actions): MoviesState => {
+export const moviesReducer = (state: MoviesState = initialState, action: 'кто здесь?'): MoviesState => {
   switch (action.type) {
     case ActionName.LoadPromo:
       return {...state, promo: action.payload};

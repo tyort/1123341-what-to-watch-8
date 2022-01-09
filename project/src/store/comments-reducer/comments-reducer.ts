@@ -1,4 +1,4 @@
-import {ActionName, Actions} from '../../types/action';
+import {ActionName} from '../../types/action';
 import {CommentsState} from '../../types/state';
 
 const initialState = {
@@ -6,7 +6,7 @@ const initialState = {
   isPostCommentFailed: false,
 };
 
-export const commentsReducer = (state: CommentsState = initialState, action: Actions): CommentsState => {
+export const commentsReducer = (state: CommentsState = initialState, action: 'кто здесь?'): CommentsState => {
   switch (action.type) {
     case ActionName.FailPostComment:
       return {...state, isPostCommentFailed: action.payload};
