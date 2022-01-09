@@ -17,9 +17,9 @@ type AddReviewFormScreenProps = {
   textRef: MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-const mapStateToProps = ({isPostCommentFailed, comments}: State) => ({
-  isPostCommentFailed,
-  comments,
+const mapStateToProps = ({COMMENTS}: State) => ({
+  isPostCommentFailed: COMMENTS.isPostCommentFailed,
+  comments: COMMENTS.comments,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => ({

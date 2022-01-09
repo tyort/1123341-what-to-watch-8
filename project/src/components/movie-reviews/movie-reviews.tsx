@@ -9,8 +9,8 @@ type  MovieReviewsScreenProps = {
   movieId: number
 }
 
-const mapStateToProps = ({comments}: State) => ({
-  comments,
+const mapStateToProps = ({COMMENTS}: State) => ({
+  comments: COMMENTS.comments,
 });
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.

@@ -10,8 +10,8 @@ import LogoScreen from '../logo/logo';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = ({authorizationStatus}: State) => ({
-  authorizationStatus,
+const mapStateToProps = ({USER}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

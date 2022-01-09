@@ -19,9 +19,9 @@ type MovieScreenProps = RouteProps & {
   movie: Movie;
 }
 
-const mapStateToProps = ({similarMovies, authorizationStatus}: State) => ({
-  similarMovies,
-  authorizationStatus,
+const mapStateToProps = ({USER, MOVIES}: State) => ({
+  similarMovies: MOVIES.similarMovies,
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

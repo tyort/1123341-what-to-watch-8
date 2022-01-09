@@ -19,11 +19,11 @@ type AppScreenProps = {
 
 }
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded, allMovies, promo}: State) => ({
-  authorizationStatus,
-  isDataLoaded,
-  allMovies,
-  promo,
+const mapStateToProps = ({USER, MOVIES}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
+  isDataLoaded: MOVIES.isDataLoaded,
+  allMovies: MOVIES.allMovies,
+  promo: MOVIES.promo,
 });
 
 const connector = connect(mapStateToProps);

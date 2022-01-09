@@ -17,13 +17,13 @@ const FOOTER_AS_WORD = 'footer';
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
 const mapStateToProps = (props: State) => {
-  const {genre, filteredMovies, isBtnShow, promo, allGenres} = props;
+  const {MOVIES} = props;
   return {
-    genre,
-    allGenres,
-    filteredMovies,
-    isBtnShow,
-    promo,
+    genre: MOVIES.genre,
+    allGenres: MOVIES.allGenres,
+    filteredMovies: MOVIES.filteredMovies,
+    isBtnShow: MOVIES.isBtnShow,
+    promo: MOVIES.promo,
   };
 };
 
