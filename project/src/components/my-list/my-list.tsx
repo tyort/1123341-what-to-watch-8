@@ -6,11 +6,12 @@ import { fetchFavoritesAction } from '../../store/api-actions-functions';
 import { connect, ConnectedProps } from 'react-redux';
 import { useEffect } from 'react';
 import FilmCardScreen from '../film-card/film-card';
+import { getAllMovies } from '../../store/movies-reducer/selectors';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = ({MOVIES}: State) => ({
-  favoriteMovies: MOVIES.allMovies.filter((film) => film.is_favorite),
+const mapStateToProps = (state: State) => ({
+  favoriteMovies: getAllMovies(state).filter((film) => film.is_favorite),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

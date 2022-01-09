@@ -3,6 +3,7 @@ import { Dispatch, FormEvent, Fragment, MutableRefObject, useEffect, useState} f
 import { connect, ConnectedProps } from 'react-redux';
 import { failPostComment } from '../../store/actions-functions';
 import { postCommentAction } from '../../store/api-actions-functions';
+import { getComments, getPostCommentFailedStatus } from '../../store/comments-reducer/selectors';
 import { Actions, ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 
@@ -17,9 +18,9 @@ type AddReviewFormScreenProps = {
   textRef: MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-const mapStateToProps = ({COMMENTS}: State) => ({
-  isPostCommentFailed: COMMENTS.isPostCommentFailed,
-  comments: COMMENTS.comments,
+const mapStateToProps = (state: State) => ({
+  isPostCommentFailed: getPostCommentFailedStatus(state),
+  comments: getComments(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions> | ThunkAppDispatch) => ({

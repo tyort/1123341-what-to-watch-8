@@ -4,13 +4,14 @@ import { ThunkAppDispatch } from '../../types/action';
 import { fetchCommentsAction } from '../../store/api-actions-functions';
 import { connect, ConnectedProps } from 'react-redux';
 import { useEffect } from 'react';
+import { getComments } from '../../store/comments-reducer/selectors';
 
 type  MovieReviewsScreenProps = {
   movieId: number
 }
 
-const mapStateToProps = ({COMMENTS}: State) => ({
-  comments: COMMENTS.comments,
+const mapStateToProps = (state: State) => ({
+  comments: getComments(state),
 });
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.

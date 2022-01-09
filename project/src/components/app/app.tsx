@@ -14,22 +14,19 @@ import WithRating from '../../hocs/with-rating/with-rating';
 import { connect, ConnectedProps } from 'react-redux';
 import { State } from '../../types/state';
 import {browserHistory} from '../../store/middlewares/redirect';
+import { getAuthStatus } from '../../store/user-reducer/selectors';
+import { getAllMovies, getMoviesLoadStatus, getPromo } from '../../store/movies-reducer/selectors';
 
-type AppScreenProps = {
-
-}
-
-const mapStateToProps = ({USER, MOVIES}: State) => ({
-  authorizationStatus: USER.authorizationStatus,
-  isDataLoaded: MOVIES.isDataLoaded,
-  allMovies: MOVIES.allMovies,
-  promo: MOVIES.promo,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthStatus(state),
+  isDataLoaded: getMoviesLoadStatus(state),
+  allMovies: getAllMovies(state),
+  promo: getPromo(state),
 });
 
 const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 
 // onClick={() => {
 //   Можно вызвать одну и ту же функцию обновления значения два раза подряд в одном колбэке при одном клике
@@ -48,7 +45,7 @@ type ConnectedComponentProps = PropsFromRedux & AppScreenProps;
 
 const AddReviewScreenWrapped = WithRating(AddReviewScreen);
 
-function AppScreen(props: ConnectedComponentProps): JSX.Element {
+function AppScreen(props: PropsFromRedux): JSX.Element {
   const {authorizationStatus, isDataLoaded, allMovies} = props;
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {

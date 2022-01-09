@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, passPattern } from '../../const';
 import { loginAction } from '../../store/api-actions-functions';
+import { getAuthStatus } from '../../store/user-reducer/selectors';
 import { ThunkAppDispatch } from '../../types/action';
 import { State } from '../../types/state';
 import { User } from '../../types/user';
@@ -10,8 +11,8 @@ import LogoScreen from '../logo/logo';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = ({USER}: State) => ({
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

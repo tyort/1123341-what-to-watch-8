@@ -12,20 +12,18 @@ import { AppRoute } from '../../const';
 import { changeGenre, defaultMoviesCount } from '../../store/actions-functions';
 import { changeFavoriteAction } from '../../store/api-actions-functions';
 import FilmCardScreen from '../film-card/film-card';
+import { getCurrentGenre, getAllGenres, getFilteredMovies, getBtnAppearance, getPromo } from '../../store/movies-reducer/selectors';
 
 const FOOTER_AS_WORD = 'footer';
 
 // Сопоставление значений свойств стейта хранилища и пропсов React-компонента
-const mapStateToProps = (props: State) => {
-  const {MOVIES} = props;
-  return {
-    genre: MOVIES.genre,
-    allGenres: MOVIES.allGenres,
-    filteredMovies: MOVIES.filteredMovies,
-    isBtnShow: MOVIES.isBtnShow,
-    promo: MOVIES.promo,
-  };
-};
+const mapStateToProps = (state: State) => ({
+  genre: getCurrentGenre(state),
+  allGenres: getAllGenres(state),
+  filteredMovies: getFilteredMovies(state),
+  isBtnShow: getBtnAppearance(state),
+  promo: getPromo(state),
+});
 
 // redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
 // Dispatch<Actions> - дженерик помогает понять, что диспатчить мы можем только определенные действия.

@@ -12,6 +12,8 @@ import { ThunkAppDispatch } from '../../types/action';
 import { changeFavoriteAction, fetchSimilarAction } from '../../store/api-actions-functions';
 import { connect, ConnectedProps } from 'react-redux';
 import FilmCardScreen from '../film-card/film-card';
+import { getSimilarMovies } from '../../store/movies-reducer/selectors';
+import { getAuthStatus } from '../../store/user-reducer/selectors';
 
 const FOOTER_AS_WORD = 'footer';
 
@@ -19,9 +21,9 @@ type MovieScreenProps = RouteProps & {
   movie: Movie;
 }
 
-const mapStateToProps = ({USER, MOVIES}: State) => ({
-  similarMovies: MOVIES.similarMovies,
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  similarMovies: getSimilarMovies(state),
+  authorizationStatus: getAuthStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
