@@ -1,20 +1,18 @@
-import {ActionName} from '../../types/action';
+import { createReducer } from '@reduxjs/toolkit';
 import {CommentsState} from '../../types/state';
+import { failPostComment, loadComments } from '../actions-functions';
 
-const initialState = {
+const initialState: CommentsState = {
   comments: [],
   isPostCommentFailed: false,
 };
 
-export const commentsReducer = (state: CommentsState = initialState, action: 'кто здесь?'): CommentsState => {
-  switch (action.type) {
-    case ActionName.FailPostComment:
-      return {...state, isPostCommentFailed: action.payload};
-
-    case ActionName.LoadComments:
-      return {...state, comments: action.payload};
-
-    default:
-      return state;
-  }
-};
+export const commentsReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(failPostComment, (state, action) => {
+      state.isPostCommentFailed = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    });
+});
