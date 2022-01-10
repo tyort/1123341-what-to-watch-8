@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { Dispatch, FormEvent, Fragment, MutableRefObject, useEffect, useState} from 'react';
+import { Dispatch } from 'redux';
+import { FormEvent, Fragment, MutableRefObject, useEffect, useState} from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { failPostComment } from '../../store/actions-functions';
 import { postCommentAction } from '../../store/api-actions-functions';
