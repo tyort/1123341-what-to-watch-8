@@ -1,13 +1,9 @@
-/* eslint-disable camelcase */
-import {connect, ConnectedProps} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
-import { Dispatch } from 'redux';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
 import { AppRoute } from '../../const';
 import { changeGenre, defaultMoviesCount } from '../../store/actions-functions';
 import { changeFavoriteAction } from '../../store/api-actions-functions';
@@ -16,40 +12,20 @@ import { getCurrentGenre, getAllGenres, getFilteredMovies, getBtnAppearance, get
 
 const FOOTER_AS_WORD = 'footer';
 
-// Сопоставление значений свойств стейта хранилища и пропсов React-компонента
-const mapStateToProps = (state: State) => ({
-  genre: getCurrentGenre(state),
-  allGenres: getAllGenres(state),
-  filteredMovies: getFilteredMovies(state),
-  isBtnShow: getBtnAppearance(state),
-  promo: getPromo(state),
-});
-
-// redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
-const mapDispatchToProps = (dispatch: Dispatch | ThunkAppDispatch) => ({
-  // вызов в компоненте onGenreChange --> диспатчит changeGenre.
-  onGenreChange(genre: string) {
-    (dispatch as Dispatch)(changeGenre(genre));
-  },
-
-  onMoviesCountDefault() {
-    (dispatch as Dispatch)(defaultMoviesCount());
-  },
-
-  onFavoriteChange(movieId: number, isFavorite: number) {
-    (dispatch as ThunkAppDispatch)(changeFavoriteAction(movieId, isFavorite));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-// ConnectedProps - типизируем пропсы, которые получились при присоединении redux.
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MainScreen(props: PropsFromRedux): JSX.Element {
-  const {onGenreChange, onFavoriteChange, onMoviesCountDefault, genre, filteredMovies, isBtnShow, promo, allGenres} = props;
+function MainScreen(): JSX.Element {
+  const genre = useSelector(getCurrentGenre);
+  const allGenres = useSelector(getAllGenres);
+  const filteredMovies = useSelector(getFilteredMovies);
+  const isBtnShow = useSelector(getBtnAppearance);
+  const promo = useSelector(getPromo);
   const bgColor = promo?.background_color;
   const history = useHistory();
+
+  const dispatch = useDispatch();
+
+  const onGenreChange = (currentGenre: string) => {
+    dispatch(changeGenre(currentGenre));
+  };
 
   return (
     <>
@@ -84,7 +60,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
                   className="btn btn--play film-card__button"
                   type="button"
                   onClick={() => {
-                    onMoviesCountDefault();
+                    dispatch(defaultMoviesCount());
                     history.push(`${AppRoute.Player}/${promo?.id as number}`);
                   }}
                 >
@@ -96,7 +72,7 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
-                  onClick={() => onFavoriteChange(promo?.id as number, Number(!promo?.is_favorite))}
+                  onClick={() => dispatch(changeFavoriteAction(promo?.id as number, Number(!promo?.is_favorite)))}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={promo?.is_favorite ? '#in-list' : '#add'}></use>
@@ -140,5 +116,4 @@ function MainScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {MainScreen}; // поможет при тестировании
-export default connector(MainScreen); // Связываем наш React-компонент с Redux
+export default MainScreen;

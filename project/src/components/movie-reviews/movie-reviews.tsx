@@ -1,36 +1,19 @@
+import {useDispatch, useSelector} from 'react-redux';
 import {months} from '../../const';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
 import { fetchCommentsAction } from '../../store/api-actions-functions';
-import { connect, ConnectedProps } from 'react-redux';
 import { useEffect } from 'react';
 import { getComments } from '../../store/comments-reducer/selectors';
 
-type  MovieReviewsScreenProps = {
+type MovieReviewsScreenProps = {
   movieId: number
 }
 
-const mapStateToProps = (state: State) => ({
-  comments: getComments(state),
-});
-
-// redux добавляет пропсы-функции, влияющие на store, в пропсы компонента, т.к. изменения пропсов перерисовывают React-компонент.
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onCommentsLoad(movieId: number) {
-    dispatch(fetchCommentsAction(movieId));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MovieReviewsScreenProps;
-
-
-function MovieReviewsScreen({movieId, comments, onCommentsLoad}: ConnectedComponentProps): JSX.Element {
+function MovieReviewsScreen({movieId}: MovieReviewsScreenProps): JSX.Element {
+  const comments = useSelector(getComments);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    onCommentsLoad(movieId);
+    dispatch(fetchCommentsAction(movieId));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movieId]);
 
@@ -64,5 +47,4 @@ function MovieReviewsScreen({movieId, comments, onCommentsLoad}: ConnectedCompon
   );
 }
 
-export {MovieReviewsScreen}; // поможет при тестировании
-export default connector(MovieReviewsScreen); // Связываем наш React-компонент с Redux
+export default MovieReviewsScreen;

@@ -1,34 +1,19 @@
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
 import { fetchFavoritesAction } from '../../store/api-actions-functions';
-import { connect, ConnectedProps } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { useEffect } from 'react';
 import FilmCardScreen from '../film-card/film-card';
 import { getAllMovies } from '../../store/movies-reducer/selectors';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = (state: State) => ({
-  favoriteMovies: getAllMovies(state).filter((film) => film.is_favorite),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onFavoritesUpload() {
-    dispatch(fetchFavoritesAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function MyListScreen(props: PropsFromRedux): JSX.Element {
-  const {favoriteMovies, onFavoritesUpload} = props;
+function MyListScreen(): JSX.Element {
+  const favoriteMovies = useSelector(getAllMovies).filter((film) => film.is_favorite);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    onFavoritesUpload();
+    dispatch(fetchFavoritesAction());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -63,5 +48,4 @@ function MyListScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {MyListScreen}; // поможет при тестировании
-export default connector(MyListScreen); // Связываем наш React-компонент с Redux
+export default MyListScreen;

@@ -1,21 +1,15 @@
-import { bindActionCreators, Dispatch } from 'redux';
 import { increaseMoviesCount } from '../../store/actions-functions';
-import { connect, ConnectedProps } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-  onMoviesCountIncrease: increaseMoviesCount,
-}, dispatch);
+function ShowMoreScreen(): JSX.Element {
+  const dispatch = useDispatch();
 
-const connector = connect(null, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function ShowMoreScreen({onMoviesCountIncrease}: PropsFromRedux): JSX.Element {
   return (
     <div className="catalog__more">
       <button
         className="catalog__button"
         type="button"
-        onClick={onMoviesCountIncrease}
+        onClick={() => dispatch(increaseMoviesCount())}
       >
         Show more
       </button>
@@ -23,5 +17,4 @@ function ShowMoreScreen({onMoviesCountIncrease}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {ShowMoreScreen};
-export default connector(ShowMoreScreen);
+export default ShowMoreScreen;

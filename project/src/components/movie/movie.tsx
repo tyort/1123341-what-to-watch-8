@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable camelcase */
 import { useEffect, useState } from 'react';
 import { Link, RouteProps, useHistory } from 'react-router-dom';
@@ -7,10 +6,8 @@ import { Movie } from '../../types/movie';
 import LogoScreen from '../logo/logo';
 import MovieNavScreen from '../movie-nav/movie-nav';
 import HeaderUserScreen from '../header-user/header-user';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
 import { changeFavoriteAction, fetchSimilarAction } from '../../store/api-actions-functions';
-import { connect, ConnectedProps } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import FilmCardScreen from '../film-card/film-card';
 import { getSimilarMovies } from '../../store/movies-reducer/selectors';
 import { getAuthStatus } from '../../store/user-reducer/selectors';
@@ -21,33 +18,16 @@ type MovieScreenProps = RouteProps & {
   movie: Movie;
 }
 
-const mapStateToProps = (state: State) => ({
-  similarMovies: getSimilarMovies(state),
-  authorizationStatus: getAuthStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSimilarUpload(movieId: number) {
-    dispatch(fetchSimilarAction(movieId));
-  },
-
-  onFavoriteChange(movieId: number, isFavorite: number) {
-    dispatch(changeFavoriteAction(movieId, isFavorite));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MovieScreenProps;
-
-function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, authorizationStatus}: ConnectedComponentProps): JSX.Element {
+function MovieScreen({movie}: MovieScreenProps): JSX.Element {
   const { name, genre, released, poster_image, background_image, background_color} = movie;
+  const similarMovies = useSelector(getSimilarMovies);
+  const authorizationStatus = useSelector(getAuthStatus);
   const [navItemName, setNavItemName] = useState<string>('Overview');
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    onSimilarUpload(movie.id);
+    dispatch(fetchSimilarAction(movie.id));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movie]);
 
@@ -89,7 +69,7 @@ function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, a
                 <button
                   className="btn btn--list film-card__button"
                   type="button"
-                  onClick={() => onFavoriteChange(movie.id as number, Number(!movie.is_favorite))}
+                  onClick={() => dispatch(changeFavoriteAction(movie.id as number, Number(!movie.is_favorite)))}
                 >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref={movie.is_favorite ? '#in-list' : '#add'}></use>
@@ -169,5 +149,4 @@ function MovieScreen({movie, onSimilarUpload, onFavoriteChange, similarMovies, a
   );
 }
 
-export {MovieScreen}; // поможет при тестировании
-export default connector(MovieScreen); // Связываем наш React-компонент с Redux
+export default MovieScreen;

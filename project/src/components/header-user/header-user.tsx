@@ -1,34 +1,19 @@
 import {MouseEvent} from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions-functions';
 import { getAuthStatus, getDataUser } from '../../store/user-reducer/selectors';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
 
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthStatus(state),
-  currentUser: getDataUser(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onUserLogout() {
-    dispatch(logoutAction());
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, currentUser, onUserLogout} = props;
-
+function HeaderUserScreean(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthStatus);
+  const currentUser = useSelector(getDataUser);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleLinkClick = (evt: MouseEvent<HTMLAnchorElement>): void => {
     evt.preventDefault();
-    onUserLogout();
+    dispatch(logoutAction());
   };
 
   switch (authorizationStatus) {
@@ -66,5 +51,4 @@ function HeaderUserScreean(props: PropsFromRedux): JSX.Element {
   }
 }
 
-export {HeaderUserScreean}; // поможет при тестировании
-export default connector(HeaderUserScreean); // Связываем наш React-компонент с Redux
+export default HeaderUserScreean;

@@ -1,7 +1,6 @@
 import { useState, MouseEvent } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import { Dispatch } from 'redux';
 import { AppRoute } from '../../const';
 import { defaultMoviesCount } from '../../store/actions-functions';
 import { Movie } from '../../types/movie';
@@ -11,22 +10,11 @@ type FilmCardScreenProps = {
   movies: Movie[];
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  onMoviesCountDefault() {
-    dispatch(defaultMoviesCount());
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & FilmCardScreenProps;
-
-
-function FilmCardScreen({movies, onMoviesCountDefault}: ConnectedComponentProps): JSX.Element {
+function FilmCardScreen({movies}: FilmCardScreenProps): JSX.Element {
   const [activeCardId, setActiveCardId] = useState<null | number>(null);
   const [isPlaying, setPlayingStatus] = useState<boolean>(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   let timer: NodeJS.Timeout | null = null ;
   const handleArticleHover = (evt: MouseEvent<HTMLElement>): void => {
@@ -54,7 +42,7 @@ function FilmCardScreen({movies, onMoviesCountDefault}: ConnectedComponentProps)
             onMouseEnter={handleArticleHover}
             onMouseLeave={handleArticleHover}
             onClick={() => {
-              onMoviesCountDefault();
+              dispatch(defaultMoviesCount());
               history.push(`${AppRoute.Films}/${id}`);
             }}
           >
@@ -74,5 +62,4 @@ function FilmCardScreen({movies, onMoviesCountDefault}: ConnectedComponentProps)
   );
 }
 
-export {FilmCardScreen}; // поможет при тестировании
-export default connector(FilmCardScreen); // Связываем наш React-компонент с Redux
+export default FilmCardScreen;

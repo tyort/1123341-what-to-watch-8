@@ -1,12 +1,8 @@
-/* eslint-disable no-console */
-import { Dispatch } from 'redux';
 import { FormEvent, Fragment, MutableRefObject, useEffect, useState} from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { failPostComment } from '../../store/actions-functions';
 import { postCommentAction } from '../../store/api-actions-functions';
 import { getComments, getPostCommentFailedStatus } from '../../store/comments-reducer/selectors';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
 
 const STARS_COUNT = 10;
 
@@ -19,29 +15,11 @@ type AddReviewFormScreenProps = {
   textRef: MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-const mapStateToProps = (state: State) => ({
-  isPostCommentFailed: getPostCommentFailedStatus(state),
-  comments: getComments(state),
-});
-
-const mapDispatchToProps = (dispatch: Dispatch | ThunkAppDispatch) => ({
-  onCommentPost(movieId: number, rating: number, comment: string) {
-    (dispatch as ThunkAppDispatch)(postCommentAction(movieId, rating, comment));
-  },
-
-  onPostCommentFail(isFailed: boolean) {
-    (dispatch as Dispatch)(failPostComment(isFailed));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AddReviewFormScreenProps;
-
-function AddReviewFormScreen(props: ConnectedComponentProps): JSX.Element {
-  const {textRef, movieId, rating, isBtnDisabled, isPostCommentFailed, comments,
-    onRateChange, onTextChange, onCommentPost, onPostCommentFail} = props;
+function AddReviewFormScreen(props: AddReviewFormScreenProps): JSX.Element {
+  const {textRef, movieId, rating, isBtnDisabled, onRateChange, onTextChange} = props;
+  const isPostCommentFailed = useSelector(getPostCommentFailedStatus);
+  const comments = useSelector(getComments);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setFormDisabled(false);
@@ -51,7 +29,7 @@ function AddReviewFormScreen(props: ConnectedComponentProps): JSX.Element {
     if (isPostCommentFailed) {
       // Должен сработать: 1-Первая ошибка; 2-На каждой ошибке; 3-Ошибка после удачной отправки.
       setFormDisabled(false);
-      onPostCommentFail(false);
+      dispatch(failPostComment(false));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPostCommentFailed]);
@@ -63,7 +41,7 @@ function AddReviewFormScreen(props: ConnectedComponentProps): JSX.Element {
     if (textRef.current !== null) {
       setFormDisabled(true);
       const text = textRef.current.value;
-      onCommentPost(movieId, rating, text);
+      dispatch(postCommentAction(movieId, rating, text));
     }
   };
 
@@ -134,5 +112,4 @@ function AddReviewFormScreen(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {AddReviewFormScreen};
-export default connector(AddReviewFormScreen);
+export default AddReviewFormScreen;

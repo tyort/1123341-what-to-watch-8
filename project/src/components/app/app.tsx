@@ -1,4 +1,5 @@
 import { Route, Switch, Router } from 'react-router-dom';
+import { useSelector} from 'react-redux';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import MainScreen from '../main/main';
@@ -11,22 +12,9 @@ import NoMovieScreen from '../no-film/no-film';
 import AddReviewScreen from '../add-review/add-review';
 import LoadingScreen from '../loading/loading';
 import WithRating from '../../hocs/with-rating/with-rating';
-import { connect, ConnectedProps } from 'react-redux';
-import { State } from '../../types/state';
 import {browserHistory} from '../../store/middlewares/redirect';
 import { getAuthStatus } from '../../store/user-reducer/selectors';
-import { getAllMovies, getMoviesLoadStatus, getPromo } from '../../store/movies-reducer/selectors';
-
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthStatus(state),
-  isDataLoaded: getMoviesLoadStatus(state),
-  allMovies: getAllMovies(state),
-  promo: getPromo(state),
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
+import { getAllMovies, getMoviesLoadStatus } from '../../store/movies-reducer/selectors';
 
 // onClick={() => {
 //   Можно вызвать одну и ту же функцию обновления значения два раза подряд в одном колбэке при одном клике
@@ -45,8 +33,10 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const AddReviewScreenWrapped = WithRating(AddReviewScreen);
 
-function AppScreen(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, isDataLoaded, allMovies} = props;
+function AppScreen(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthStatus);
+  const isDataLoaded = useSelector(getMoviesLoadStatus);
+  const allMovies = useSelector(getAllMovies);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
     return (
@@ -122,5 +112,4 @@ function AppScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {AppScreen}; // поможет при тестировании
-export default connector(AppScreen); // Связываем наш React-компонент с Redux
+export default AppScreen;

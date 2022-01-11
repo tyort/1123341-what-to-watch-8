@@ -1,31 +1,16 @@
 import { FormEvent, useRef } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus, passPattern } from '../../const';
 import { loginAction } from '../../store/api-actions-functions';
 import { getAuthStatus } from '../../store/user-reducer/selectors';
-import { ThunkAppDispatch } from '../../types/action';
-import { State } from '../../types/state';
-import { User } from '../../types/user';
 import LogoScreen from '../logo/logo';
 
 const FOOTER_AS_WORD = 'footer';
 
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthStatus(state),
-});
-
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onUserSubmit(userData: User) {
-    dispatch(loginAction(userData));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function SignInScreen(props: PropsFromRedux): JSX.Element {
-  const {onUserSubmit, authorizationStatus} = props;
+function SignInScreen(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthStatus);
+  const dispatch = useDispatch();
   const emailInput = useRef<HTMLInputElement | null>(null);
   const passInput = useRef<HTMLInputElement | null>(null);
 
@@ -35,10 +20,10 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
     if (emailInput.current !== null && passInput.current !== null && passPattern.test(passInput.current.value)) {
       // eslint-disable-next-line no-console
       console.log(passInput.current);
-      onUserSubmit({
+      dispatch(loginAction({
         email: emailInput.current.value,
         password: passInput.current.value,
-      });
+      }));
     } else {
       // eslint-disable-next-line no-console
       console.log('неправильный пароль');
@@ -108,5 +93,4 @@ function SignInScreen(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {SignInScreen};
-export default connector(SignInScreen);
+export default SignInScreen;
