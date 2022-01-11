@@ -11,6 +11,12 @@ export enum AppRoute {
   Player = '/player'
 }
 
+export enum ResponseText {
+  NoInternet = 'Нет подключения к интернету',
+  PostFail = 'Неправильный адрес запроса',
+  PassFail = 'Пароль должен состоять минимум из одной буквы и цифры'
+}
+
 export enum AuthorizationStatus {
   Auth = 'Authorised',
   NoAuth = 'Non-authorised',

@@ -7,6 +7,8 @@ import { Comment } from '../types/comment';
 import { AuthInfo, User } from '../types/user';
 import { loadComments, loadDataUser, loadMovies, loadPromo,
   failPostComment, redirectToRoute, setAuthStatus, loadSimilar, loadFavorites } from './actions-functions';
+import {toast} from 'react-toastify';
+import { ResponseText } from '../const';
 
 export const fetchMoviesAction = (): ThunkActionResult =>
   // api - сконфигурированный экземпляр axios (а также extraArgument)
@@ -49,8 +51,8 @@ export const postCommentAction = (movieId: number, rating: number, comment: stri
       dispatch(redirectToRoute(`${AppRoute.Films}/${movieId}`));
 
     } catch(errStatus) {
-      // errStatus === undefined -> при отсутствиии интернета;
-      //               404       -> если неправильный путь;
+      errStatus === 400 && toast.info(ResponseText.PostFail);
+      errStatus === undefined && toast.info(ResponseText.NoInternet);
       dispatch(failPostComment(true));
     }
   };

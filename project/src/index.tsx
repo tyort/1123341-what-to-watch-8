@@ -7,6 +7,8 @@ import ReactDOM from 'react-dom'; // для работы с web. Вместо н
 import App from './components/app/app';
 import { checkAuthAction, fetchMoviesAction, fetchPromoAction } from './store/api-actions-functions';
 import { redirect } from './store/middlewares/redirect';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Создаем экземпляр axios. Мы заранее уже его сконфигурировали;
 const api = createAPI();
@@ -48,6 +50,7 @@ ReactDOM.render(
   <React.StrictMode>
     {/* Provider - делает "Redux store" доступным для вызовов connect() из всех дочерних компонентов.*/}
     <Provider store={store}>
+      <ToastContainer />
       <App />
     </Provider>
   </React.StrictMode>,

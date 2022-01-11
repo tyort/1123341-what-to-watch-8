@@ -1,10 +1,11 @@
 import { FormEvent, useRef } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus, passPattern } from '../../const';
+import { AppRoute, AuthorizationStatus, passPattern, ResponseText } from '../../const';
 import { loginAction } from '../../store/api-actions-functions';
 import { getAuthStatus } from '../../store/user-reducer/selectors';
 import LogoScreen from '../logo/logo';
+import {toast} from 'react-toastify';
 
 const FOOTER_AS_WORD = 'footer';
 
@@ -18,15 +19,12 @@ function SignInScreen(): JSX.Element {
     evt.preventDefault();
 
     if (emailInput.current !== null && passInput.current !== null && passPattern.test(passInput.current.value)) {
-      // eslint-disable-next-line no-console
-      console.log(passInput.current);
       dispatch(loginAction({
         email: emailInput.current.value,
         password: passInput.current.value,
       }));
     } else {
-      // eslint-disable-next-line no-console
-      console.log('неправильный пароль');
+      toast.info(ResponseText.PassFail);
     }
   };
 
