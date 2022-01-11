@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { Fragment } from 'react';
 import { getFilmDuration } from '../../const';
 import { Movie } from '../../types/movie';
 
@@ -21,7 +22,7 @@ function MovieDetailsScreen(props: MovieDetailsScreenProps): JSX.Element {
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {starring.map((actor, index) => (
-              <>{actor}{index !== starring.length - 1 && ','} <br/></>
+              <Fragment key={actor}>{actor}{index !== starring.length - 1 && ','} <br/></Fragment>
             ))}
           </span>
         </p>

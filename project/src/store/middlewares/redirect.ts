@@ -1,14 +1,13 @@
 import {Middleware} from 'redux';
-import {reducer} from '../reducer';
+import {State} from '../../types/state';
 import {ActionName} from '../../types/action';
 import {createBrowserHistory} from 'history';
 
-type Reducer = ReturnType<typeof reducer>;
 // Передадим этот объект в пропс Router(react-router-dom);
 // Это необходимо для управления историей из слоев Redux;
 export const browserHistory = createBrowserHistory();
 
-export const redirect: Middleware<unknown, Reducer> =
+export const redirect: Middleware<unknown, State> =
   (_store) =>
     (next) =>
       (action) => {

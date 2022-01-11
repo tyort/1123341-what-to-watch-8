@@ -38,8 +38,9 @@ export const moviesReducer = createReducer(initialState, (builder) => {
       state.promo = state.allMovies.find((movie) => movie.id === state.promo?.id) || state.promo;
     })
     .addCase(changeGenre, (state, action) => {
+      state.genre = action.payload;
       const AllfilteredMovies = state.allMovies.filter((film) => (
-        action.payload !== INITIAL_GENRE ? film.genre === action.payload : true
+        action.payload !== INITIAL_GENRE ? film.genre === state.genre : true
       ));
       state.isBtnShow = AllfilteredMovies.length > state.moviesCount;
       state.moviesCount = INITIAL_MOVIES_COUNT;

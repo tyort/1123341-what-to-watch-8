@@ -5,16 +5,14 @@ import HeaderUserScreen from '../header-user/header-user';
 import AllGenresScreen from '../all-genres/all-genres';
 import ShowMoreScreen from '../show-more/show-more';
 import { AppRoute } from '../../const';
-import { changeGenre, defaultMoviesCount } from '../../store/actions-functions';
+import { defaultMoviesCount } from '../../store/actions-functions';
 import { changeFavoriteAction } from '../../store/api-actions-functions';
 import FilmCardScreen from '../film-card/film-card';
-import { getCurrentGenre, getAllGenres, getFilteredMovies, getBtnAppearance, getPromo } from '../../store/movies-reducer/selectors';
+import { getFilteredMovies, getBtnAppearance, getPromo } from '../../store/movies-reducer/selectors';
 
 const FOOTER_AS_WORD = 'footer';
 
 function MainScreen(): JSX.Element {
-  const genre = useSelector(getCurrentGenre);
-  const allGenres = useSelector(getAllGenres);
   const filteredMovies = useSelector(getFilteredMovies);
   const isBtnShow = useSelector(getBtnAppearance);
   const promo = useSelector(getPromo);
@@ -22,10 +20,6 @@ function MainScreen(): JSX.Element {
   const history = useHistory();
 
   const dispatch = useDispatch();
-
-  const onGenreChange = (currentGenre: string) => {
-    dispatch(changeGenre(currentGenre));
-  };
 
   return (
     <>
@@ -89,11 +83,7 @@ function MainScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <AllGenresScreen
-            allGenres={allGenres}
-            currentGenre={genre}
-            onGenreChange={onGenreChange}
-          />
+          <AllGenresScreen/>
 
           <div className="catalog__films-list">
             <FilmCardScreen
