@@ -3,7 +3,7 @@ import {AuthorizationStatus} from '../../const';
 import { createReducer } from '@reduxjs/toolkit';
 import { loadDataUser, setAuthStatus } from '../actions-functions';
 
-const initialState: UserState = {
+export const initialState: UserState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   currentUser: null,
 };

@@ -6,7 +6,7 @@ import { changeGenre, defaultMoviesCount, increaseMoviesCount, loadFavorites, lo
 const INITIAL_GENRE = 'All genres';
 const INITIAL_MOVIES_COUNT = 8;
 
-const initialState: MoviesState = {
+export const initialState: MoviesState = {
   filteredMovies: [],
   allMovies: [],
   similarMovies: [],

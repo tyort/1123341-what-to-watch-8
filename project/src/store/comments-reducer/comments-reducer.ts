@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import {CommentsState} from '../../types/state';
 import { failPostComment, loadComments } from '../actions-functions';
 
-const initialState: CommentsState = {
+export const initialState: CommentsState = {
   comments: [],
   isPostCommentFailed: false,
 };
