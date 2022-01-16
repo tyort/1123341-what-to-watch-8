@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { saveToken } from '../backend/token';
+import { saveToken, dropToken } from '../backend/token';
 import { APIRoute, AppRoute, AuthorizationStatus } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Movie } from '../types/movie';
@@ -102,7 +102,7 @@ export const logoutAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     try {
       await api.delete(APIRoute.Logout);
-      api.delete(APIRoute.Logout);
+      dropToken();
       dispatch(loadDataUser(null));
       dispatch(setAuthStatus(AuthorizationStatus.NoAuth));
 
