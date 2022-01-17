@@ -66,6 +66,7 @@ function AddReviewFormScreen(props: AddReviewFormScreenProps): JSX.Element {
                     type="radio"
                     name="rating"
                     value={reversedIndex}
+                    data-testid={`star-${reversedIndex}`}
                     onChange={onRateChange}
                     checked={rating === reversedIndex}
                   />
@@ -95,6 +96,7 @@ function AddReviewFormScreen(props: AddReviewFormScreenProps): JSX.Element {
           id="review-text"
           placeholder="Review text"
           disabled={isFormDisabled}
+          data-testid="review-text"
         >
         </textarea>
         <div className="add-review__submit">
