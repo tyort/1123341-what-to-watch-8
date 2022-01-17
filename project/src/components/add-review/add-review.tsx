@@ -1,6 +1,8 @@
 import LogoScreen from '../logo/logo';
 import HeaderUserScreen from '../header-user/header-user';
 import { Movie } from '../../types/movie';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type AddReviewScreenProps = {
   renderRating: (movieId: number) => JSX.Element;
@@ -25,10 +27,10 @@ function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{movie.name}</a>
+                <Link to={`${AppRoute.Films}/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a href="/" className="breadcrumbs__link">Add review</a>
+                <Link to="/" className="breadcrumbs__link" onClick={(evt) => evt.preventDefault()}>Add review</Link>
               </li>
             </ul>
           </nav>
