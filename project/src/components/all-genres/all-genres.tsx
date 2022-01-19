@@ -21,7 +21,8 @@ function AllGenresScreen(): JSX.Element {
       {allGenres.map((genre) => (
         <li
           key={genre}
-          className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}
+          data-testid={genre}
+          className={`catalog__genres-item ${currentGenre === genre ? 'catalog__genres-item--active' : ''}`}
           onClick={handleGenreClick}
         >
           <Link to="/" className="catalog__genres-link">{genre}</Link>
