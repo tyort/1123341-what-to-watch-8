@@ -38,6 +38,7 @@ function FilmCardScreen({movies}: FilmCardScreenProps): JSX.Element {
           <article
             key={id}
             data-id={id}
+            data-testid={`${movie.name}-id${movie.id}`}
             className="small-film-card catalog__films-card"
             onMouseEnter={handleArticleHover}
             onMouseLeave={handleArticleHover}
