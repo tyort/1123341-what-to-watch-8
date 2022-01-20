@@ -5,7 +5,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions-functions';
 import { getAuthStatus, getDataUser } from '../../store/user-reducer/selectors';
 
-function HeaderUserScreean(): JSX.Element {
+function HeaderUserScreen(): JSX.Element {
   const authorizationStatus = useSelector(getAuthStatus);
   const currentUser = useSelector(getDataUser);
   const history = useHistory();
@@ -51,4 +51,4 @@ function HeaderUserScreean(): JSX.Element {
   }
 }
 
-export default HeaderUserScreean;
+export default HeaderUserScreen;
