@@ -53,6 +53,7 @@ function MainScreen(): JSX.Element {
                 <button
                   className="btn btn--play film-card__button"
                   type="button"
+                  data-testid="button-play"
                   onClick={() => {
                     dispatch(defaultMoviesCount());
                     history.push(`${AppRoute.Player}/${promo?.id as number}`);
