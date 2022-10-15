@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
+
 type MainScreenProps = {
-  jopa?: never;
+  jopa?: never; // Не допускаем поле с таким именем
   pisya: number;
   children: JSX.Element;
 }
@@ -16,21 +18,21 @@ function MainScreen(props: MainScreenProps): JSX.Element {
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <Link to="/" className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                <img src="img/Linkvatar.jpg" alt="User avatar" width="63" height="63" />
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <Link to="/" className="user-block__link">Sign out</Link>
             </li>
           </ul>
         </header>
