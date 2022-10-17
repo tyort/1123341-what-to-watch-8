@@ -1,4 +1,6 @@
+import {Link} from 'react-router-dom';
 import SmallFilmCardScreen from '../small-film-card/small-film-card';
+import LogoScreen from '../../components/logo/logo';
 
 type MainChildScreenProps = {
 }
@@ -11,34 +13,34 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
 
         <ul className="catalog__genres-list">
           <li className="catalog__genres-item catalog__genres-item--active">
-            <a href="#" className="catalog__genres-link">All genres</a>
+            <Link to="#" className="catalog__genres-link">All genres</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Comedies</a>
+            <Link to="#" className="catalog__genres-link">Comedies</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Crime</a>
+            <Link to="#" className="catalog__genres-link">Crime</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Documentary</a>
+            <Link to="#" className="catalog__genres-link">Documentary</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Dramas</a>
+            <Link to="#" className="catalog__genres-link">Dramas</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Horror</a>
+            <Link to="#" className="catalog__genres-link">Horror</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Kids &amp; Family</a>
+            <Link to="#" className="catalog__genres-link">Kids &amp; Family</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Romance</a>
+            <Link to="#" className="catalog__genres-link">Romance</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Sci-Fi</a>
+            <Link to="#" className="catalog__genres-link">Sci-Fi</Link>
           </li>
           <li className="catalog__genres-item">
-            <a href="#" className="catalog__genres-link">Thrillers</a>
+            <Link to="#" className="catalog__genres-link">Thrillers</Link>
           </li>
         </ul>
 
@@ -50,7 +52,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
+              <Link className="small-film-card__link" to="film-page.html">Bohemian Rhapsody</Link>
             </h3>
           </article>
 
@@ -59,7 +61,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Macbeth</a>
+              <Link className="small-film-card__link" to="film-page.html">Macbeth</Link>
             </h3>
           </article>
 
@@ -68,7 +70,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Aviator</a>
+              <Link className="small-film-card__link" to="film-page.html">Aviator</Link>
             </h3>
           </article>
 
@@ -78,7 +80,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/we-need-to-talk-about-kevin.jpg" alt="We need to talk about Kevin" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">We need to talk about Kevin</a>
+              <Link className="small-film-card__link" to="film-page.html">We need to talk about Kevin</Link>
             </h3>
           </article>
 
@@ -87,7 +89,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/what-we-do-in-the-shadows.jpg" alt="What We Do in the Shadows" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">What We Do in the Shadows</a>
+              <Link className="small-film-card__link" to="film-page.html">What We Do in the Shadows</Link>
             </h3>
           </article>
 
@@ -96,7 +98,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/revenant.jpg" alt="Revenant" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Revenant</a>
+              <Link className="small-film-card__link" to="film-page.html">Revenant</Link>
             </h3>
           </article>
 
@@ -105,7 +107,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/johnny-english.jpg" alt="Johnny English" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Johnny English</a>
+              <Link className="small-film-card__link" to="film-page.html">Johnny English</Link>
             </h3>
           </article>
 
@@ -115,7 +117,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/shutter-island.jpg" alt="Shutter Island" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Shutter Island</a>
+              <Link className="small-film-card__link" to="film-page.html">Shutter Island</Link>
             </h3>
           </article>
 
@@ -124,7 +126,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/pulp-fiction.jpg" alt="Pulp Fiction" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Pulp Fiction</a>
+              <Link className="small-film-card__link" to="film-page.html">Pulp Fiction</Link>
             </h3>
           </article>
 
@@ -133,7 +135,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/no-country-for-old-men.jpg" alt="No Country for Old Men" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">No Country for Old Men</a>
+              <Link className="small-film-card__link" to="film-page.html">No Country for Old Men</Link>
             </h3>
           </article>
 
@@ -142,7 +144,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/snatch.jpg" alt="Snatch" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Snatch</a>
+              <Link className="small-film-card__link" to="film-page.html">Snatch</Link>
             </h3>
           </article>
 
@@ -153,7 +155,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
 
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Moonrise Kingdom</a>
+              <Link className="small-film-card__link" to="film-page.html">Moonrise Kingdom</Link>
             </h3>
           </article>
 
@@ -162,7 +164,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/seven-years-in-tibet.jpg" alt="Seven Years in Tibet" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Seven Years in Tibet</a>
+              <Link className="small-film-card__link" to="film-page.html">Seven Years in Tibet</Link>
             </h3>
           </article>
 
@@ -171,7 +173,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/midnight-special.jpg" alt="Midnight Special" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Midnight Special</a>
+              <Link className="small-film-card__link" to="film-page.html">Midnight Special</Link>
             </h3>
           </article>
 
@@ -180,7 +182,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/war-of-the-worlds.jpg" alt="War of the Worlds" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">War of the Worlds</a>
+              <Link className="small-film-card__link" to="film-page.html">War of the Worlds</Link>
             </h3>
           </article>
 
@@ -190,7 +192,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/dardjeeling-limited.jpg" alt="Dardjeeling Limited" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Dardjeeling Limited</a>
+              <Link className="small-film-card__link" to="film-page.html">Dardjeeling Limited</Link>
             </h3>
           </article>
 
@@ -199,7 +201,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/orlando.jpg" alt="Orlando" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Orlando</a>
+              <Link className="small-film-card__link" to="film-page.html">Orlando</Link>
             </h3>
           </article>
 
@@ -208,7 +210,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/mindhunter.jpg" alt="Mindhunter" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Mindhunter</a>
+              <Link className="small-film-card__link" to="film-page.html">Mindhunter</Link>
             </h3>
           </article>
 
@@ -217,7 +219,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
               <img src="img/midnight-special.jpg" alt="Midnight Special" width="280" height="175" />
             </div>
             <h3 className="small-film-card__title">
-              <a className="small-film-card__link" href="film-page.html">Midnight Special</a>
+              <Link className="small-film-card__link" to="film-page.html">Midnight Special</Link>
             </h3>
           </article>
         </div>
@@ -228,13 +230,7 @@ function MainChildScreen(props: MainChildScreenProps): JSX.Element {
       </section>
 
       <footer className="page-footer">
-        <div className="logo">
-          <a className="logo__link logo__link--light">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
+        <LogoScreen isLight/>
 
         <div className="copyright">
           <p>© 2019 What to watch Ltd.</p>
