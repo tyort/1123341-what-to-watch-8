@@ -3,7 +3,6 @@ import LogoScreen from '../../components/logo/logo';
 
 type MainScreenProps = {
   jopa?: never; // Не допускаем поле с таким именем
-  pisya: number;
   children: JSX.Element;
 }
 

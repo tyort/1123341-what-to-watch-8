@@ -5,21 +5,22 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateFuckingRoute from '../private-fucking-route/private-fucking-route';
 import MyListScreen from '../../pages/my-list/my-list';
 import SignInScreen from '../../pages/sign-in/sign-in';
+import {Film} from '../../types/film';
 
 
 type AppScreenProps = {
-  pisya: number;
+  films: Film[];
 }
 
-function App({pisya}: AppScreenProps): JSX.Element {
+function App({films}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <MainScreen pisya={pisya}>
-              <MainChildScreen/>
+            <MainScreen>
+              <MainChildScreen films={films}/>
             </MainScreen>
           }
         />
