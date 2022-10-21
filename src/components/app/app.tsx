@@ -5,6 +5,7 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateFuckingRoute from '../private-fucking-route/private-fucking-route';
 import MyListScreen from '../../pages/my-list/my-list';
 import SignInScreen from '../../pages/sign-in/sign-in';
+import AddReviewScreen from '../../pages/add-review/add-review';
 import {Film} from '../../types/film';
 
 
@@ -36,6 +37,12 @@ function App({films}: AppScreenProps): JSX.Element {
             >
               <MyListScreen/>
             </PrivateFuckingRoute>
+          }
+        />
+        <Route
+          path="/films/:id/review"
+          element={
+            <AddReviewScreen/>
           }
         />
         <Route
