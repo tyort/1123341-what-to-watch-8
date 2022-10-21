@@ -47,19 +47,13 @@ function MainChildScreen({films}: MainChildScreenProps): JSX.Element {
         </ul>
 
         <div className="catalog__films-list">
-          <SmallFilmCardScreen/>
-
           {films.map((film) => {
             const keyValue = `${film.id}-${film.description}`;
             return (
-              <article key={keyValue} className="small-film-card catalog__films-card">
-                <div className="small-film-card__image">
-                  <img src={film.preview_image} alt={film.name} width="280" height="175" />
-                </div>
-                <h3 className="small-film-card__title">
-                  <Link className="small-film-card__link" to="film-page.html">{film.name}</Link>
-                </h3>
-              </article>
+              <SmallFilmCardScreen
+                key={keyValue}
+                film={film}
+              />
             );
           })}
         </div>

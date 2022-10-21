@@ -73,7 +73,7 @@ export const films: Film[] = [
     'director': 'Tyo Sergey',
     'starring': ['Zairka Naira', 'Kodji Modji', 'Korean Girl'],
     'run_time': 99,
-    'genre': 'Horror',
+    'genre': 'Sci-Fi',
     'released': 2003,
     'is_favorite': false
   },
@@ -92,7 +92,7 @@ export const films: Film[] = [
     'director': 'Tyo Sergey',
     'starring': ['Zairka Naira', 'Kodji Modji', 'Korean Girl'],
     'run_time': 99,
-    'genre': 'Horror',
+    'genre': 'Documentary',
     'released': 2003,
     'is_favorite': false
   },
@@ -111,7 +111,7 @@ export const films: Film[] = [
     'director': 'Tyo Sergey',
     'starring': ['Zairka Naira', 'Kodji Modji', 'Korean Girl'],
     'run_time': 99,
-    'genre': 'Horror',
+    'genre': 'Thriller',
     'released': 2003,
     'is_favorite': false
   },
@@ -130,7 +130,7 @@ export const films: Film[] = [
     'director': 'Tyo Sergey',
     'starring': ['Zairka Naira', 'Kodji Modji', 'Korean Girl'],
     'run_time': 99,
-    'genre': 'Horror',
+    'genre': 'Romance',
     'released': 2003,
     'is_favorite': false
   },
@@ -153,4 +153,23 @@ export const films: Film[] = [
     'released': 2003,
     'is_favorite': false
   },
+  {
+    'id': 9,
+    'name': 'Sexy Bitch',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/seven-years-in-tibet.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    'preview_video_link': 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+    'description': 'A young woman, born at the turn of the 20th century, is rendered ageless after an accident. After many solitary years, she meets a man who complicates the eternal life she has settled into.',
+    'rating': 6.5,
+    'scores_count': 300,
+    'director': 'Turkichan',
+    'starring': ['Joromun Gagertyo', 'Lori joyn', 'Bibi boy'],
+    'run_time': 99,
+    'genre': 'Crime',
+    'released': 2003,
+    'is_favorite': false
+  }
 ];
