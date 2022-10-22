@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
-import SmallFilmCardScreen from '../small-film-card/small-film-card';
 import LogoScreen from '../../components/logo/logo';
+import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
 import {Film} from '../../types/film';
 
 type MainChildScreenProps = {
@@ -46,17 +46,7 @@ function MainChildScreen({films}: MainChildScreenProps): JSX.Element {
           </li>
         </ul>
 
-        <div className="catalog__films-list">
-          {films.map((film) => {
-            const keyValue = `${film.id}-${film.description}`;
-            return (
-              <SmallFilmCardScreen
-                key={keyValue}
-                film={film}
-              />
-            );
-          })}
-        </div>
+        <CatalogFilmsListScreen films={films}/>
 
         <div className="catalog__more">
           <button className="catalog__button" type="button">Show more</button>
