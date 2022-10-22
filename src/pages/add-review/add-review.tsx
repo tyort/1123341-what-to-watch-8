@@ -1,119 +1,118 @@
-import { Link } from 'react-router-dom';
-import {useState, ChangeEvent} from 'react';
+/* eslint-disable camelcase */
+import { Link, useParams, Navigate } from 'react-router-dom';
+import {useState, ChangeEvent, Fragment} from 'react';
+import {films} from '../../mocks/films';
+import { Film } from '../../types/film';
+import Logo from '../../components/logo/logo';
 
 type AddReviewScreenProps = {
 
 }
 
 function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
-  const [userComment, setUserComment] = useState('');
-  console.log(userComment);
+  const [userComment, setUserComment] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
+  const {movieId} = useParams();
+  const currentMovie: Film | undefined = films.find((movie) => movie.id.toString() === movieId);
+  const {name, preview_image, poster_image, background_image} = currentMovie as Film;
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>):void => {
     const {value} = evt.target;
     setUserComment(value);
   };
+
+  const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    setRating(Number(target.value));
+  };
+
   return (
-    <section className="film-card film-card--full">
-      <div className="film-card__header">
-        <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
-        </div>
-
-        <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header">
-          <div className="logo">
-            <Link to="/" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+    currentMovie
+      ?
+      <section className="film-card film-card--full">
+        <div className="film-card__header">
+          <div className="film-card__bg">
+            <img src={background_image} alt={name} />
           </div>
 
-          <nav className="breadcrumbs">
-            <ul className="breadcrumbs__list">
-              <li className="breadcrumbs__item">
-                <Link to="/" className="breadcrumbs__link">The Grand Budapest Hotel</Link>
+          <h1 className="visually-hidden">WTW</h1>
+
+          <header className="page-header">
+            <Logo isLight={false}/>
+
+            <nav className="breadcrumbs">
+              <ul className="breadcrumbs__list">
+                <li className="breadcrumbs__item">
+                  <Link to="/" className="breadcrumbs__link">{name}</Link>
+                </li>
+                <li className="breadcrumbs__item">
+                  <Link to="/" className="breadcrumbs__link">Add review</Link>
+                </li>
+              </ul>
+            </nav>
+
+            <ul className="user-block">
+              <li className="user-block__item">
+                <div className="user-block__avatar">
+                  <img src={preview_image} alt="User avatar" width="63" height="63" />
+                </div>
               </li>
-              <li className="breadcrumbs__item">
-                <Link to="/" className="breadcrumbs__link">Add review</Link>
+              <li className="user-block__item">
+                <Link to="/" className="user-block__link">Sign out</Link>
               </li>
             </ul>
-          </nav>
+          </header>
 
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <Link to="/" className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
-        </header>
-
-        <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          <div className="film-card__poster film-card__poster--small">
+            <img src={poster_image} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+          </div>
         </div>
-      </div>
 
-      <div className="add-review">
-        <form action="#" className="add-review__form">
-          <div className="rating">
-            <div className="rating__stars">
-              <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />
-              <label className="rating__label" htmlFor="star-10">Rating 10</label>
-
-              <input className="rating__input" id="star-9" type="radio" name="rating" value="9" />
-              <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked />
-              <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-              <input className="rating__input" id="star-7" type="radio" name="rating" value="7" />
-              <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-              <input className="rating__input" id="star-6" type="radio" name="rating" value="6" />
-              <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-              <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-              <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-              <input className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-              <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-              <input className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-              <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-              <input className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-              <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-              <input className="rating__input" id="star-1" type="radio" name="rating" value="1" />
-              <label className="rating__label" htmlFor="star-1">Rating 1</label>
-            </div>
-          </div>
-
-          <div className="add-review__text">
-            <textarea
-              onChange={handleTextareaChange}
-              className="add-review__textarea"
-              name="review-text"
-              id="review-text"
-              placeholder="Review text"
-              value={userComment}
-            >
-            </textarea>
-            <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+        <div className="add-review">
+          <form action="#" className="add-review__form">
+            <div className="rating">
+              <div className="rating__stars">
+                {
+                  new Array(10).fill('').map((_item, index, array) => {
+                    const points = array.length - index;
+                    return (
+                      <Fragment key={points}>
+                        <input
+                          className="rating__input"
+                          id={`star-${points}`}
+                          type="radio"
+                          name="rating"
+                          value={points}
+                          checked={rating === points}
+                          onChange={handleInputChange}
+                        />
+                        <label className="rating__label" htmlFor={`star-${points}`}>Rating {points}</label>
+                      </Fragment>
+                    );
+                  })
+                }
+              </div>
             </div>
 
-          </div>
-        </form>
-      </div>
+            <div className="add-review__text">
+              <textarea
+                onChange={handleTextareaChange}
+                className="add-review__textarea"
+                name="review-text"
+                id="review-text"
+                placeholder="Review text"
+                value={userComment}
+              >
+              </textarea>
+              <div className="add-review__submit">
+                <button className="add-review__btn" type="submit">Post</button>
+              </div>
 
-    </section>
+            </div>
+          </form>
+        </div>
+
+      </section>
+      : <Navigate to="/non-existent-page" />
   );
 }
 

@@ -40,7 +40,7 @@ function App({films}: AppScreenProps): JSX.Element {
           }
         />
         <Route
-          path="/films/:id/review"
+          path="/films/:movieId/review"
           element={
             <AddReviewScreen/>
           }
