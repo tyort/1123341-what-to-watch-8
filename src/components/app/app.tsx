@@ -20,7 +20,7 @@ function App({films}: AppScreenProps): JSX.Element {
         <Route
           path="/"
           element={
-            <MainScreen>
+            <MainScreen films={films}>
               <MainChildScreen films={films}/>
             </MainScreen>
           }
@@ -33,9 +33,9 @@ function App({films}: AppScreenProps): JSX.Element {
           path="/mylist"
           element={
             <PrivateFuckingRoute
-              authorizationStatus='NO_AUTH'
+              authorizationStatus='AUTH'
             >
-              <MyListScreen/>
+              <MyListScreen films={films}/>
             </PrivateFuckingRoute>
           }
         />
