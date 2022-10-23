@@ -43,7 +43,9 @@ function App({films}: AppScreenProps): JSX.Element {
         <Route
           path="/films/:movieId/review"
           element={
-            <AddReviewScreen/>
+            <AddReviewScreen
+              getGoAway={(jopa: number) => jopa*2}
+            />
           }
         />
         <Route

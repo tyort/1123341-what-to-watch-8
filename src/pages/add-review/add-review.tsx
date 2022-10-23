@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 import { Link, useParams, Navigate } from 'react-router-dom';
-import {useState, ChangeEvent, Fragment} from 'react';
+import {useState, ChangeEvent, Fragment, FormEvent} from 'react';
 import {films} from '../../mocks/films';
 import { Film } from '../../types/film';
 import Logo from '../../components/logo/logo';
 
 type AddReviewScreenProps = {
-
+  getGoAway: (jopa: number) => number;
 }
 
-function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen({getGoAway}: AddReviewScreenProps): JSX.Element {
   const [userComment, setUserComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const {movieId} = useParams();
@@ -68,7 +68,15 @@ function AddReviewScreen(props: AddReviewScreenProps): JSX.Element {
         </div>
 
         <div className="add-review">
-          <form action="#" className="add-review__form">
+          <form
+            action="#"
+            className="add-review__form"
+            onSubmit={(evt: FormEvent<HTMLFormElement>) => {
+              evt.preventDefault();
+              getGoAway(3);
+              console.log('Чего бля?');
+            }}
+          >
             <div className="rating">
               <div className="rating__stars">
                 {
