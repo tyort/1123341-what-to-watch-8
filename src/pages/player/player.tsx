@@ -3,7 +3,6 @@
 import { formatRemainingTime } from '../../utils';
 import { Film } from '../../types/film';
 import { useState, useEffect, useRef } from 'react';
-// import Spinner from '../../components/spinner/spinner';
 
 type PlayerScreenProps = {
   film: Film;
@@ -16,8 +15,7 @@ function PlayerScreen({film}: PlayerScreenProps): JSX.Element {
     isPlaying: false,
     progress: 0,
     speed: 1,
-    isMuted: false,
-    isEnded: false
+    isMuted: false
   });
 
   // меняем значение isPlaying на обратное

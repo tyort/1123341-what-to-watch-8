@@ -1,19 +1,27 @@
-import { Link } from 'react-router-dom';
+/* eslint-disable camelcase */
+import { Link, useParams } from 'react-router-dom';
 import { MouseEvent, useState } from 'react';
 import MoviePageChildScreenProps from './page-content';
+import { Film } from '../../types/film';
+import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
 
 type MoviePageScreenProps = {
   jopa?: never; // Не допускаем поле с таким именем
+  films: Film[];
 }
 
-function MoviePageScreen(props: MoviePageScreenProps): JSX.Element {
+function MoviePageScreen({films}: MoviePageScreenProps): JSX.Element {
+  const {movieId} = useParams();
+  const currentMovie: Film | undefined = films.find((movie) => movie.id.toString() === movieId);
+  const {background_image, name, genre, released, poster_image} = currentMovie as Film;
   const [menuItem, setMenuItem] = useState<string>('Overview');
+
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+            <img src={background_image} alt={name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -41,10 +49,10 @@ function MoviePageScreen(props: MoviePageScreenProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -69,7 +77,7 @@ function MoviePageScreen(props: MoviePageScreenProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={poster_image} alt={`${name} poster`} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
@@ -100,43 +108,7 @@ function MoviePageScreen(props: MoviePageScreenProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <Link className="small-film-card__link" to="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</Link>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <Link className="small-film-card__link" to="film-page.html">Bohemian Rhapsody</Link>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <Link className="small-film-card__link" to="film-page.html">Macbeth</Link>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-film-card__title">
-                <Link className="small-film-card__link" to="film-page.html">Aviator</Link>
-              </h3>
-            </article>
-          </div>
+          <CatalogFilmsListScreen films={films.slice(0, 4)}/>
         </section>
 
         <footer className="page-footer">

@@ -58,7 +58,7 @@ function App({films}: AppScreenProps): JSX.Element {
         <Route
           path="/films/:movieId"
           element={
-            <MoviePageScreen/>
+            <MoviePageScreen films={films}/>
           }
         />
         <Route
