@@ -4,7 +4,7 @@ type LogoScreenProps = {
   isLight: boolean;
 }
 
-function Logo({isLight = false}: LogoScreenProps): JSX.Element {
+function Logo({isLight}: LogoScreenProps): JSX.Element {
   const isLightClass: string = isLight
     ? 'logo__link logo__link--light'
     : 'logo__link';

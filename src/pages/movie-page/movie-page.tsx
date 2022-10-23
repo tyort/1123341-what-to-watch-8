@@ -2,8 +2,9 @@
 import { Link, useParams } from 'react-router-dom';
 import { MouseEvent, useState } from 'react';
 import MoviePageChildScreenProps from './page-content';
-import { Film } from '../../types/film';
 import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
+import Logo from '../../components/logo/logo';
+import { Film } from '../../types/film';
 
 type MoviePageScreenProps = {
   jopa?: never; // Не допускаем поле с таким именем
@@ -27,13 +28,7 @@ function MoviePageScreen({films}: MoviePageScreenProps): JSX.Element {
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
-            <div className="logo">
-              <Link to="main.html" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
+            <Logo isLight={false}/>
 
             <ul className="user-block">
               <li className="user-block__item">
@@ -112,13 +107,7 @@ function MoviePageScreen({films}: MoviePageScreenProps): JSX.Element {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <Link to="main.html" className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
+          <Logo isLight/>
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
