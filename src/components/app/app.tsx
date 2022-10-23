@@ -6,7 +6,8 @@ import PrivateFuckingRoute from '../private-fucking-route/private-fucking-route'
 import MyListScreen from '../../pages/my-list/my-list';
 import SignInScreen from '../../pages/sign-in/sign-in';
 import AddReviewScreen from '../../pages/add-review/add-review';
-import PlayerScreen from '../../pages/player/player'
+import PlayerScreen from '../../pages/player/player';
+import MoviePageScreen from '../../pages/movie-page/movie-page';
 import {Film} from '../../types/film';
 
 
@@ -44,7 +45,7 @@ function App({films}: AppScreenProps): JSX.Element {
           path="/films/:movieId/review"
           element={
             <AddReviewScreen
-              getGoAway={(jopa: number) => jopa*2}
+              getGoAway={(jopa: number) => jopa * 2}
             />
           }
         />
@@ -52,6 +53,12 @@ function App({films}: AppScreenProps): JSX.Element {
           path="/player/:movieId"
           element={
             <PlayerScreen film={films[6]}/>
+          }
+        />
+        <Route
+          path="/films/:movieId"
+          element={
+            <MoviePageScreen/>
           }
         />
         <Route

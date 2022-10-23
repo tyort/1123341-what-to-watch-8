@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 import { formatRemainingTime } from '../../utils';
 import { Film } from '../../types/film';
@@ -9,7 +10,7 @@ type PlayerScreenProps = {
 }
 
 function PlayerScreen({film}: PlayerScreenProps): JSX.Element {
-  const {poster_image, video_link, background_image, preview_image} = film;
+  const {video_link, background_image} = film;
   const videoElement = useRef<HTMLVideoElement | null>(null); // ссылка на видеоэлемент
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
@@ -40,8 +41,9 @@ function PlayerScreen({film}: PlayerScreenProps): JSX.Element {
     videoElement.current?.ended && setPlayerState({
       ...playerState,
       isPlaying: false
-    })
-  }, [videoElement.current?.ended])
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [(videoElement.current as HTMLVideoElement).ended]);
 
   // Сколько видео просмотрено
   const handleOnTimeUpdate = () => {
