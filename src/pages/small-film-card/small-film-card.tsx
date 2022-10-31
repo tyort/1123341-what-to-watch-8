@@ -27,9 +27,14 @@ function SmallFilmCardScreen({film, getHoveredFilm}: SmallFilmCardScreenProps): 
 
   useEffect(() => {
     if (mayPlay) {
-      isPlaying
-        ? videoElement.current?.play()
-        : videoElement.current?.load();
+      const videoDelay = setTimeout(() => {
+        if (isPlaying) {
+          videoElement.current?.play();
+        } else {
+          clearTimeout(videoDelay);
+          videoElement.current?.load();
+        }
+      }, 1000);
     }
   }, [isPlaying, mayPlay]);
 
