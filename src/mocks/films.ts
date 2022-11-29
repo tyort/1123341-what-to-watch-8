@@ -173,3 +173,15 @@ export const films: Film[] = [
     'is_favorite': false
   }
 ];
+
+export const genres: readonly string[] = [
+  'All genres',
+  'Comedy',
+  'Drama',
+  'Horror',
+  'Sci-Fi',
+  'Documentary',
+  'Thriller',
+  'Romance',
+  'Crime',
+];
