@@ -24,7 +24,7 @@ function App({films}: AppScreenProps): JSX.Element {
           element={
             <MainScreen
               films={films}
-              render={(movies) => <MainChildScreen films={movies}/>}
+              render={() => <MainChildScreen/>}
             />
           }
         />
