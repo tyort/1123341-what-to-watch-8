@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom';
+import { MouseEvent, useState } from 'react';
 import LogoScreen from '../../components/logo/logo';
 import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
 import {Film} from '../../types/film';
@@ -8,42 +9,26 @@ type MainChildScreenProps = {
 }
 
 function MainChildScreen({films}: MainChildScreenProps): JSX.Element {
+  const genres = Array.from(new Set(films.map((movie) => movie.genre)));
+  const [currentGenre, setCurrentGenre] = useState<string>('All genres');
+
   return (
     <div className="page-content">
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <ul className="catalog__genres-list">
-          <li className="catalog__genres-item catalog__genres-item--active">
-            <Link to="#" className="catalog__genres-link">All genres</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Comedies</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Crime</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Documentary</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Dramas</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Horror</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Kids &amp; Family</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Romance</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Sci-Fi</Link>
-          </li>
-          <li className="catalog__genres-item">
-            <Link to="#" className="catalog__genres-link">Thrillers</Link>
-          </li>
+          {['All genres', ...genres].map((genre) => (
+            <li
+              key={genre}
+              className={`catalog__genres-item ${currentGenre === genre ? 'catalog__genres-item--active' : ''}`}
+              onClick={(evt: MouseEvent<HTMLLIElement>)=> {
+                setCurrentGenre(genre);
+              }}
+            >
+              <Link to="#" className="catalog__genres-link">{genre}</Link>
+            </li>
+          ))}
         </ul>
 
         <CatalogFilmsListScreen films={films}/>
