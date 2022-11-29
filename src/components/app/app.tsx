@@ -22,9 +22,10 @@ function App({films}: AppScreenProps): JSX.Element {
         <Route
           path="/"
           element={
-            <MainScreen films={films}>
-              <MainChildScreen films={films}/>
-            </MainScreen>
+            <MainScreen
+              films={films}
+              render={(movies) => <MainChildScreen films={movies}/>}
+            />
           }
         />
         <Route

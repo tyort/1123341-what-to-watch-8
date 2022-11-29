@@ -4,7 +4,7 @@ import {Film} from '../../types/film';
 
 type MainScreenProps = {
   jopa?: never; // Не допускаем поле с таким именем
-  children: JSX.Element;
+  render: (films: Film[]) => JSX.Element;
   films: Film[];
 }
 
@@ -66,7 +66,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
           </div>
         </div>
       </section>
-      {props.children}
+      {props.render(films)}
     </>
   );
 }
