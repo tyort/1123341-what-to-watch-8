@@ -1,18 +1,26 @@
 import {Link} from 'react-router-dom';
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import LogoScreen from '../../components/logo/logo';
-import {getMoviesByGenre, changeGenre} from '../../store/action';
+import {getMoviesByGenre, changeGenre, getMoviesCount} from '../../store/action';
 import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
 
 function MainChildScreen(): JSX.Element {
-  const {genre, genres, films} = useAppSelector((state) => state);
-
+  const {genre, genres, filmsCount, films, showButton} = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   const onGenreChange = (selectedGenre: string) => {
     dispatch(changeGenre({genre: selectedGenre}));
     dispatch(getMoviesByGenre());
+    dispatch(getMoviesCount({isCountReset: true}));
+  };
+
+  useEffect(() => {
+    dispatch(getMoviesCount({isCountReset: true}));
+  }, []);
+
+  const onMoviesCountChange = () => {
+    dispatch(getMoviesCount({isCountReset: false}));
   };
 
   return (
@@ -34,11 +42,21 @@ function MainChildScreen(): JSX.Element {
           ))}
         </ul>
 
-        <CatalogFilmsListScreen films={films}/>
+        <CatalogFilmsListScreen films={films.slice(0, filmsCount)}/>
 
+        {showButton &&
         <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+          <button
+            className="catalog__button"
+            type="button"
+            onClick={(evt: MouseEvent<HTMLButtonElement>)=> {
+              onMoviesCountChange();
+            }}
+          >
+            Show more
+          </button>
+        </div>}
+
       </section>
 
       <footer className="page-footer">
