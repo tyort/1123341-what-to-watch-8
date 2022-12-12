@@ -1,11 +1,12 @@
 import {Navigate} from 'react-router-dom';
+import {PropsWithChildren} from 'react';
 
-type PrivateFuckingRouteProps = {
+
+type PrivateFuckingRouteProps = PropsWithChildren<{
   authorizationStatus: 'AUTH' | 'NO_AUTH' | 'UNKNOWN';
-  children: JSX.Element;
-}
+}>
 
-function PrivateFuckingRoute(props: PrivateFuckingRouteProps): JSX.Element {
+function PrivateFuckingRoute(props: PrivateFuckingRouteProps) {
   const {authorizationStatus, children} = props;
 
   return (
