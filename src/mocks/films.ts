@@ -156,9 +156,9 @@ export const films: Film[] = [
   {
     'id': 9,
     'name': 'Sexy Bitch',
-    'poster_image': 'img/poster-gabbie-02.jpg',
-    'preview_image': 'img/tyort_02342.jpg',
-    'background_image': 'img/bg-oxana-chic-has-bacon-salad-zishy_03.jpg',
+    'poster_image': 'img/poster-gabbie-02.jpg', // 273 x 410
+    'preview_image': 'img/tyort_02342.jpg', // 280 x 175
+    'background_image': 'img/bg-oxana-chic-has-bacon-salad-zishy_03.jpg', // 1300 x 552
     'background_color': '#ffffff',
     'video_link': 'https://cdn.freeones.com/video-898/Rs/i4/QWAcUjGJcUpzvbsZUS/480p.mp4',
     'preview_video_link': 'https://cdn.freeones.com/video-898/Rs/i4/QWAcUjGJcUpzvbsZUS/480p.mp4',
