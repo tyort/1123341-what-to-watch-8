@@ -11,7 +11,7 @@ function PrivateFuckingRoute(props: PrivateFuckingRouteProps) {
 
   return (
     authorizationStatus === 'AUTH'
-      ? children
+      ? <> {children}</>
       : <Navigate to="/login" />
   );
 }
