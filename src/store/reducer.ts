@@ -1,17 +1,21 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeGenre, getMoviesByGenre, getMoviesCount} from './action';
-import {films, genres} from '../mocks/films';
+import { Film } from '../types/film';
+import {changeGenre, getMoviesByGenre, getMoviesCount, loadMovies, loadGenres} from './action';
 
 const FILMS_COUNT_DIVIDER = 4;
 
-const isButtonShow: boolean = films.length > FILMS_COUNT_DIVIDER;
-
-const initialState = {
+const initialState: {
+  genre: string;
+  films: Film[];
+  genres: string[];
+  filmsCount: number;
+  showButton: boolean;
+} = {
   genre: 'All genres',
-  films,
-  genres,
+  films: [],
+  genres: [],
   filmsCount: FILMS_COUNT_DIVIDER,
-  showButton: isButtonShow
+  showButton: true
 };
 
 // Редюсеры определяют, как состояние приложения изменяется в ответ на экшены, отправленные в стор.
@@ -23,7 +27,9 @@ const reducer = createReducer(initialState, (builder) => {
       state.genre = genre;
     })
     .addCase(getMoviesByGenre, (state) => {
-      state.films = films.filter((movie) => movie.genre === state.genre || state.genre === 'All genres');
+      state.films = state.films
+        .slice()
+        .filter((movie) => movie.genre === state.genre || state.genre === 'All genres');
     })
     .addCase(getMoviesCount, (state, action) => {
       const {isCountReset} = action.payload;
@@ -35,6 +41,13 @@ const reducer = createReducer(initialState, (builder) => {
       }
 
       state.showButton = state.films.length > state.filmsCount;
+    })
+    .addCase(loadMovies, (state, action) => {
+      state.films = action.payload;
+      state.showButton = state.films.length > FILMS_COUNT_DIVIDER;
+    })
+    .addCase(loadGenres, (state, action) => {
+      state.genres = action.payload;
     });
 });
 
