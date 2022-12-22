@@ -6,18 +6,12 @@ import {createAPI} from '../services/api';
 export const api = createAPI();
 
 
-// Читается неплохо, но вложенность
-// немного пугает
-export function fuckYouSanta(store: { getState: () => any }) {
-  return function (_nextDispath: any) {
-    return function (action: any) {
-      console.log(`[${Date()}] — выполнено действие`);
-      console.log(action); // объект
-      console.log('Текущее состояние:');
-      console.log(store.getState()); // объект состояния
-    };
-  };
-}
+export const fuckYouSanta = (store: any) => (_nextDispath: any) => (action: any) => {
+  console.log(`[${Date()}] — выполнено действие`);
+  console.log(action);
+  console.log('Текущее состояние:');
+  console.log(store.getState());
+};
 
 // export const store = configureStore({
 //   reducer,
