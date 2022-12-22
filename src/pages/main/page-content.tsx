@@ -20,7 +20,8 @@ function MainChildScreen(): JSX.Element {
   }, []);
 
   const onMoviesCountChange = () => {
-    dispatch(getMoviesCount({isCountReset: false}));
+    const fuck = dispatch(getMoviesCount({isCountReset: false}));
+    console.log(fuck); // В консоль попадет "Oxana Chic"
   };
 
   return (
