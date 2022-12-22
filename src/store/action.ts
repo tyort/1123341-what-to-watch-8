@@ -7,3 +7,5 @@ export const getMoviesByGenre = createAction('movies/getMoviesByGenre');
 export const getMoviesCount = createAction<{isCountReset: boolean}>('movies/getMoviesCount');
 export const loadMovies = createAction<Film[]>('loadingData/loadFilms');
 export const loadGenres = createAction<string[]>('loadingData/loadGenres');
+export const setAuthorizationStatus = createAction<'AUTH' | 'NO_AUTH' | 'UNKNOWN'>('authorization/setAuthorizationStatus');
+
