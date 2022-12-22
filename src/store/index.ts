@@ -7,8 +7,7 @@ export const api = createAPI();
 
 
 export const fuckYouSanta = (store: any) => (next: any) => (action: any) => {
-  next(action);
-  return 'Oxana Chic';
+  return next(action);
 };
 
 export const fuckYouBambi = (store: any) => (next: any) => (action: any) => {
