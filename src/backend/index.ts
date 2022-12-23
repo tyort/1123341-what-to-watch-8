@@ -12,7 +12,10 @@ app.use(cors());
 app.use(express.json());
 const PORT = 3002;
 
-app.get('/films', (req, res) => {
+app.get('/films/:jopa?', (req, res) => {
+  const {query, params} = req;
+  console.log(query);
+  console.log(params);
   res.status(200).json(films);
 });
 
