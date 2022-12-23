@@ -20,8 +20,7 @@ function MainChildScreen(): JSX.Element {
   }, []);
 
   const onMoviesCountChange = () => {
-    const fuck = dispatch(getMoviesCount({isCountReset: false}));
-    console.log(fuck); // В консоль попадет "lightweight"
+    dispatch(getMoviesCount({isCountReset: false}));
   };
 
   return (

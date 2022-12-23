@@ -11,8 +11,10 @@ export const fetchMoviesAction = createAsyncThunk<void, undefined, {
 }>(
   'loadingData/fetchMovies',
   async (_arg, {dispatch, extra: api}) => {
-    // res.json(films) - "films" попадает в "data"
-    const {data} = await api.get<Film[]>('/films');
+    // c бэкэнда на фронт res.json(films) - "films" попадает в "data"
+    const response = await api.get<Film[]>('/films?jopa=123');
+    console.log(response);
+    const {data} = response;
     // Диспатчим обычное действие(как объект)
     dispatch(loadMovies(data));
   },
