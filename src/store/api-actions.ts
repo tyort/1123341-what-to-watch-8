@@ -7,7 +7,10 @@ import { loadMovies } from './action';
 // т.е. мы можем вызывать как fetchMoviesAction(), так и fetchMoviesAction({genre: 'porn'}).
 // Причем при вызове fetchMoviesAction() без аргументов, в arg попадает пустой объект({}).
 // ЧТО ИНТЕРЕСНО! arg - это одновременно и {}, и undefined
-type Arguments = undefined | {genre: string};
+type Arguments = {
+  genre: string;
+  moviesCount: number;
+};
 
 export const fetchMoviesAction = createAsyncThunk<void, Arguments, {
   dispatch: AppDispatch;
@@ -16,12 +19,15 @@ export const fetchMoviesAction = createAsyncThunk<void, Arguments, {
 }>(
   'loadingData/fetchMovies',
   async (arg: Arguments, {dispatch, extra: api}) => {
-    const currentQuery = arg === undefined ? {genre: 'All genres'} : arg;
-    // http://localhost:3002/films?genre=All+genres - вот как примерно выглядит запрос на бэкэнд
-    const response = await api.get<{currentMovies: Film[]; genres: string[]}>('/films', {params: currentQuery});
+    // http://localhost:3002/films?genre=All+genres&moviesCount=4 - вот как примерно выглядит запрос на бэкэнд
+    const response = await api.get<{
+      moviesForView: Film[];
+      genres: string[];
+      showButton: boolean;
+    }>('/films', {params: arg});
     // На бэкэнде мы настроили ответ пользователю вот так: res.json(films) - здесь films попадает в data;
     const {data} = response;
     // Диспатчим обычное действие(как объект)
-    dispatch(loadMovies({...data, ...currentQuery}));
+    dispatch(loadMovies({...data, ...arg}));
   },
 );

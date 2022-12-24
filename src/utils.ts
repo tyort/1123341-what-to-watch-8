@@ -17,3 +17,5 @@ export const formatRemainingTime = (remainingTime: number): string => {
   const format = remainingTime >= 3600 ? '-HH:mm:ss' : '-mm:ss';
   return dayjs.duration(remainingTime, 'seconds').format(format);
 };
+
+export const FILMS_COUNT_DIVIDER = 4;

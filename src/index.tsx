@@ -5,10 +5,11 @@ import {Provider} from 'react-redux'; // Provider - компонент. Мост
 import {films} from './mocks/films';
 import {store} from './store';
 import { fetchMoviesAction } from './store/api-actions';
+import { FILMS_COUNT_DIVIDER } from './utils';
 
 // Благодаря подключению "thunk" в "store" мы теперь можем диспатчить функции,
 // имеющих под капотом некую асинхронность;
-store.dispatch(fetchMoviesAction()); // Возвращает Promise
+store.dispatch(fetchMoviesAction({genre: 'All genres', moviesCount: FILMS_COUNT_DIVIDER})); // Возвращает Promise
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

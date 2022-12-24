@@ -14,10 +14,13 @@ const PORT = 3002;
 
 app.get('/films', (req, res) => {
   const {query} = req;
-  const currentMovies = films
+  const AllMoviesByGenre = films
     .slice()
     .filter((movie) => movie.genre === query.genre || query.genre === 'All genres');
-  res.status(200).json({currentMovies, genres});
+
+  const showButton = AllMoviesByGenre.length > Number(query.moviesCount);
+  const moviesForView = AllMoviesByGenre.slice(0, Number(query.moviesCount));
+  res.status(200).json({moviesForView, genres, showButton});
 });
 
 app.listen(PORT, () => {

@@ -1,26 +1,21 @@
 import {Link} from 'react-router-dom';
-import { MouseEvent, useEffect } from 'react';
+import { MouseEvent } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import LogoScreen from '../../components/logo/logo';
-import {getMoviesByGenre, changeGenre, getMoviesCount} from '../../store/action';
 import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
+import { fetchMoviesAction } from '../../store/api-actions';
+import { FILMS_COUNT_DIVIDER } from '../../utils';
 
 function MainChildScreen(): JSX.Element {
-  const {genre, genres, filmsCount, films, showButton} = useAppSelector((state) => state);
+  const {genre, genres, films, showButton} = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   const onGenreChange = (selectedGenre: string) => {
-    dispatch(changeGenre({genre: selectedGenre}));
-    dispatch(getMoviesByGenre());
-    dispatch(getMoviesCount({isCountReset: true}));
+    dispatch(fetchMoviesAction({genre: selectedGenre, moviesCount: FILMS_COUNT_DIVIDER}));
   };
 
-  useEffect(() => {
-    dispatch(getMoviesCount({isCountReset: true}));
-  }, []);
-
   const onMoviesCountChange = () => {
-    dispatch(getMoviesCount({isCountReset: false}));
+    dispatch(fetchMoviesAction({genre, moviesCount: films.length + FILMS_COUNT_DIVIDER}));
   };
 
   return (
@@ -42,7 +37,7 @@ function MainChildScreen(): JSX.Element {
           ))}
         </ul>
 
-        <CatalogFilmsListScreen films={films.slice(0, filmsCount)}/>
+        <CatalogFilmsListScreen films={films}/>
 
         {showButton &&
         <div className="catalog__more">
