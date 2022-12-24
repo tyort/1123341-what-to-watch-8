@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { Film } from '../types/film';
-import {changeGenre, getMoviesByGenre, getMoviesCount, loadMovies, loadGenres, setAuthorizationStatus} from './action';
+import {getMoviesCount, loadMovies, setAuthorizationStatus} from './action';
 
 const FILMS_COUNT_DIVIDER = 4;
 
@@ -24,15 +24,6 @@ const initialState: {
 // Помните, что экшены только описывают, _что произошло, но не описывают, как изменяется состояние приложения.
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(changeGenre, (state, action) => {
-      const {genre} = action.payload;
-      state.genre = genre;
-    })
-    .addCase(getMoviesByGenre, (state) => {
-      state.films = state.films
-        .slice()
-        .filter((movie) => movie.genre === state.genre || state.genre === 'All genres');
-    })
     .addCase(getMoviesCount, (state, action) => {
       const {isCountReset} = action.payload;
 
@@ -45,11 +36,11 @@ const reducer = createReducer(initialState, (builder) => {
       state.showButton = state.films.length > state.filmsCount;
     })
     .addCase(loadMovies, (state, action) => {
-      state.films = action.payload;
+      const {currentMovies, genres, genre} = action.payload;
+      state.films = currentMovies;
+      state.genres = genres;
+      state.genre = genre;
       state.showButton = state.films.length > FILMS_COUNT_DIVIDER;
-    })
-    .addCase(loadGenres, (state, action) => {
-      state.genres = action.payload;
     })
     .addCase(setAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;

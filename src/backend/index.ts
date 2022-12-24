@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import {films} from '../mocks/films.js';
+import {films, genres} from '../mocks/films.js';
 
 const app = express();
 
@@ -12,11 +12,12 @@ app.use(cors());
 app.use(express.json());
 const PORT = 3002;
 
-app.get('/films/:jopa?', (req, res) => {
-  const {query, params} = req;
-  console.log(query);
-  console.log(params);
-  res.status(200).json(films);
+app.get('/films', (req, res) => {
+  const {query} = req;
+  const currentMovies = films
+    .slice()
+    .filter((movie) => movie.genre === query.genre || query.genre === 'All genres');
+  res.status(200).json({currentMovies, genres});
 });
 
 app.listen(PORT, () => {

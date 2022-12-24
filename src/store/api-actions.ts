@@ -4,24 +4,24 @@ import {AxiosInstance} from 'axios';
 import { Film } from '../types/film';
 import { loadMovies } from './action';
 
-// Тип для параметра "arg"
-type Arguments = {
-  genre: string;
-}
+// т.е. мы можем вызывать как fetchMoviesAction(), так и fetchMoviesAction({genre: 'porn'}).
+// Причем при вызове fetchMoviesAction() без аргументов, в arg попадает пустой объект({}).
+// ЧТО ИНТЕРЕСНО! arg - это одновременно и {}, и undefined
+type Arguments = undefined | {genre: string};
 
-// В "arg" попадают аргументы при вызове fetchMoviesAction(аргументы)
 export const fetchMoviesAction = createAsyncThunk<void, Arguments, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
   'loadingData/fetchMovies',
-  async (arg, {dispatch, extra: api}) => {
-    // http://localhost:3002/films?genre=All+genres - вот как выглядит запрос на бэкэнд
-    const response = await api.get<Film[]>('/films/2', {params: arg});
-    // На бэкэнде мы настроили ответ вот так: res.json(films) - films попадает в data;
+  async (arg: Arguments, {dispatch, extra: api}) => {
+    const currentQuery = arg === undefined ? {genre: 'All genres'} : arg;
+    // http://localhost:3002/films?genre=All+genres - вот как примерно выглядит запрос на бэкэнд
+    const response = await api.get<{currentMovies: Film[]; genres: string[]}>('/films', {params: currentQuery});
+    // На бэкэнде мы настроили ответ пользователю вот так: res.json(films) - здесь films попадает в data;
     const {data} = response;
     // Диспатчим обычное действие(как объект)
-    dispatch(loadMovies(data));
+    dispatch(loadMovies({...data, ...currentQuery}));
   },
 );
