@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { Film } from '../types/film';
-import {loadMovies, setAuthorizationStatus, showErrorMessage} from './action';
+import {hideErrorMessage, loadMovies, setAuthorizationStatus, showErrorMessage} from './action';
 
 const FILMS_COUNT_DIVIDER = 4;
 
@@ -38,6 +38,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(showErrorMessage, (state, action) => {
       state.errorMessage = action.payload;
+    })
+    .addCase(hideErrorMessage, (state) => {
+      state.errorMessage = undefined;
     });
 });
 

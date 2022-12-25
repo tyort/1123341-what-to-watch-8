@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state';
 import {AxiosError, AxiosInstance} from 'axios';
 import { Film } from '../types/film';
-import { loadMovies, showErrorMessage } from './action';
+import { loadMovies, showErrorMessage, hideErrorMessage } from './action';
 import { errorResponses } from '../utils';
 
 // т.е. мы можем вызывать как fetchMoviesAction(), так и fetchMoviesAction({genre: 'porn'}).
@@ -31,8 +31,14 @@ export const fetchMoviesAction = createAsyncThunk<void, Arguments, {
       // На бэкэнде мы настроили ответ пользователю вот так: res.json(films) - здесь films попадает в data;
       const {data} = response;
       dispatch(loadMovies({...data, ...arg}));
+
     } catch (err) {
       dispatch(showErrorMessage(errorResponses.get((err as AxiosError).message)));
+
+      const errorTime = setTimeout(() => {
+        dispatch(hideErrorMessage());
+        clearTimeout(errorTime);
+      }, 5000);
     }
   },
 );

@@ -10,3 +10,4 @@ export const loadMovies = createAction<{
 }>('loadingData/loadFilms');
 export const setAuthorizationStatus = createAction<'AUTH' | 'NO_AUTH' | 'UNKNOWN'>('authorization/setAuthorizationStatus');
 export const showErrorMessage = createAction<string | undefined>('error/showErrorMessage');
+export const hideErrorMessage = createAction('error/hideErrorMessage');
