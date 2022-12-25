@@ -1,6 +1,7 @@
 import React from 'react'; // Добавляем здесь в точке входа, в остальных компонентах можно не добавлять;
 import ReactDOM from 'react-dom/client'; // Добавляем здесь в точке входа, в остальных компонентах можно не добавлять;
 import App from './components/app/app';
+import ErrorMessage from './components/error-message/error-message';
 import {Provider} from 'react-redux'; // Provider - компонент. Мостик между React и Redux;
 import {films} from './mocks/films';
 import {store} from './store';
@@ -18,6 +19,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
+      <ErrorMessage />
       <App
         films={films}
       />
