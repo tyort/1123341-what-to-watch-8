@@ -1,6 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import { Film } from '../types/film';
-import {loadMovies, setAuthorizationStatus} from './action';
+import {loadMovies, setAuthorizationStatus, showErrorMessage} from './action';
 
 const FILMS_COUNT_DIVIDER = 4;
 
@@ -11,13 +11,15 @@ const initialState: {
   filmsCount: number;
   showButton: boolean;
   authorizationStatus: 'AUTH' | 'NO_AUTH' | 'UNKNOWN';
+  errorMessage: string | undefined;
 } = {
   genre: 'All genres',
   films: [],
   genres: [],
   filmsCount: FILMS_COUNT_DIVIDER,
   showButton: true,
-  authorizationStatus: 'UNKNOWN'
+  authorizationStatus: 'UNKNOWN',
+  errorMessage: undefined
 };
 
 // Редюсеры определяют, как состояние приложения изменяется в ответ на экшены, отправленные в стор.
@@ -33,6 +35,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(showErrorMessage, (state, action) => {
+      state.errorMessage = action.payload;
     });
 });
 

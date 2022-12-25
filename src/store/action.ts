@@ -9,4 +9,4 @@ export const loadMovies = createAction<{
   showButton: boolean;
 }>('loadingData/loadFilms');
 export const setAuthorizationStatus = createAction<'AUTH' | 'NO_AUTH' | 'UNKNOWN'>('authorization/setAuthorizationStatus');
-
+export const showErrorMessage = createAction<string | undefined>('error/showErrorMessage');
