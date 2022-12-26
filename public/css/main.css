@@ -488,6 +488,7 @@ main {
     margin-right: 9px; }
 
 .catalog {
+  position: relative;
   margin-bottom: 115px;
   max-width: 1300px;
   width: 100%;

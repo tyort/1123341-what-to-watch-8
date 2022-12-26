@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import { MouseEvent } from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import LogoScreen from '../../components/logo/logo';
+import LoadingScreen from '../../components/loading/loading';
 import CatalogFilmsListScreen from '../catalog-films-list/catalog-films-list';
 import { fetchMoviesAction } from '../../store/api-actions';
 import { FILMS_COUNT_DIVIDER } from '../../utils';
@@ -37,6 +38,7 @@ function MainChildScreen(): JSX.Element {
           ))}
         </ul>
 
+        {films.length === 0 && <LoadingScreen />}
         <CatalogFilmsListScreen films={films}/>
 
         {showButton &&
