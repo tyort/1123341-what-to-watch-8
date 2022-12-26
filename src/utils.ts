@@ -24,5 +24,7 @@ export const REQUEST_TIMEOUT = 5000;
 export const errorResponses = new Map([
   ['Network Error', 'Невозможно установить соединение c сервером!'],
   ['Request failed with status code 404', 'Ты обратился по несуществующему адресу, уебок!'],
-  [`timeout of ${REQUEST_TIMEOUT}ms exceeded`, 'Превышено время ожидания ответа от сервера!']
+  [`timeout of ${REQUEST_TIMEOUT}ms exceeded`, 'Превышено время ожидания ответа от сервера!'],
+  ['401 User not found', 'Ебучий пользователь не найден!'],
+  ['401 Wrong password', 'Введи нормальный пароль, идиот!'],
 ]);
