@@ -27,12 +27,16 @@ export const fetchAuthAction = createAsyncThunk(
 
     } catch (err) {
       dispatch(setAuthorizationStatus('NO_AUTH'));
-      dispatch(showErrorMessage(errorResponses.get((err as AxiosError).response?.data as string)));
 
-      const errorTime = setTimeout(() => {
-        dispatch(hideErrorMessage());
-        clearTimeout(errorTime);
-      }, 5000);
+      // Условия нужно для того, чтобы изолировать ошибки авторизации от всего остального
+      if ((err as AxiosError).response?.data !== undefined) {
+        dispatch(showErrorMessage(errorResponses.get((err as AxiosError).response?.data as string)));
+
+        const errorTime = setTimeout(() => {
+          dispatch(hideErrorMessage());
+          clearTimeout(errorTime);
+        }, 5000);
+      }
     }
   }
 );
