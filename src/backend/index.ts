@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import {films, genres} from '../mocks/films.js';
+import {users} from '../mocks/users.js';
 
 const app = express();
 
@@ -21,6 +22,19 @@ app.get('/films', (req, res) => {
   const showButton = AllMoviesByGenre.length > Number(query.moviesCount);
   const moviesForView = AllMoviesByGenre.slice(0, Number(query.moviesCount));
   res.status(200).json({moviesForView, genres, showButton});
+});
+
+app.get('/login', (req, res) => {
+  const {email, password} = req.query;
+  const currentUser = users.find((user) => user.email === email);
+
+  if (currentUser === undefined) {
+    return res.status(401).json('401 User not found');
+  } else if (currentUser.password !== password) {
+    return res.status(401).json('401 Wrong password');
+  } else {
+    return res.status(200).json('AUTH');
+  }
 });
 
 app.listen(PORT, () => {
