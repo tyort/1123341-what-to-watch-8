@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import cors from 'cors';
 import {films, genres} from '../mocks/films.js';
 import {users} from '../mocks/users.js';
@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 const PORT = 3002;
 
-app.get('/films', (req, res) => {
+app.get('/films', (req: Request, res: Response) => {
   const {query} = req;
   const AllMoviesByGenre = films
     .slice()
@@ -24,7 +24,7 @@ app.get('/films', (req, res) => {
   res.status(200).json({moviesForView, genres, showButton});
 });
 
-app.get('/login', (req, res) => {
+app.get('/login', (req: Request, res: Response) => {
   const {email, password} = req.query;
   const currentUser = users.find((user) => user.email === email);
 
