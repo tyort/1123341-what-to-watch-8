@@ -1,15 +1,27 @@
 import { FormEvent, createRef, RefObject } from 'react';
 import LogoScreen from '../../components/logo/logo';
+import {useAppDispatch} from '../../hooks';
+import { fetchAuthAction } from '../../store/api-actions';
+
+// Мы можем по-разному обработать пользовательский ввод в Форму:
+//   1) ref-объект(методом createRef) Вместо value ставим атрибут defaultValue.
+//      Данные c DOM-элемента получаем через FormData по атрибуту name;
+//   2) setState. Данные c DOM-элемента получаем через evt.target.value;
+//   3) useRef для каждого input
 
 function SignInScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+
   // это просто объект, у которого есть свойство "current", в котором естьссылка на DOM-элемент;
   const inputRef: RefObject<HTMLFormElement> = createRef();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-
-    const tyort = new FormData(inputRef.current as HTMLFormElement).get('user-email');
-    console.log(tyort);
+    const formData = new FormData(inputRef.current as HTMLFormElement);
+    dispatch(fetchAuthAction({
+      email: formData.get('user-email') as string,
+      password: formData.get('user-password') as string
+    }));
   };
 
   return (
