@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
-import { saveToken } from '../services/token';
+import { getToken, saveToken } from '../services/token';
 import { Film } from '../types/film';
 import { AppDispatch, State } from '../types/state';
 import { errorResponses } from '../utils';
@@ -21,11 +21,19 @@ type FetchUserArguments = {
 
 export const fetchAuthAction = createAsyncThunk(
   'userData/fetchUserAuth',
-  async ({email, password}: FetchUserArguments, {dispatch, extra: api}): Promise<void> => {
+  async (arg: FetchUserArguments | undefined, {dispatch, extra: api}): Promise<void> => {
+    const token: {email: string; password: string} | null = getToken();
+
     try {
-      const {data} = await (api as AxiosInstance).get<'AUTH'>('/login', {params: {email, password}});
-      dispatch(setAuthorizationStatus(data));
-      saveToken(JSON.stringify({email, password}));
+      if (!arg) {
+        token
+          ? dispatch(setAuthorizationStatus('AUTH'))
+          : dispatch(setAuthorizationStatus('NO_AUTH'));
+      } else {
+        const {data} = await (api as AxiosInstance).get<'AUTH'>('/login', {params: arg});
+        dispatch(setAuthorizationStatus(data));
+        saveToken(JSON.stringify(arg));
+      }
 
     } catch (err) {
       dispatch(setAuthorizationStatus('NO_AUTH'));

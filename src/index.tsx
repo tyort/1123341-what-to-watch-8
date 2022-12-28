@@ -11,7 +11,7 @@ import { FILMS_COUNT_DIVIDER } from './utils';
 // Благодаря подключению "thunk" в "store" мы теперь можем диспатчить функции,
 // имеющих под капотом некую асинхронность;
 store.dispatch(fetchMoviesAction({genre: 'All genres', moviesCount: FILMS_COUNT_DIVIDER})); // Возвращает Promise
-store.dispatch(fetchAuthAction({email: 'gomarjoba@mail.ru', password: '111'}));
+store.dispatch(fetchAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

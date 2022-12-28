@@ -12,9 +12,9 @@ export const createAPI = (): AxiosInstance => {
 
   // api.interceptors - с помощью этого настраиваем перехватчики, метод use - имеет 2 колбэка
   api.interceptors.request.use((config: AxiosRequestConfig) => {
-    const token: string = getToken();
+    const token: {email: string; password: string} | null = getToken();
     if (token && config.headers) {
-      config.headers['x-token'] = token;
+      config.headers['x-token'] = JSON.stringify(token);
     }
     return config; // без врзвращения config я не смогу далее по цепочке middleware воспользоваться объектом запроса (req)
   });
