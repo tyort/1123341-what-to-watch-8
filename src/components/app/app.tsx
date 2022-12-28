@@ -35,9 +35,7 @@ function App({films}: AppScreenProps): JSX.Element {
         <Route
           path="/mylist"
           element={
-            <PrivateFuckingRoute
-              authorizationStatus='NO_AUTH'
-            >
+            <PrivateFuckingRoute>
               <MyListScreen films={films}/>
             </PrivateFuckingRoute>
           }
