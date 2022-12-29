@@ -1,6 +1,7 @@
-import { FormEvent, createRef, RefObject } from 'react';
+import { FormEvent, createRef, RefObject, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import LogoScreen from '../../components/logo/logo';
-import {useAppDispatch} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import { fetchAuthAction } from '../../store/api-actions';
 
 // Мы можем по-разному обработать пользовательский ввод в Форму:
@@ -10,6 +11,8 @@ import { fetchAuthAction } from '../../store/api-actions';
 //   3) useRef для каждого input
 
 function SignInScreen(): JSX.Element {
+  const navigate = useNavigate();
+  const {authorizationStatus} = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   // это просто объект, у которого есть свойство "current", в котором естьссылка на DOM-элемент;
@@ -23,6 +26,10 @@ function SignInScreen(): JSX.Element {
       password: formData.get('user-password') as string
     }));
   };
+
+  useEffect(() => {
+    authorizationStatus === 'AUTH' && navigate('/');
+  }, [authorizationStatus]);
 
   return (
     <div className="user-page">
