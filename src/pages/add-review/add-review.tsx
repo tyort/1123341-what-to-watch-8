@@ -5,11 +5,7 @@ import {films} from '../../mocks/films';
 import { Film } from '../../types/film';
 import Logo from '../../components/logo/logo';
 
-type AddReviewScreenProps = {
-  getGoAway: (jopa: number) => number;
-}
-
-function AddReviewScreen({getGoAway}: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen(): JSX.Element {
   const [userComment, setUserComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const {movieId} = useParams();
@@ -78,7 +74,6 @@ function AddReviewScreen({getGoAway}: AddReviewScreenProps): JSX.Element {
           className="add-review__form"
           onSubmit={(evt: FormEvent<HTMLFormElement>) => {
             evt.preventDefault();
-            getGoAway(3);
             console.log('Чего бля?');
           }}
         >
