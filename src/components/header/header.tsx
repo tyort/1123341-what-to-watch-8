@@ -2,10 +2,13 @@ import {useNavigate} from 'react-router-dom';
 import LogoScreen from '../logo/logo';
 import LoadingScreen from '../loading/loading';
 import { Link } from 'react-router-dom';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import { dropToken } from '../../services/token';
+import { setAuthorizationStatus } from '../../store/action';
 
 function HeaderScreen(): JSX.Element {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const {authorizationStatus} = useAppSelector((state) => state);
 
   return (
@@ -29,7 +32,16 @@ function HeaderScreen(): JSX.Element {
             </div>
           </li>
           <li className="user-block__item">
-            <Link to="/" className="user-block__link">Sign out</Link>
+            <Link
+              to="/"
+              className="user-block__link"
+              onClick={() => {
+                dropToken();
+                dispatch(setAuthorizationStatus('NO_AUTH'));
+              }}
+            >
+              Sign out
+            </Link>
           </li>
         </ul>
       }
