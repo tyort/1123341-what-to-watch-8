@@ -4,6 +4,7 @@ import {useState, ChangeEvent, Fragment, FormEvent} from 'react';
 import {films} from '../../mocks/films';
 import { Film } from '../../types/film';
 import Logo from '../../components/logo/logo';
+import Header from '../../components/header/header';
 
 function AddReviewScreen(): JSX.Element {
   const [userComment, setUserComment] = useState<string>('');
@@ -37,31 +38,7 @@ function AddReviewScreen(): JSX.Element {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header">
-          <Logo isLight={false}/>
-
-          <nav className="breadcrumbs">
-            <ul className="breadcrumbs__list">
-              <li className="breadcrumbs__item">
-                <Link to="/" className="breadcrumbs__link">{name}</Link>
-              </li>
-              <li className="breadcrumbs__item">
-                <Link to="/" className="breadcrumbs__link">Add review</Link>
-              </li>
-            </ul>
-          </nav>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src={preview_image} alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <Link to="/" className="user-block__link">Sign out</Link>
-            </li>
-          </ul>
-        </header>
+        <Header currentScreen='AddReview'/>
 
         <div className="film-card__poster film-card__poster--small">
           <img src={poster_image} alt="The Grand Budapest Hotel poster" width="218" height="327" />

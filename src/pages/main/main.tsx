@@ -19,7 +19,7 @@ function MainScreen(props: MainScreenProps): JSX.Element {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <HeaderScreen />
+        <HeaderScreen currentScreen='Other' />
 
         <div className="film-card__wrap">
           <div className="film-card__info">
