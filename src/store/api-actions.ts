@@ -46,6 +46,13 @@ export const fetchAuthAction = createAsyncThunk(
           dispatch(hideErrorMessage());
           clearTimeout(errorTime);
         }, 5000);
+      } else {
+        dispatch(showErrorMessage(errorResponses.get((err as AxiosError).message)));
+
+        const errorTime = setTimeout(() => {
+          dispatch(hideErrorMessage());
+          clearTimeout(errorTime);
+        }, 5000);
       }
     }
   }
