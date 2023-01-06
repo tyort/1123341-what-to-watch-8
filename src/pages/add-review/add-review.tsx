@@ -1,16 +1,27 @@
 /* eslint-disable camelcase */
-import { Link, useParams, Navigate } from 'react-router-dom';
-import {useState, ChangeEvent, Fragment, FormEvent} from 'react';
+import { useParams, Navigate } from 'react-router-dom';
+import {useState, ChangeEvent, Fragment, FormEvent, useEffect} from 'react';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {films} from '../../mocks/films';
 import { Film } from '../../types/film';
-import Logo from '../../components/logo/logo';
 import Header from '../../components/header/header';
+import { fetchPostCommentAction } from '../../store/api-actions';
+import { getToken } from '../../services/token';
+import { User } from '../../mocks/users';
+import { hideErrorMessage, showErrorMessage } from '../../store/action';
 
 function AddReviewScreen(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const {currentComments} = useAppSelector((state) => state);
   const [userComment, setUserComment] = useState<string>('');
   const [rating, setRating] = useState<number>(0);
   const {movieId} = useParams();
   const currentMovie: Film | undefined = films.find((movie) => movie.id.toString() === movieId);
+
+  useEffect(() => {
+    setUserComment('');
+    setRating(0);
+  }, [currentComments.length]);
 
   if (!currentMovie) {
     return (
@@ -18,7 +29,7 @@ function AddReviewScreen(): JSX.Element {
     );
   }
 
-  const {name, preview_image, poster_image, background_image} = currentMovie;
+  const {name, poster_image, background_image} = currentMovie;
 
   const handleTextareaChange = (evt: ChangeEvent<HTMLTextAreaElement>):void => {
     const {value} = evt.target;
@@ -27,6 +38,31 @@ function AddReviewScreen(): JSX.Element {
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(target.value));
+  };
+
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const user = getToken() as User;
+    const date = new Date().toISOString();
+
+    if (rating !== 0 && userComment.trim() !== '') {
+      dispatch(fetchPostCommentAction({
+        user: {
+          id: user.id,
+          name: user.email,
+        },
+        rating,
+        comment: userComment,
+        date
+      }));
+
+    } else {
+      dispatch(showErrorMessage('Введи данные корректно, пидарок'));
+      const errorTime = setTimeout(() => {
+        dispatch(hideErrorMessage());
+        clearTimeout(errorTime);
+      }, 5000);
+    }
   };
 
   return (
@@ -49,10 +85,7 @@ function AddReviewScreen(): JSX.Element {
         <form
           action="#"
           className="add-review__form"
-          onSubmit={(evt: FormEvent<HTMLFormElement>) => {
-            evt.preventDefault();
-            console.log('Чего бля?');
-          }}
+          onSubmit={handleFormSubmit}
         >
           <div className="rating">
             <div className="rating__stars">
