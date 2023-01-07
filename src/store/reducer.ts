@@ -40,7 +40,11 @@ const reducer = createReducer(initialState, (builder) => {
       state.showButton = showButton;
     })
     .addCase(setAuthorizationStatus, (state, action) => {
-      state.authorizationStatus = action.payload;
+      if (typeof action.payload !== 'string') {
+        state.authorizationStatus = 'AUTH';
+      } else {
+        state.authorizationStatus = action.payload;
+      }
     })
     .addCase(showErrorMessage, (state, action) => {
       state.errorMessage = action.payload;
