@@ -29,7 +29,7 @@ export const fetchGetCommentsAction = createAsyncThunk<void, undefined, {
   'userData/fetchGetComments',
   async (_arg, {dispatch, extra: api}): Promise<void> => {
     try {
-      const {data} = await api.get<Comment[]>('/comments/1');
+      const {data} = await api.get<Comment[]>('/comments');
       dispatch(loadComments(data));
 
     } catch (err) {
@@ -49,7 +49,7 @@ export const fetchPostCommentAction = createAsyncThunk<void, Omit<Comment, 'id'>
   'userData/fetchPostComment',
   async (arg, {dispatch, extra: api}): Promise<void> => {
     try {
-      const {data} = await api.post<Comment[]>('/comments/1', arg);
+      const {data} = await api.post<Comment[]>('/comments', arg);
       dispatch(loadComments(data));
 
     } catch (err) {

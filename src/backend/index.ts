@@ -42,7 +42,7 @@ app.get('/login', (req: Request, res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.get('/comments/:film_id', async (req: Request, res: Response) => {
+app.get('/comments', async (req: Request, res: Response) => {
   try {
     const contents = await readFile(FILE_PATH_COMMENTS, { encoding: 'utf8' });
     return res.status(200).json(JSON.parse(contents));
@@ -53,7 +53,7 @@ app.get('/comments/:film_id', async (req: Request, res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.post('/comments/:film_id', async (req: Request, res: Response) => {
+app.post('/comments', async (req: Request, res: Response) => {
   try {
     let jsonData = await readFile(FILE_PATH_COMMENTS, { encoding: 'utf8' });
     const comments = JSON.parse(jsonData) as Comment[];
