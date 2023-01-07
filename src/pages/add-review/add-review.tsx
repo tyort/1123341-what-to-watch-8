@@ -8,7 +8,7 @@ import Header from '../../components/header/header';
 import { fetchPostCommentAction } from '../../store/api-actions';
 import { getToken } from '../../services/token';
 import { User } from '../../mocks/users';
-import { hideErrorMessage, showErrorMessage } from '../../store/action';
+import { showErrorMessage } from '../../store/action';
 
 function AddReviewScreen(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -58,10 +58,6 @@ function AddReviewScreen(): JSX.Element {
 
     } else {
       dispatch(showErrorMessage('Введи данные корректно, пидарок'));
-      const errorTime = setTimeout(() => {
-        dispatch(hideErrorMessage());
-        clearTimeout(errorTime);
-      }, 5000);
     }
   };
 

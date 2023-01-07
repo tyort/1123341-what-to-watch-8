@@ -5,7 +5,7 @@ import { Film } from '../types/film';
 import { Comment } from '../types/comment';
 import { AppDispatch, State } from '../types/state';
 import { errorResponses } from '../utils';
-import { hideErrorMessage, loadMovies, showErrorMessage, setAuthorizationStatus, loadComments } from './action';
+import { loadMovies, showErrorMessage, setAuthorizationStatus, loadComments } from './action';
 import { User } from '../mocks/users';
 
 // т.е. мы можем вызывать как fetchMoviesAction(), так и fetchMoviesAction({genre: 'porn'}).
@@ -31,15 +31,13 @@ export const fetchPostCommentAction = createAsyncThunk<void, Omit<Comment, 'id'>
     try {
       const {data} = await api.post<Comment[]>('/comments/1', arg);
       dispatch(loadComments(data));
+
     } catch (err) {
-      dispatch(showErrorMessage(errorResponses.get((err as AxiosError).message)));
-
-      const errorTime = setTimeout(() => {
-        dispatch(hideErrorMessage());
-        clearTimeout(errorTime);
-      }, 5000);
+      const errorToast: string = (err as AxiosError).response?.data !== undefined
+        ? errorResponses.get((err as AxiosError).response?.data as string) as string
+        : errorResponses.get((err as AxiosError).message) as string;
+      dispatch(showErrorMessage(errorToast));
     }
-
   }
 );
 
@@ -61,23 +59,10 @@ export const fetchAuthAction = createAsyncThunk(
 
     } catch (err) {
       dispatch(setAuthorizationStatus('NO_AUTH'));
-
-      // Условия нужно для того, чтобы изолировать ошибки авторизации от всего остального
-      if ((err as AxiosError).response?.data !== undefined) {
-        dispatch(showErrorMessage(errorResponses.get((err as AxiosError).response?.data as string)));
-
-        const errorTime = setTimeout(() => {
-          dispatch(hideErrorMessage());
-          clearTimeout(errorTime);
-        }, 5000);
-      } else {
-        dispatch(showErrorMessage(errorResponses.get((err as AxiosError).message)));
-
-        const errorTime = setTimeout(() => {
-          dispatch(hideErrorMessage());
-          clearTimeout(errorTime);
-        }, 5000);
-      }
+      const errorToast: string = (err as AxiosError).response?.data !== undefined
+        ? errorResponses.get((err as AxiosError).response?.data as string) as string
+        : errorResponses.get((err as AxiosError).message) as string;
+      dispatch(showErrorMessage(errorToast));
     }
   }
 );
@@ -102,12 +87,10 @@ export const fetchMoviesAction = createAsyncThunk<void, FetchMoviesArguments, {
       dispatch(loadMovies({...data, ...arg}));
 
     } catch (err) {
-      dispatch(showErrorMessage(errorResponses.get((err as AxiosError).message)));
-
-      const errorTime = setTimeout(() => {
-        dispatch(hideErrorMessage());
-        clearTimeout(errorTime);
-      }, 5000);
+      const errorToast: string = (err as AxiosError).response?.data !== undefined
+        ? errorResponses.get((err as AxiosError).response?.data as string) as string
+        : errorResponses.get((err as AxiosError).message) as string;
+      dispatch(showErrorMessage(errorToast));
     }
   },
 );
