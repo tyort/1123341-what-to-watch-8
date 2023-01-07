@@ -1,11 +1,13 @@
+import { User } from '../mocks/users';
+
 const AUTH_TOKEN_KEY_NAME = 'what-to-watch';
 
-export type Token = {email: string; password: string} | null;
+export type Token = User | null;
 
 export const getToken = (): Token => {
   const token: string | null = localStorage.getItem(AUTH_TOKEN_KEY_NAME);
   return token !== null
-    ? JSON.parse(token) as {email: string; password: string}
+    ? JSON.parse(token) as User
     : null;
 };
 

@@ -2,9 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError, AxiosInstance } from 'axios';
 import { getToken, saveToken } from '../services/token';
 import { Film } from '../types/film';
+import { Comment } from '../types/comment';
 import { AppDispatch, State } from '../types/state';
 import { errorResponses } from '../utils';
-import { hideErrorMessage, loadMovies, showErrorMessage, setAuthorizationStatus } from './action';
+import { hideErrorMessage, loadMovies, showErrorMessage, setAuthorizationStatus, loadComments } from './action';
+import { User } from '../mocks/users';
 
 // т.е. мы можем вызывать как fetchMoviesAction(), так и fetchMoviesAction({genre: 'porn'}).
 // Причем при вызове fetchMoviesAction() без аргументов, в arg попадает пустой объект({}).
@@ -22,17 +24,17 @@ type FetchUserArguments = {
 export const fetchAuthAction = createAsyncThunk(
   'userData/fetchUserAuth',
   async (arg: FetchUserArguments | undefined, {dispatch, extra: api}): Promise<void> => {
-    const token: {email: string; password: string} | null = getToken();
+    const token: User | null = getToken();
 
     try {
       if (!arg) {
         token
-          ? dispatch(setAuthorizationStatus('AUTH'))
+          ? dispatch(setAuthorizationStatus(token))
           : dispatch(setAuthorizationStatus('NO_AUTH'));
       } else {
-        const {data} = await (api as AxiosInstance).get<'AUTH'>('/login', {params: arg});
+        const {data} = await (api as AxiosInstance).get<FetchUserArguments & {id: number}>('/login', {params: arg});
         dispatch(setAuthorizationStatus(data));
-        saveToken(JSON.stringify(arg));
+        saveToken(JSON.stringify(data));
       }
 
     } catch (err) {

@@ -37,7 +37,7 @@ app.get('/login', (req: Request, res: Response) => {
   } else if (currentUser.password !== password) {
     return res.status(401).json('401 Wrong password');
   } else {
-    return res.status(200).json('AUTH');
+    return res.status(200).json(currentUser);
   }
 });
 
