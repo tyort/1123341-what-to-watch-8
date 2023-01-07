@@ -1,7 +1,11 @@
 import express, {Request, Response} from 'express';
 import cors from 'cors';
+import { readFile, writeFile } from 'node:fs/promises';
 import {films, genres} from '../mocks/films.js';
 import {users} from '../mocks/users.js';
+import {Comment} from '../types/comment';
+
+const FILE_PATH_COMMENTS = 'C:/Users/Lenovo/OneDrive/Рабочий стол/what-to-watch/project/src/mocks/comments.json';
 
 const app = express();
 
@@ -34,6 +38,33 @@ app.get('/login', (req: Request, res: Response) => {
     return res.status(401).json('401 Wrong password');
   } else {
     return res.status(200).json('AUTH');
+  }
+});
+
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.get('/comments/:film_id', async (req: Request, res: Response) => {
+  try {
+    const contents = await readFile(FILE_PATH_COMMENTS, { encoding: 'utf8' });
+    return res.status(200).json(JSON.parse(contents));
+
+  } catch (err) {
+    return res.status(400).json('Comments request error');
+  }
+});
+
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+app.post('/comments/:film_id', async (req: Request, res: Response) => {
+  try {
+    let jsonData = await readFile(FILE_PATH_COMMENTS, { encoding: 'utf8' });
+    const comments = JSON.parse(jsonData) as Comment[];
+    const newId = comments.reduce((a, b) => a + b.id, 0) ; // новый id - сумма всех существующих id
+    const newComment = {...req.body, id: newId} as Comment;
+    await writeFile(FILE_PATH_COMMENTS, JSON.stringify([...comments, newComment]), { encoding: 'utf8' });
+    jsonData = await readFile(FILE_PATH_COMMENTS, { encoding: 'utf8' });
+    return res.status(200).json(JSON.parse(jsonData) as Comment[]);
+
+  } catch (err) {
+    return res.status(400).json('Comments post error');
   }
 });
 

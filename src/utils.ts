@@ -27,4 +27,6 @@ export const errorResponses = new Map([
   [`timeout of ${REQUEST_TIMEOUT}ms exceeded`, 'Превышено время ожидания ответа от сервера!'],
   ['401 User not found', 'Ебучий пользователь не найден!'],
   ['401 Wrong password', 'Введи нормальный пароль, идиот!'],
+  ['Comments post error', 'Что ты там решил написать, хуесос?!'],
+  ['Comments request error', 'Запрос комментов не сработал, иди пожуй говна!'],
 ]);
