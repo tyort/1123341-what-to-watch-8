@@ -21,6 +21,26 @@ type FetchUserArguments = {
   password: string;
 };
 
+export const fetchGetCommentsAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'userData/fetchGetComments',
+  async (_arg, {dispatch, extra: api}): Promise<void> => {
+    try {
+      const {data} = await api.get<Comment[]>('/comments/1');
+      dispatch(loadComments(data));
+
+    } catch (err) {
+      const errorToast: string = (err as AxiosError).response?.data !== undefined
+        ? errorResponses.get((err as AxiosError).response?.data as string) as string
+        : errorResponses.get((err as AxiosError).message) as string;
+      dispatch(showErrorMessage(errorToast));
+    }
+  }
+);
+
 export const fetchPostCommentAction = createAsyncThunk<void, Omit<Comment, 'id'>, {
   dispatch: AppDispatch;
   state: State;
