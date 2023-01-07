@@ -1,10 +1,9 @@
-import {useNavigate, useLocation} from 'react-router-dom';
-import LogoScreen from '../logo/logo';
-import LoadingScreen from '../loading/loading';
-import { Link } from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../../hooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { dropToken } from '../../services/token';
 import { setAuthorizationStatus } from '../../store/action';
+import LoadingScreen from '../loading/loading';
+import LogoScreen from '../logo/logo';
 
 type HeaderScreenProps = {
   currentScreen: 'AddReview' | 'UserPage' | 'Other';
@@ -23,9 +22,6 @@ function HeaderScreen({currentScreen}: HeaderScreenProps): JSX.Element {
       AdditionlaClass = 'film-card__head';
       break;
   }
-  const location = useLocation();
-  console.log(location);
-
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
